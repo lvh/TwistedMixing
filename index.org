@@ -4,14 +4,14 @@
 
 #+OPTIONS: toc:nil
 #+REVEAL_TRANS: linear
-#+REVEAL_THEME: night
+#+REVEAL_THEME: beige
 
 * Introduction
 ** About me
    Hi, I'm =lvh=.
 
    I hack on Twisted.
-   
+
 ** About this talk
 
    * Twisted code ↔ other code
@@ -116,22 +116,23 @@
    * Blocking the reactor thread means nothing else happens
 
 ** Blocking in a callback is bad!
-   * Blocking IO
-    #+BEGIN_SRC python
-    def _getDataAtURL(url):
-        return requests.get(url).json() # BLOCKS!
-    #+END_SRC
 
-   * Blocking computation
-    #+BEGIN_SRC python
-    def _compute(n):
-        x = 2
-        for _ in xrange(n): # BLOCKS!
-            x *= x
-        send_somewhere(x)
-    #+END_SRC
+   Blocking IO
+   #+BEGIN_SRC python
+   def _getDataAtURL(url):
+       return requests.get(url).json() # BLOCKS!
+   #+END_SRC
 
-** We can't block in the reactor thread, so...
+   Blocking computation
+   #+BEGIN_SRC python
+   def _compute(n):
+       x = 2
+       for _ in xrange(n): # BLOCKS! (for sufficiently large n)
+           x *= x
+       send_somewhere(x)
+   #+END_SRC
+
+** Can't block in the reactor thread, so...
    1. Don't block
    2. Block somewhere else
 
@@ -144,7 +145,7 @@
    =treq=: =requests=-like, but asynchronous
    #+BEGIN_SRC python
    def _getDataAtURL(url):
-       return treq.get(url).addCallback(treq.json_content)
+       return treq.get(url).addCallback(treq.json_content) # async :)
    #+END_SRC
 
 ** Cooperative version
