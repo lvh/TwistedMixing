@@ -1,5 +1,4 @@
-import json
-
+from json import dumps
 from twisted.trial import unittest
 from twistyflask import chat
 
@@ -58,3 +57,13 @@ class ChatProtocolTests(unittest.TestCase):
         self.assertIn(proto, self.factory.connections)
         proto.connectionLost(None)
         self.assertNotIn(proto, self.factory.connections)
+
+
+    def test_setName(self):
+        """
+        When the command to set the name is received, the name is set.
+        """
+        proto = self.factory.buildProtocol(None)
+        command = {u"command": u"setName", u"name": u"\N{SNOWMAN}"}
+        proto.dataReceived(dumps(command))
+        self.assertEqual(proto.name, u"\N{SNOWMAN}")

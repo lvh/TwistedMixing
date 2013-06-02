@@ -1,3 +1,4 @@
+from json import loads
 from twisted.internet import protocol
 
 
@@ -21,6 +22,22 @@ class ChatProtocol(protocol.Protocol):
         Removes the chat session from the factory's open connections.
         """
         self.factory.connections.remove(self)
+
+
+    def dataReceived(self, rawData):
+        """
+        Parses incoming data and dispatches to the appropriate method.
+        """
+        data = loads(rawData)
+        handler = getattr(self, data.pop("command"))
+        handler(**data)
+
+
+    def setName(self, name):
+        """
+        Sets the name of the user in the current chat session.
+        """
+        self.name = name
 
 
 

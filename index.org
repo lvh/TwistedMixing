@@ -4,7 +4,7 @@
 
 #+OPTIONS: toc:nil
 #+REVEAL_TRANS: linear
-#+REVEAL_THEME: beige
+#+REVEAL_THEME: night
 
 * Introduction
 ** About me
@@ -97,6 +97,11 @@
    * =Klein=: Flask-like basic API, except Twisted by default
    * Having data come from two sources is kind of dumb
      * ... but I have to have Flask do something, right? ;)
+   * Quality!
+     * No authentication, users are who they say they are
+     * Duplicate usernames allowed
+     * Protocol does dispatching + behavior
+     * Still perfect test coverage ;)
 
 * Blocking code in Twisted
 
