@@ -1,4 +1,5 @@
-from json import dumps
+from json import dumps, loads
+from twisted.test import proto_helpers
 from twisted.trial import unittest
 from twistyflask import chat
 
@@ -67,3 +68,35 @@ class ChatProtocolTests(unittest.TestCase):
         command = {u"command": u"setName", u"name": u"\N{SNOWMAN}"}
         proto.dataReceived(dumps(command))
         self.assertEqual(proto.name, u"\N{SNOWMAN}")
+
+
+    def test_broadcast(self):
+        """
+        When a broadcast command is received, the message is broadcast to all
+        active connections (including the sender).
+        """
+        alice, bob, carol = [self._buildProtocol() for _ in xrange(3)]
+        alice.name = u"\N{SNOWMAN}"
+
+        message = u"\N{RADIOACTIVE SIGN}"
+        command = {u"command": u"broadcast", u"message": message}
+        alice.dataReceived(dumps(command))
+
+        expected = {
+            u"command": u"receive",
+            u"message": message,
+            u"sender": alice.name
+        }
+        for proto in [alice, bob, carol]:
+            received = loads(proto.transport.value())
+            self.assertEqual(received, expected)
+
+
+    def _buildProtocol(self):
+        """
+        Builds a connected protocol with a string transport.
+        """
+        proto = self.factory.buildProtocol(None)
+        proto.transport = proto_helpers.StringTransport()
+        proto.connectionMade()
+        return proto

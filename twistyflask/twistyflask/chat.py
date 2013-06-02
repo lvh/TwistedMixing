@@ -1,4 +1,4 @@
-from json import loads
+from json import dumps, loads
 from twisted.internet import protocol
 
 
@@ -38,6 +38,21 @@ class ChatProtocol(protocol.Protocol):
         Sets the name of the user in the current chat session.
         """
         self.name = name
+
+
+    def broadcast(self, message):
+        """
+        Encodes a message receiving command with the given message and the
+        sender's name, then sends it to all of the factory's connections.
+        """
+        command = dumps({
+            u"command": u"receive",
+            u"message": message,
+            u"sender": self.name
+        })
+
+        for conn in self.factory.connections:
+            conn.transport.write(command)
 
 
 
