@@ -1,4 +1,5 @@
 Twisted
 Flask
 Epsilon
+pysqlite
 Axiom
