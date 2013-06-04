@@ -1,13 +1,14 @@
 from json import dumps, loads
 from twisted.internet import protocol
-
+from twistyflask import app, log
 
 class ChatProtocol(protocol.Protocol):
     """
     A chat protocol, representing a single chat session.
     """
-    def __init__(self):
+    def __init__(self, store=None):
         self.name = None
+        self.store = store or app.store
 
 
     def connectionMade(self):
@@ -54,6 +55,7 @@ class ChatProtocol(protocol.Protocol):
         for conn in self.factory.connections:
             conn.transport.write(command)
 
+        log.LogEntry(store=self.store, message=message, sender=self.name)
 
 
 class ChatFactory(protocol.ServerFactory):

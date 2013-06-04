@@ -1,7 +1,8 @@
+from axiom import store
 from json import dumps, loads
 from twisted.test import proto_helpers
 from twisted.trial import unittest
-from twistyflask import chat
+from twistyflask import app, chat, log
 
 
 class ChatFactoryTests(unittest.TestCase):
@@ -9,6 +10,7 @@ class ChatFactoryTests(unittest.TestCase):
     Tests for the chat factory.
     """
     def setUp(self):
+        app.store = store.Store()
         self.factory = chat.ChatFactory()
 
 
@@ -35,6 +37,7 @@ class ChatProtocolTests(unittest.TestCase):
     Tests for the chat protocol.
     """
     def setUp(self):
+        app.store = store.Store()
         self.factory = chat.ChatFactory()
 
 
@@ -73,7 +76,7 @@ class ChatProtocolTests(unittest.TestCase):
     def test_broadcast(self):
         """
         When a broadcast command is received, the message is broadcast to all
-        active connections (including the sender).
+        active connections (including the sender). The message is also logged.
         """
         alice, bob, carol = [self._buildProtocol() for _ in xrange(3)]
         alice.name = u"\N{SNOWMAN}"
@@ -90,6 +93,10 @@ class ChatProtocolTests(unittest.TestCase):
         for proto in [alice, bob, carol]:
             received = loads(proto.transport.value())
             self.assertEqual(received, expected)
+
+        entry = app.store.findUnique(log.LogEntry)
+        self.assertEqual(entry.sender, alice.name)
+        self.assertEqual(entry.message, message)
 
 
     def _buildProtocol(self):
