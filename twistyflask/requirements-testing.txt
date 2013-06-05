@@ -1,4 +1,4 @@
-coverage
-pudb
-lxml
-cssselect
+coverage>=3.6
+pudb>=2013.2
+lxml>=3.2.1
+cssselect>=0.8
