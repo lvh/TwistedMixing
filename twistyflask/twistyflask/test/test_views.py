@@ -107,3 +107,13 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
             _time, nameCell, messageCell = row.cssselect("td")
             self.assertEqual(entry.sender, nameCell.text)
             self.assertEqual(entry.message, messageCell.text)
+
+
+    def test_has_new_message_controls(self):
+        """
+        The chat view has an input bar for entering a new message, and a
+        button for sending it.
+        """
+        tree = self.getTree("/chat")
+        self.assertTrue(tree.cssselect("input#new-message"))
+        self.assertTrue(tree.cssselect("button#send-message"))
