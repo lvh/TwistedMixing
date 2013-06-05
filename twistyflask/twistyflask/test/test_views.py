@@ -109,11 +109,19 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
             self.assertEqual(entry.message, messageCell.text)
 
 
+    def test_set_name_controls(self):
+        """
+        There is an input for entering your name.
+        """
+        self.assertTrue(self.getTree("/chat").cssselect("input#name"))
+
+
     def test_has_new_message_controls(self):
         """
         The chat view has an input bar for entering a new message, and a
-        button for sending it.
+        button for sending it. Both are disabled by default.
         """
         tree = self.getTree("/chat")
-        self.assertTrue(tree.cssselect("input#new-message"))
-        self.assertTrue(tree.cssselect("button#send-message"))
+        for selector in ["input#new-message", "button#send-message"]:
+            control, = tree.cssselect(selector)
+            self.assertTrue(control.attrib.get("disabled"))
