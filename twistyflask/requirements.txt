@@ -3,3 +3,5 @@ Flask==0.9
 Epsilon>=0.6.0
 pysqlite>=2.6.3
 Axiom>=0.6.0
+txsockjs>=1.1.0
+pyOpenSSL>=0.13
