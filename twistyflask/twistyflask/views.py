@@ -14,7 +14,5 @@ def chat():
     """
     Renders the chat channel.
     """
-    E = log.LogEntry
-    entries = app.store.query(E, sort=E.time.ascending)
-    kwargs = {"title": u"chat channel", "entries": entries}
+    kwargs = {"title": u"chat channel", "entries": log.getLogEntries()}
     return render_template("chat.html", **kwargs)
