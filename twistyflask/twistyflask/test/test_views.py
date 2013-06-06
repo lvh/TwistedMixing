@@ -3,10 +3,9 @@ from lxml import html
 from twistyflask import app, log
 from unittest import TestCase
 
-
 class _ViewTestCaseMixin(object):
     """
-    Common set up and tear down behavior for view tests.
+    Common behavior for view tests.
     """
     def setUp(self):
         """
@@ -24,7 +23,7 @@ class _ViewTestCaseMixin(object):
         app.testing = False
         app.debug = False
 
-    def getTree(self, location):
+    def get_tree(self, location):
         """
         Gets the page at location, then parses it.
 
@@ -36,23 +35,21 @@ class _ViewTestCaseMixin(object):
         parser = html.HTMLParser(encoding="utf-8")
         return html.fromstring(response.data, parser=parser)
 
-    def assertSpecifiesEncoding(self, response):
+    def test_well_behaved(self):
         """
+        The page is well-behaved, and passes some basic sanity checks:
+        right status code and encoding specification.
+
         The page explicitly specifies its encoding, UTF-8, in a meta tag,
         in the first 1024 bytes of the response. This relies on an exact
         spelling of that meta tag, as specified in a W3C recommendation.
         """
-        tag = """<meta charset="UTF-8">"""
-        self.assertIn(tag, response.data[:1024])
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("""<meta charset="UTF-8">""", response.data[:1024])
 
 class IndexTests(_ViewTestCaseMixin, TestCase):
-    def test_well_behaved(self):
-        """
-        The index returns with a 200 response and specifies its encoding.
-        """
-        response = self.client.get("/")
-        self.assertEqual(response.status_code, 200)
-        self.assertSpecifiesEncoding(response)
+    path = "/"
 
     def test_has_link_to_chat(self):
         """
@@ -62,13 +59,7 @@ class IndexTests(_ViewTestCaseMixin, TestCase):
         self.assertIn("click here", link.text.lower())
 
 class ChatTests(_ViewTestCaseMixin, TestCase):
-    def test_well_behaved(self):
-        """
-        The chat page returns with a 200 response and specifies its encoding.
-        """
-        response = self.client.get("/chat")
-        self.assertEqual(response.status_code, 200)
-        self.assertSpecifiesEncoding(response)
+    path = "/chat"
 
     def test_chat_in_title(self):
         """
@@ -111,13 +102,11 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
             self.assertEqual(nameCell.text, entry.sender)
             self.assertEqual(messageCell.text, entry.message)
 
-
     def test_set_name_controls(self):
         """
         There is an input for entering your name.
         """
         self.assertTrue(self.getTree("/chat").cssselect("input#name"))
-
 
     def test_has_new_message_controls(self):
         """
@@ -128,7 +117,6 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
         for selector in ["input#new-message", "button#send-message"]:
             control, = tree.cssselect(selector)
             self.assertTrue(control.attrib.get("disabled"))
-
 
     def test_javascript(self):
         """
