@@ -23,7 +23,7 @@ class _ViewTestCaseMixin(object):
         app.testing = False
         app.debug = False
 
-    def get_tree(self, location):
+    def get_tree(self):
         """
         Gets the page at location, then parses it.
 
@@ -31,7 +31,7 @@ class _ViewTestCaseMixin(object):
         lxml that prevents it from understanding HTML5 <meta> tag
         encoding specification.
         """
-        response = self.client.get(location)
+        response = self.client.get(self.path)
         parser = html.HTMLParser(encoding="utf-8")
         return html.fromstring(response.data, parser=parser)
 
@@ -55,7 +55,7 @@ class IndexTests(_ViewTestCaseMixin, TestCase):
         """
         The index has a link to the chat page.
         """
-        link, = self.getTree("/").cssselect("a[href$=chat]")
+        link, = self.get_tree().cssselect("a[href$=chat]")
         self.assertIn("click here", link.text.lower())
 
 class ChatTests(_ViewTestCaseMixin, TestCase):
@@ -65,7 +65,7 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
         """
         The chat view advertises itself in its title.
         """
-        title, = self.getTree("/chat").cssselect("title")
+        title, = self.get_tree().cssselect("title")
         self.assertIn("chat channel", title.text.lower())
 
     def test_has_messages_table(self):
@@ -85,7 +85,7 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
             makeEntry(u"\N{SNOWMAN}", u"\N{BIOHAZARD SIGN}")
         ]
 
-        table, = self.getTree("/chat").cssselect("table.messages")
+        table, = self.get_tree().cssselect("table.messages")
         time, name, message = table.cssselect("thead td")
         self.assertIn("time", time.text.lower())
         self.assertIn("name", name.text.lower())
@@ -106,14 +106,14 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
         """
         There is an input for entering your name.
         """
-        self.assertTrue(self.getTree("/chat").cssselect("input#name"))
+        self.assertTrue(self.get_tree().cssselect("input#name"))
 
     def test_has_new_message_controls(self):
         """
         The chat view has an input bar for entering a new message, and a
         button for sending it. Both are disabled by default.
         """
-        tree = self.getTree("/chat")
+        tree = self.get_tree()
         for selector in ["input#new-message", "button#send-message"]:
             control, = tree.cssselect(selector)
             self.assertTrue(control.attrib.get("disabled"))
@@ -122,7 +122,7 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
         """
         The view loads jQuery, SockJS, and the chat logic, in order.
         """
-        tree = self.getTree("/chat")
+        tree = self.get_tree()
         jquery, sockjs, chatjs = tree.cssselect("body script")
 
         jqueryCDN = "http://code.jquery.com/jquery-1.10.1.min.js"
