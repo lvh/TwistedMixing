@@ -27,6 +27,7 @@ $("input#name").blur(function() {
     name: name
   }));
 
+  $("p#instructions").css("text-decoration", "line-through");
   newMessage.prop("disabled", false);
   sendMessage.prop("disabled", false);
 });

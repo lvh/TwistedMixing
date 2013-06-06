@@ -10,3 +10,9 @@ table {
 td {
     min-width: 200px;
 }
+
+.pokey {
+    font-style: italic;
+    font-weight: bold;
+    text-decoration: line-through;
+}
