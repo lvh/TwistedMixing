@@ -5,7 +5,7 @@
 <meta charset="utf-8"><title>(Twisted Mixing)</title>
 <meta name="author" content="(Laurens Van Houtven)"/>
 <link rel="stylesheet" href="./reveal.js/css/reveal.min.css">
-    <link rel="stylesheet" href="./reveal.js/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="./reveal.js/css/theme/simple.css" id="theme">
 </head>
 <body>
 <div class="reveal">
@@ -36,15 +36,15 @@ I hack on Twisted.
 
 <h3><span class="section-number-3">1.2</span> About this talk</h3>
 <ul class="org-ul">
-<li>Twisted code ↔ other code
+<li class="fragment roll-in">Twisted code ↔ other code
 </li>
-<li>Show that you probably <b>can</b> use Twisted
+<li class="fragment roll-in">Show that you probably <b>can</b> use Twisted
 <ul class="org-ul">
 <li>(Not so much that you <b>should</b> use Twisted)
 </li>
 </ul>
 </li>
-<li>[insert overview here]
+<li class="fragment roll-in">[insert overview here]
 </li>
 </ul>
 </section>
@@ -52,25 +52,25 @@ I hack on Twisted.
 
 <h3><span class="section-number-3">1.3</span> Why should you care?</h3>
 <ul class="org-ul">
-<li>Twisted has some cool stuff in it
+<li class="fragment roll-in">Twisted has some cool stuff in it/around it
 <ul class="org-ul">
-<li>IRC, SMTP, DNS, SSH, WebSockets&#x2026;
+<li class="fragment roll-in">IRC, SMTP, DNS, SSH, WebSockets&#x2026;
 </li>
-<li>timed events, sane process and thread management
+<li class="fragment roll-in">timed events, sane process and thread management
 </li>
-<li>run multiple things in one process
+<li class="fragment roll-in">running multiple things in one process
 </li>
-<li>&#x2026;
+<li class="fragment roll-in">&#x2026;
 </li>
 </ul>
 </li>
-<li>Twisted vs other stuff: good at different things
+<li class="fragment roll-in">Twisted vs other stuff: good at different things
 <ul class="org-ul">
-<li>many incoming connections e.g. a chat server
+<li class="fragment roll-in">many incoming connections e.g. a chat server
 </li>
-<li>many outgoing connections e.g. a scraper
+<li class="fragment roll-in">many outgoing connections e.g. a scraper
 </li>
-<li>cooperate with existing event loops such as GUIs
+<li class="fragment roll-in">cooperate with existing event loops, such as GUIs or gevent
 </li>
 </ul>
 </li>
@@ -80,29 +80,13 @@ I hack on Twisted.
 
 <h3><span class="section-number-3">1.4</span> Prerequisites</h3>
 <ul class="org-ul">
-<li>Ideally, just Python
+<li class="fragment roll-in">Ideally, just Python
 </li>
-<li>Having played with Twisted probably helps
+<li class="fragment roll-in">Having played with Twisted probably helps
 <ul class="org-ul">
 <li>&#x2026; but I will explain important concepts briefly
 </li>
 </ul>
-</li>
-</ul>
-</section>
-<section>
-
-<h3><span class="section-number-3">1.5</span> Code examples</h3>
-<p>
-Very practical, examples you can run on your machine
-</p>
-
-<ul class="org-ul">
-<li>Flask app with SockJS chat and timed events
-</li>
-<li>??? asyncore telnet app with Twisted SSH server
-</li>
-<li>??? Gevent telnet app with Twisted SSH server
 </li>
 </ul>
 </section>
@@ -115,24 +99,22 @@ Very practical, examples you can run on your machine
 <section>
 
 <h3><span class="section-number-3">2.1</span> Is there even a problem?</h3>
-<p>
-Perhaps it's trivial to get started!
-</p>
+
 </section>
 <section>
 
 <h3><span class="section-number-3">2.2</span> SOA</h3>
 <ul class="org-ul">
-<li class="fragment roll-in">Service Oriented Architecture
+<li>Service Oriented Architecture
 <ul class="org-ul">
 <li>"Loosely coupled things that talk to each other"
 </li>
 </ul>
 </li>
 
-<li class="fragment roll-in">Written in Gevent? Twisted? Fortran? Who cares!?
+<li>Written in Gevent? Twisted? Fortran? Who cares!?
 </li>
-<li class="fragment roll-in">Work with Twisted, without touching existing code
+<li>Work with Twisted, without touching existing code
 </li>
 </ul>
 </section>
@@ -140,18 +122,18 @@ Perhaps it's trivial to get started!
 
 <h3><span class="section-number-3">2.3</span> WSGI</h3>
 <ul class="org-ul">
-<li class="fragment roll-in">How many of you have a WSGI application?
+<li>How many of you have a WSGI application?
 </li>
-<li class="fragment roll-in">Twisted can serve WSGI!
+<li>Twisted can serve WSGI!
 <div class="org-src-container">
 
 <pre class="src src-sh">twistd web --wsgi=location.of.wsgi.app
 </pre>
 </div>
 </li>
-<li class="fragment roll-in">Not a toy web server, can be used in production
+<li>Not a toy web server, can be used in production
 </li>
-<li class="fragment roll-in">Twisted does CGI too, but I hope <b>you</b> don't
+<li>Twisted does CGI too, but I hope <b>you</b> don't
 </li>
 </ul>
 </section>
@@ -159,13 +141,13 @@ Perhaps it's trivial to get started!
 
 <h3><span class="section-number-3">2.4</span> Porting your app to Twisted</h3>
 <ul class="org-ul">
-<li>No, it's not trivial
+<li class="fragment roll-in">No, it's not trivial
 <ul class="org-ul">
 <li>&#x2026; but cost is almost always overestimated
 </li>
 </ul>
 </li>
-<li>Clean, tested code helps
+<li class="fragment roll-in">Clean, tested code helps
 <ul class="org-ul">
 <li>Keep verifying behavior
 </li>
@@ -173,7 +155,7 @@ Perhaps it's trivial to get started!
 </li>
 </ul>
 </li>
-<li>If it's near impossible, it's probably a code smell
+<li class="fragment roll-in">If it's near impossible, it's probably a code smell
 </li>
 </ul>
 </section>
@@ -212,12 +194,12 @@ Perhaps it's trivial to get started!
 <li>Quality!
 <ul class="org-ul">
 <li>No authentication, users are who they say they are
-</li>
+<ul class="org-ul">
 <li>Duplicate usernames allowed
 </li>
-<li>Protocol does dispatching + behavior
+</ul>
 </li>
-<li>Still perfect test coverage ;)
+<li>Protocol does dispatching + behavior
 </li>
 </ul>
 </li>
@@ -319,6 +301,7 @@ CPU bound? Cooperate with the event loop!
 <p>
 <code>twisted.internet.task.coiterate</code> and friends
 </p>
+
 <div class="org-src-container">
 
 <pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_compute</span>(n):
@@ -336,19 +319,19 @@ coiterate(_compute(n))
 
 <h3><span class="section-number-3">3.7</span> Avoiding blocking isn't always possible</h3>
 <ul class="org-ul">
-<li>Blocking API
+<li class="fragment roll-in">Blocking API
 <ul class="org-ul">
 <li><code>DBAPI2</code>, &#x2026;
 </li>
 </ul>
 </li>
-<li>Sometimes in C code you can't or don't want to mess with
+<li class="fragment roll-in">Sometimes in C code you can't or don't want to mess with
 <ul class="org-ul">
 <li><code>scrypt</code>, &#x2026;
 </li>
 </ul>
 </li>
-<li>Sometimes at a kernel/syscall level
+<li class="fragment roll-in">Sometimes at a kernel/syscall level
 <ul class="org-ul">
 <li>File IO, &#x2026;
 </li>
@@ -360,7 +343,7 @@ coiterate(_compute(n))
 
 <h3><span class="section-number-3">3.8</span> Block somewhere else</h3>
 <p>
-Can't block the reactor thread \(\rarrow\) block a different one!
+Can't block the reactor thread → block a different one!
 </p>
 
 <ul class="org-ul">
@@ -384,7 +367,7 @@ Can't block the reactor thread \(\rarrow\) block a different one!
 </li>
 <li class="fragment roll-in">Easy for the caller: everything <code>Deferred</code>!
 </li>
-<li class="fragment roll-in">State is <b>verboten</b>
+<li class="fragment roll-in">Shared mutable state is crazy annoying to get right
 <ul class="org-ul">
 <li class="fragment roll-in">Passing in a <code>{}</code>: crude, awful hack
 <ul class="org-ul">
@@ -440,6 +423,25 @@ Can't block the reactor thread \(\rarrow\) block a different one!
 <p>
 <code>jyio/geventreactor</code>
 </p>
+
+<ul class="org-ul">
+<li class="fragment roll-in">Just another reactor backend for Twisted
+<ul class="org-ul">
+<li>unlike its predecessor, just a crazy hack, not a terrible hack
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">You can use "blocking" code in a lot of places
+<ul class="org-ul">
+<li>"blocking code" means "code <code>gevent</code> can make not blocking"
+</li>
+<li>blocking the reactor greenlet: still not okay
+</li>
+<li>&#x2026; but our earlier <code>requests.get</code> example: probably okay
+</li>
+</ul>
+</li>
+</ul>
 </section>
 </section>
 <section>
@@ -451,9 +453,9 @@ Can't block the reactor thread \(\rarrow\) block a different one!
 
 <h3><span class="section-number-3">6.1</span> Twisted plays well with others</h3>
 <ul class="org-ul">
-<li>If you want to use Twisted, you probably can
+<li class="fragment roll-in">If you want to use Twisted, you probably can
 </li>
-<li>That doesn't mean it's a good idea
+<li class="fragment roll-in">That doesn't mean it's a good idea
 <ul class="org-ul">
 <li>although it probably is ;-)
 </li>

@@ -4,7 +4,7 @@
 
 #+OPTIONS: toc:nil
 #+REVEAL_TRANS: linear
-#+REVEAL_THEME: beige
+#+REVEAL_THEME: simple
 
 * Introduction
 ** About me
@@ -14,48 +14,40 @@
 
 ** About this talk
 
+   #+ATTR_REVEAL: :frag roll-in
    * Twisted code ↔ other code
    * Show that you probably *can* use Twisted
       * (Not so much that you *should* use Twisted)
    * [insert overview here]
 
 ** Why should you care?
-#+ATTR_REVEAL: :frag roll-in
-
-   * Twisted has some cool stuff in it
+   #+ATTR_REVEAL: :frag roll-in
+   * Twisted has some cool stuff in it/around it
+     #+ATTR_REVEAL: :frag roll-in
      * IRC, SMTP, DNS, SSH, WebSockets...
      * timed events, sane process and thread management
-     * run multiple things in one process
+     * running multiple things in one process
      * ...
    * Twisted vs other stuff: good at different things
+     #+ATTR_REVEAL: :frag roll-in
      * many incoming connections e.g. a chat server
      * many outgoing connections e.g. a scraper
-     * cooperate with existing event loops such as GUIs
+     * cooperate with existing event loops, such as GUIs or gevent
 
 ** Prerequisites
-#+ATTR_REVEAL: :frag roll-in
 
+   #+ATTR_REVEAL: :frag roll-in
    * Ideally, just Python
    * Having played with Twisted probably helps
        * ... but I will explain important concepts briefly
-
-** Code examples
-#+ATTR_REVEAL: :frag roll-in
-
-   Very practical, examples you can run on your machine
-
-   * Flask app with SockJS chat and timed events
-   * ??? asyncore telnet app with Twisted SSH server
-   * ??? Gevent telnet app with Twisted SSH server
 
 * Your app with Twisted
 
 ** Is there even a problem?
 
-   Perhaps it's trivial to get started!
-
 ** SOA
 #+ATTR_REVEAL: :frag roll-in
+
    * Service Oriented Architecture
      * "Loosely coupled things that talk to each other"
 
@@ -63,7 +55,8 @@
    * Work with Twisted, without touching existing code
 
 ** WSGI
-   #+ATTR_REVEAL: :frag roll-in
+#+ATTR_REVEAL: :frag roll-in
+
    * How many of you have a WSGI application?
    * Twisted can serve WSGI!
      #+BEGIN_SRC sh
@@ -73,8 +66,8 @@
    * Twisted does CGI too, but I hope *you* don't
 
 ** Porting your app to Twisted
-#+ATTR_REVEAL: :frag roll-in
 
+   #+ATTR_REVEAL: :frag roll-in
    * No, it's not trivial
      * ... but cost is almost always overestimated
    * Clean, tested code helps
@@ -99,14 +92,14 @@
      * ... but I have to have Flask do something, right? ;)
    * Quality!
      * No authentication, users are who they say they are
-     * Duplicate usernames allowed
+       * Duplicate usernames allowed
      * Protocol does dispatching + behavior
-     * Still perfect test coverage ;)
 
 * Blocking code in Twisted
 
 ** You can't block the reactor thread
-#+ATTR_REVEAL: :frag roll-in
+
+   #+ATTR_REVEAL: :frag roll-in
    * Twisted is event-driven
        * Production reactors are just event loops
        * =select=, =epoll=, =kqueue=, IOCP, =libev(ent)=...
@@ -137,11 +130,13 @@
    2. Block somewhere else
 
 ** Don't block
+
    IO bound? Be asynchronous!
 
    CPU bound? Cooperate with the event loop!
 
 ** Asynchronous I/O version
+
    =treq=: =requests=-like, but asynchronous
    #+BEGIN_SRC python
    def _getDataAtURL(url):
@@ -149,7 +144,9 @@
    #+END_SRC
 
 ** Cooperative version
+
    =twisted.internet.task.coiterate= and friends
+
    #+BEGIN_SRC python
    def _compute(n):
        x = 2
@@ -162,6 +159,8 @@
    #+END_SRC
 
 ** Avoiding blocking isn't always possible
+
+   #+ATTR_REVEAL: :frag roll-in
    * Blocking API
      * =DBAPI2=, ...
    * Sometimes in C code you can't or don't want to mess with
@@ -170,7 +169,7 @@
      * File IO, ...
 
 ** Block somewhere else
-   Can't block the reactor thread $\rarrow$ block a different one!
+   Can't block the reactor thread → block a different one!
 
    #+ATTR_REVEAL: :frag roll-in
    * ... in the same process: =deferToThread=
@@ -183,7 +182,7 @@
    #+ATTR_REVEAL: :frag roll-in
    * Probably the easiest way to make things magically not block
    * Easy for the caller: everything =Deferred=!
-   * State is *verboten*
+   * Shared mutable state is crazy annoying to get right
      #+ATTR_REVEAL: :frag roll-in
      * Passing in a ={}=: crude, awful hack
        * but Python guarantees =dict= operations are atomic...
@@ -208,11 +207,21 @@
 
    =jyio/geventreactor=
 
+   #+ATTR_REVEAL: :frag roll-in
+   * Just another reactor backend for Twisted
+     * unlike its predecessor, just a crazy hack, not a terrible hack
+   * You can use "blocking" code in a lot of places
+     * "blocking code" means "code =gevent= can make not blocking"
+     * blocking the reactor greenlet: still not okay
+     * ... but our earlier =requests.get= example: probably okay
+
 * Recap
 
 ** Twisted plays well with others
-  * If you want to use Twisted, you probably can
-  * That doesn't mean it's a good idea
-    * although it probably is ;-)
+
+   #+ATTR_REVEAL: :frag roll-in
+   * If you want to use Twisted, you probably can
+   * That doesn't mean it's a good idea
+      * although it probably is ;-)
 
 * Questions?
