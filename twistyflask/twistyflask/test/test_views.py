@@ -38,15 +38,20 @@ class _ViewTestCaseMixin(object):
     def test_well_behaved(self):
         """
         The page is well-behaved, and passes some basic sanity checks:
-        right status code and encoding specification.
+        right status code, has an encoding specification, includes the
+        CSS styles.
 
         The page explicitly specifies its encoding, UTF-8, in a meta tag,
         in the first 1024 bytes of the response. This relies on an exact
         spelling of that meta tag, as specified in a W3C recommendation.
+
         """
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 200)
         self.assertIn("""<meta charset="UTF-8">""", response.data[:1024])
+
+        link, = self.get_tree().cssselect("link[rel=stylesheet]")
+        self.assertEqual(link.attrib.get("href"), "/static/style.css")
 
 class IndexTests(_ViewTestCaseMixin, TestCase):
     path = "/"

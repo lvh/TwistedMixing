@@ -1,0 +1,12 @@
+* {
+    font-family: "Courier New", Courier, monospace;
+    font-style: italic;
+}
+
+table {
+    border: 1px solid grey;
+}
+
+td {
+    min-width: 200px;
+}
