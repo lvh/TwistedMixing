@@ -94,27 +94,29 @@ I hack on Twisted.
 <section>
 <section>
 
-<h2><span class="section-number-2">2</span> Your app with Twisted</h2>
+<h2><span class="section-number-2">2</span> Introducing Twisted</h2>
 </section>
 <section>
 
 <h3><span class="section-number-3">2.1</span> Is there even a problem?</h3>
-
+<p>
+Maybe it's trivial to get started
+</p>
 </section>
 <section>
 
 <h3><span class="section-number-3">2.2</span> SOA</h3>
 <ul class="org-ul">
-<li>Service Oriented Architecture
+<li class="fragment roll-in">Service Oriented Architecture
 <ul class="org-ul">
 <li>"Loosely coupled things that talk to each other"
 </li>
 </ul>
 </li>
 
-<li>Written in Gevent? Twisted? Fortran? Who cares!?
+<li class="fragment roll-in">Written in Gevent? Twisted? Fortran? Who cares!?
 </li>
-<li>Work with Twisted, without touching existing code
+<li class="fragment roll-in">Work with Twisted, without touching existing code
 </li>
 </ul>
 </section>
@@ -122,18 +124,18 @@ I hack on Twisted.
 
 <h3><span class="section-number-3">2.3</span> WSGI</h3>
 <ul class="org-ul">
-<li>How many of you have a WSGI application?
+<li class="fragment roll-in">How many of you have a WSGI application?
 </li>
-<li>Twisted can serve WSGI!
+<li class="fragment roll-in">Twisted can serve WSGI!
 <div class="org-src-container">
 
 <pre class="src src-sh">twistd web --wsgi=location.of.wsgi.app
 </pre>
 </div>
 </li>
-<li>Not a toy web server, can be used in production
+<li class="fragment roll-in">Not a toy web server, can be used in production
 </li>
-<li>Twisted does CGI too, but I hope <b>you</b> don't
+<li class="fragment roll-in">Twisted does CGI too, but I hope <b>you</b> don't
 </li>
 </ul>
 </section>
@@ -419,7 +421,7 @@ Can't block the reactor thread → block a different one!
 </section>
 <section>
 
-<h3><span class="section-number-3">5.1</span> Water and fire, but it works&#x2026;</h3>
+<h3><span class="section-number-3">5.1</span> Water and fire, but it works</h3>
 <p>
 <code>jyio/geventreactor</code>
 </p>
@@ -427,17 +429,17 @@ Can't block the reactor thread → block a different one!
 <ul class="org-ul">
 <li class="fragment roll-in">Just another reactor backend for Twisted
 <ul class="org-ul">
-<li>unlike its predecessor, just a crazy hack, not a terrible hack
+<li class="fragment roll-in">unlike its predecessor, just a crazy hack, not a terrible hack
 </li>
 </ul>
 </li>
 <li class="fragment roll-in">You can use "blocking" code in a lot of places
 <ul class="org-ul">
-<li>"blocking code" means "code <code>gevent</code> can make not blocking"
+<li class="fragment roll-in">"blocking" means "<code>gevent</code> can make it non-blocking"
 </li>
-<li>blocking the reactor greenlet: still not okay
+<li class="fragment roll-in">blocking the reactor greenlet: still not okay
 </li>
-<li>&#x2026; but our earlier <code>requests.get</code> example: probably okay
+<li class="fragment roll-in">&#x2026; but our earlier <code>requests.get</code> example: probably okay
 </li>
 </ul>
 </li>

@@ -21,6 +21,7 @@
    * [insert overview here]
 
 ** Why should you care?
+
    #+ATTR_REVEAL: :frag roll-in
    * Twisted has some cool stuff in it/around it
      #+ATTR_REVEAL: :frag roll-in
@@ -41,13 +42,15 @@
    * Having played with Twisted probably helps
        * ... but I will explain important concepts briefly
 
-* Your app with Twisted
+* Introducing Twisted
 
 ** Is there even a problem?
 
-** SOA
-#+ATTR_REVEAL: :frag roll-in
+   Maybe it's trivial to get started
 
+** SOA
+
+   #+ATTR_REVEAL: :frag roll-in
    * Service Oriented Architecture
      * "Loosely coupled things that talk to each other"
 
@@ -55,8 +58,8 @@
    * Work with Twisted, without touching existing code
 
 ** WSGI
-#+ATTR_REVEAL: :frag roll-in
 
+   #+ATTR_REVEAL: :frag roll-in
    * How many of you have a WSGI application?
    * Twisted can serve WSGI!
      #+BEGIN_SRC sh
@@ -203,15 +206,17 @@
 
 * Twisted in Gevent
 
-** Water and fire, but it works...
+** Water and fire, but it works
 
    =jyio/geventreactor=
 
    #+ATTR_REVEAL: :frag roll-in
    * Just another reactor backend for Twisted
+     #+ATTR_REVEAL: :frag roll-in
      * unlike its predecessor, just a crazy hack, not a terrible hack
    * You can use "blocking" code in a lot of places
-     * "blocking code" means "code =gevent= can make not blocking"
+     #+ATTR_REVEAL: :frag roll-in
+     * "blocking" means "=gevent= can make it non-blocking"
      * blocking the reactor greenlet: still not okay
      * ... but our earlier =requests.get= example: probably okay
 
