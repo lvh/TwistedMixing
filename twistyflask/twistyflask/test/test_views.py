@@ -125,3 +125,19 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
         for selector in ["input#new-message", "button#send-message"]:
             control, = tree.cssselect(selector)
             self.assertTrue(control.attrib.get("disabled"))
+
+
+    def test_javascript(self):
+        """
+        The view loads jQuery, SockJS, and the chat logic, in order.
+        """
+        tree = self.getTree("/chat")
+        jquery, sockjs, chatjs = tree.cssselect("body script")
+
+        jqueryCDN = "http://code.jquery.com/jquery-1.10.1.min.js"
+        self.assertEqual(jquery.attrib["src"], jqueryCDN)
+
+        sockjsCDN = "http://cdn.sockjs.org/sockjs-0.3.min.js"
+        self.assertEqual(sockjs.attrib["src"], sockjsCDN)
+
+        self.assertEqual(chatjs.attrib["src"], "/static/chat.js")

@@ -26,10 +26,14 @@ POKEY LOVES TO HEAR WHAT YOU ARE THINKING!!!
 <p>
 TO TALK TO POKEY FIRST ENTER YOUR NAME THEN CLICK ANYWHERE ELSE AND
 THE MAGICAL MESSAGE SENDING THINGAMABOBS WILL BECOME ACTIVE!!!
-</>
-
+</p>
 <input id="name">
 
+<p>POKEY EAGERLY AWAITS YOUR MESSAGES:</p>
 <input id="new-message" disabled>
 <button id="send-message" disabled>SEND!!!</button>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
 {% endblock %}
