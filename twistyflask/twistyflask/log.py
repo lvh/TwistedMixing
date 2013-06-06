@@ -17,10 +17,13 @@ def getLogEntries(store=None, _reactor=reactor):
     """
     Gets log entries.
 
-    This actually makes a blocking call to ``_getLogEntries``.
+    If the reactor is not running or it is running and we are in its
+    thread, calls ``_getLogEntries``. If it is running, but we're in a
+    different thread, calls ``_getLogEntries`` through
+    ``blockingCallFromThread``.
     """
     store = store or app.store # Don't bind at function creation, for testing
-    if threadable.isInIOThread():
+    if threadable.ioThread is None or threadable.isInIOThread():
         return _getLogEntries(store)
     else:
         return threads.blockingCallFromThread(_reactor, _getLogEntries, store)
@@ -32,5 +35,9 @@ def _getLogEntries(store):
 
     Must be called from the thread that produced the SQLite connection of the
     app's store. Generally, that's the reactor thread.
+
+    This will instantiate all of the objects, so that they can be safely
+    *read* from any other thread. (The thread restriction is a pysqlite2 one:
+    SQLite itself actually should support this fine.)
     """
-    return store.query(LogEntry, sort=LogEntry.time.ascending)
+    return list(store.query(LogEntry, sort=LogEntry.time.ascending))

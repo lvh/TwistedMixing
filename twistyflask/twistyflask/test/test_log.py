@@ -27,26 +27,27 @@ class GetLogEntriesTests(unittest.TestCase):
         self.second = log.LogEntry(store=s, sender=u"B", message=u"Y")
 
 
+    def _getEntriesTest(self):
+        """
+        A generic entry getting test.
+
+        This test is intentionally agnostic about which thread it is ran in.
+        Run it from different threads in different test methods.
+        """
+        first, second = log.getLogEntries(self.store)
+        self.assertIdentical(first, self.first)
+        self.assertIdentical(second, self.second)
+
+
     def test_fromReactorThread(self):
         """
         Getting log entries works from the reactor thread.
         """
-        self.assertCorrectResults(log.getLogEntries(self.store))
+        self._getEntriesTest()
 
 
     def test_fromOtherThread(self):
         """
         Getting log entries works from another thread.
         """
-        d = threads.deferToThread(log.getLogEntries, self.store)
-        d.addCallback(self.assertCorrectResults)
-        return d
-
-
-    def assertCorrectResults(self, query):
-        """
-        Asserts the query delivers the correct results.
-        """
-        first, second = query
-        self.assertIdentical(first, self.first)
-        self.assertIdentical(second, self.second)
+        return threads.deferToThread(self._getEntriesTest)
