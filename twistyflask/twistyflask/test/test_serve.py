@@ -1,3 +1,5 @@
+from twisted.application import internet
+from twisted.internet import endpoints
 from twisted.trial import unittest
 from twisted.web import iweb, resource, server, wsgi
 from twistyflask import chat, serve
@@ -107,3 +109,72 @@ class BuildSiteTests(unittest.TestCase):
         sockjsResource = site.resource.getChildWithDefault("sockjs", request)
         self.assertTrue(isinstance(sockjsResource, factory.SockJSResource))
         self.assertTrue(isinstance(sockjsResource._factory, chat.ChatFactory))
+
+
+class OptionsTests(unittest.TestCase):
+    """
+    Tests for the command line options specification.
+    """
+    def setUp(self):
+        self.options = serve.Options()
+
+
+    def test_default(self):
+        """
+        When no explicit endpoint specification is given, ``tcp:0`` is used.
+        """
+        self.options.parseOptions([])
+        self.assertEqual(self.options.get("endpoint"), "tcp:0")
+
+
+    def test_longExplicitEndpoint(self):
+        """
+        When an explicit endpoint specification is given with the long
+        parameter, it is used.
+        """
+        self.options.parseOptions(["--endpoint", "tcp:1234"])
+        self.assertEqual(self.options.get("endpoint"), "tcp:1234")
+
+
+    def test_shortExplicitEndpoint(self):
+        """
+        When an explicit endpoint specification is given with the short
+        parameter, it is used.
+        """
+        self.options.parseOptions(["-e", "tcp:1234"])
+        self.assertEqual(self.options.get("endpoint"), "tcp:1234")
+
+
+
+class ServiceMakerTests(unittest.TestCase):
+    """
+    Tests for the service maker.
+    """
+    def test_defaults(self):
+        """
+        By default, the service maker creates endpoints from strings using
+        ``twisted.internet.endpoints.serverFromString`` and builds the site
+        using ``twistyflask.serve.buildSite``.
+        """
+        serverFromString = serve.ServiceMaker._serverFromString
+        self.assertIdentical(serverFromString, endpoints.serverFromString)
+        self.assertIdentical(serve.ServiceMaker._buildSite, serve.buildSite)
+
+
+    def test_makeService(self):
+        """
+        The service maker builds a ``StreamServerEndpointService`` from the
+        endpoint provided through options and a factory from the ``buildSite``
+        function.
+        """
+        maker = serve.ServiceMaker()
+
+        endpoint = object()
+        maker._serverFromString = lambda reactor, spec: endpoint
+        site = object()
+        maker._buildSite = lambda: site
+
+        svc =  maker.makeService({"endpoint": "something"})
+        self.assertTrue(isinstance(svc, internet.StreamServerEndpointService))
+        self.assertIdentical(svc.endpoint, endpoint)
+        self.assertIdentical(svc.factory, site)

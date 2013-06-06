@@ -1,8 +1,11 @@
 from txsockjs import factory
-from twisted.internet import reactor
+from twisted.application import internet, service
+from twisted.internet import endpoints, reactor
+from twisted.plugin import IPlugin
+from twisted.python import usage
 from twisted.web import wsgi, resource, server
 from twistyflask import app, chat
-
+from zope.interface import implementer
 
 class ChildrenFirstResource(resource.Resource):
     """
@@ -43,3 +46,35 @@ def buildSite():
     root = ChildrenFirstResource(flaskResource)
     root.putChild("sockjs", factory.SockJSResource(chat.ChatFactory()))
     return server.Site(root)
+
+
+
+class Options(usage.Options):
+    """
+    Options for running the twistyflask demo.
+    """
+    optParameters = [
+        ["endpoint", "e", "tcp:0", "The endpoint to listen on."],
+    ]
+
+
+
+@implementer(IPlugin, service.IServiceMaker)
+class ServiceMaker(object):
+    """
+    Makes twistyflask demo services.
+    """
+    tapname = "twistyflask"
+    description = 'A demo combining Twisted and Flask'
+    options = Options
+
+    _serverFromString = staticmethod(endpoints.serverFromString)
+    _buildSite = staticmethod(buildSite)
+
+    def makeService(self, options):
+        """
+        Makes a twistyflask demo service.
+        """
+        endpoint = self._serverFromString(reactor, options["endpoint"])
+        factory = self._buildSite()
+        return internet.StreamServerEndpointService(endpoint, factory)

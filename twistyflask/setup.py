@@ -1,6 +1,17 @@
 import sys
 from setuptools import setup
+from setuptools.command import egg_info
 from setuptools.command.test import test as TestCommand
+
+def _topLevel(name):
+    return name.split('.', 1)[0]
+
+def _hacked_write_toplevel_names(cmd, basename, filename):
+    names = map(_topLevel, cmd.distribution.iter_distribution_names())
+    pkgs = dict.fromkeys(set(names) - set(["twisted"]))
+    cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
+
+egg_info.write_toplevel_names = _hacked_write_toplevel_names
 
 import re
 versionLine = open("twistyflask/_version.py", "rt").read()
@@ -27,7 +38,7 @@ setup(name='twistyflask',
       author='Laurens Van Houtven',
       author_email='_@lvh.io',
 
-      packages=["twistyflask", "twistyflask.test"],
+      packages=["twistyflask", "twistyflask.test", "twisted.plugins"],
       test_suite="twistyflask.test",
       setup_requires=['tox'],
       cmdclass={'test': Tox},
@@ -44,3 +55,10 @@ setup(name='twistyflask',
         "Programming Language :: Python :: 2.7"
         ]
 )
+
+try:
+    from twisted.plugin import IPlugin, getPlugins
+except ImportError:
+    pass
+else:
+    list(getPlugins(IPlugin))
