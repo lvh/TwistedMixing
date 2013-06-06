@@ -2,7 +2,7 @@ var handlers = {
   "receive": function(data) {
     $(".messages tbody").append(
       $("<tr>")
-        .append($("<td>").text(new Date().toISOString()))
+        .append($("<td>").text(Math.round(new Date() / 1000)))
         .append($("<td>").text(data.sender))
         .append($("<td>").text(data.message))
     );

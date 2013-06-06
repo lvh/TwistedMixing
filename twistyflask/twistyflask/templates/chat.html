@@ -15,7 +15,7 @@ POKEY LOVES TO HEAR WHAT YOU ARE THINKING!!!
   <tbody>
     {% for entry in entries %}
     <tr>
-      <td>{{ entry.time }}</td>
+      <td>{{ entry.time.asPOSIXTimestamp() | int }}</td>
       <td>{{ entry.sender }}</td>
       <td>{{ entry.message }}</td>
     </tr>

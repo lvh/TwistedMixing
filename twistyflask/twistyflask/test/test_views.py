@@ -104,9 +104,12 @@ class ChatTests(_ViewTestCaseMixin, TestCase):
         self.assertEqual(len(rows), len(entries))
 
         for row, entry in zip(rows, entries):
-            _time, nameCell, messageCell = row.cssselect("td")
-            self.assertEqual(entry.sender, nameCell.text)
-            self.assertEqual(entry.message, messageCell.text)
+            timeCell, nameCell, messageCell = row.cssselect("td")
+
+            timestamp = str(int(entry.time.asPOSIXTimestamp()))
+            self.assertEqual(timeCell.text, timestamp)
+            self.assertEqual(nameCell.text, entry.sender)
+            self.assertEqual(messageCell.text, entry.message)
 
 
     def test_set_name_controls(self):
