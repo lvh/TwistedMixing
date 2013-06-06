@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><title>(Twisted Mixing)</title>
+<meta name="author" content="(Laurens Van Houtven)"/>
+<link rel="stylesheet" href="./reveal.js/css/reveal.min.css">
+    <link rel="stylesheet" href="./reveal.js/css/theme/beige.css" id="theme">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>Twisted Mixing</h1>
+<h2>Laurens Van Houtven</h2>
+<h2><a href="mailto:@lvh">@lvh</a></h2>
+<h2></h2></section>
+
+<section>
+<section>
+
+<h2><span class="section-number-2">1</span> Introduction</h2>
+</section>
+<section>
+
+<h3><span class="section-number-3">1.1</span> About me</h3>
+<p>
+Hi, I'm <code>lvh</code>.
+</p>
+
+<p>
+I hack on Twisted.
+</p>
+</section>
+<section>
+
+<h3><span class="section-number-3">1.2</span> About this talk</h3>
+<ul class="org-ul">
+<li>Twisted code ↔ other code
+</li>
+<li>Show that you probably <b>can</b> use Twisted
+<ul class="org-ul">
+<li>(Not so much that you <b>should</b> use Twisted)
+</li>
+</ul>
+</li>
+<li>[insert overview here]
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">1.3</span> Why should you care?</h3>
+<ul class="org-ul">
+<li>Twisted has some cool stuff in it
+<ul class="org-ul">
+<li>IRC, SMTP, DNS, SSH, WebSockets&#x2026;
+</li>
+<li>timed events, sane process and thread management
+</li>
+<li>run multiple things in one process
+</li>
+<li>&#x2026;
+</li>
+</ul>
+</li>
+<li>Twisted vs other stuff: good at different things
+<ul class="org-ul">
+<li>many incoming connections e.g. a chat server
+</li>
+<li>many outgoing connections e.g. a scraper
+</li>
+<li>cooperate with existing event loops such as GUIs
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">1.4</span> Prerequisites</h3>
+<ul class="org-ul">
+<li>Ideally, just Python
+</li>
+<li>Having played with Twisted probably helps
+<ul class="org-ul">
+<li>&#x2026; but I will explain important concepts briefly
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">1.5</span> Code examples</h3>
+<p>
+Very practical, examples you can run on your machine
+</p>
+
+<ul class="org-ul">
+<li>Flask app with SockJS chat and timed events
+</li>
+<li>??? asyncore telnet app with Twisted SSH server
+</li>
+<li>??? Gevent telnet app with Twisted SSH server
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section>
+
+<h2><span class="section-number-2">2</span> Your app with Twisted</h2>
+</section>
+<section>
+
+<h3><span class="section-number-3">2.1</span> Is there even a problem?</h3>
+<p>
+Perhaps it's trivial to get started!
+</p>
+</section>
+<section>
+
+<h3><span class="section-number-3">2.2</span> SOA</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Service Oriented Architecture
+<ul class="org-ul">
+<li>"Loosely coupled things that talk to each other"
+</li>
+</ul>
+</li>
+
+<li class="fragment roll-in">Written in Gevent? Twisted? Fortran? Who cares!?
+</li>
+<li class="fragment roll-in">Work with Twisted, without touching existing code
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">2.3</span> WSGI</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">How many of you have a WSGI application?
+</li>
+<li class="fragment roll-in">Twisted can serve WSGI!
+<div class="org-src-container">
+
+<pre class="src src-sh">twistd web --wsgi=location.of.wsgi.app
+</pre>
+</div>
+</li>
+<li class="fragment roll-in">Not a toy web server, can be used in production
+</li>
+<li class="fragment roll-in">Twisted does CGI too, but I hope <b>you</b> don't
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">2.4</span> Porting your app to Twisted</h3>
+<ul class="org-ul">
+<li>No, it's not trivial
+<ul class="org-ul">
+<li>&#x2026; but cost is almost always overestimated
+</li>
+</ul>
+</li>
+<li>Clean, tested code helps
+<ul class="org-ul">
+<li>Keep verifying behavior
+</li>
+<li>Tested code tends to be decoupled
+</li>
+</ul>
+</li>
+<li>If it's near impossible, it's probably a code smell
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">2.5</span> Writing code that works on both</h3>
+<ul class="org-ul">
+<li>Not trivial, not hard either
+</li>
+<li>Example: <code>praekelt/vumi</code>
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">2.6</span> Demo time!</h3>
+<ul class="org-ul">
+<li>Flask app, served by Twisted
+</li>
+<li>SockJS chat, also served by Twisted
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">2.7</span> Demo notes</h3>
+<ul class="org-ul">
+<li><code>Klein</code>: Flask-like basic API, except Twisted by default
+</li>
+<li>Having data come from two sources is kind of dumb
+<ul class="org-ul">
+<li>&#x2026; but I have to have Flask do something, right? ;)
+</li>
+</ul>
+</li>
+<li>Quality!
+<ul class="org-ul">
+<li>No authentication, users are who they say they are
+</li>
+<li>Duplicate usernames allowed
+</li>
+<li>Protocol does dispatching + behavior
+</li>
+<li>Still perfect test coverage ;)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section>
+
+<h2><span class="section-number-2">3</span> Blocking code in Twisted</h2>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.1</span> You can't block the reactor thread</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Twisted is event-driven
+<ul class="org-ul">
+<li>Production reactors are just event loops
+</li>
+<li><code>select</code>, <code>epoll</code>, <code>kqueue</code>, IOCP, <code>libev(ent)</code>&#x2026;
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Reactor runs in a thread, calls everything else
+<ul class="org-ul">
+<li>One thing at a time, all in the same thread
+</li>
+<li>Concurrency through asynchronous IO
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Blocking the reactor thread means nothing else happens
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.2</span> Blocking in a callback is bad!</h3>
+<p>
+Blocking IO
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_getDataAtURL</span>(url):
+    <span style="color: #7f007f;">return</span> requests.get(url).json() <span style="color: #b22222;"># </span><span style="color: #b22222;">BLOCKS!</span>
+</pre>
+</div>
+
+<p>
+Blocking computation
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_compute</span>(n):
+    <span style="color: #a0522d;">x</span> = 2
+    <span style="color: #7f007f;">for</span> _ <span style="color: #7f007f;">in</span> <span style="color: #483d8b;">xrange</span>(n): <span style="color: #b22222;"># </span><span style="color: #b22222;">BLOCKS! (for sufficiently large n)</span>
+        <span style="color: #a0522d;">x</span> *= x
+    send_somewhere(x)
+</pre>
+</div>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.3</span> Can't block in the reactor thread, so&#x2026;</h3>
+<ol class="org-ol">
+<li>Don't block
+</li>
+<li>Block somewhere else
+</li>
+</ol>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.4</span> Don't block</h3>
+<p>
+IO bound? Be asynchronous!
+</p>
+
+<p>
+CPU bound? Cooperate with the event loop!
+</p>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.5</span> Asynchronous I/O version</h3>
+<p>
+<code>treq</code>: <code>requests</code>-like, but asynchronous
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_getDataAtURL</span>(url):
+    <span style="color: #7f007f;">return</span> treq.get(url).addCallback(treq.json_content) <span style="color: #b22222;"># </span><span style="color: #b22222;">async :)</span>
+</pre>
+</div>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.6</span> Cooperative version</h3>
+<p>
+<code>twisted.internet.task.coiterate</code> and friends
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_compute</span>(n):
+    <span style="color: #a0522d;">x</span> = 2
+    <span style="color: #7f007f;">for</span> _ <span style="color: #7f007f;">in</span> <span style="color: #483d8b;">xrange</span>(n):
+        <span style="color: #a0522d;">x</span> *= x
+        <span style="color: #7f007f;">yield</span> <span style="color: #b22222;"># </span><span style="color: #b22222;">Yields to the reactor :)</span>
+    send_somewhere(x)
+
+coiterate(_compute(n))
+</pre>
+</div>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.7</span> Avoiding blocking isn't always possible</h3>
+<ul class="org-ul">
+<li>Blocking API
+<ul class="org-ul">
+<li><code>DBAPI2</code>, &#x2026;
+</li>
+</ul>
+</li>
+<li>Sometimes in C code you can't or don't want to mess with
+<ul class="org-ul">
+<li><code>scrypt</code>, &#x2026;
+</li>
+</ul>
+</li>
+<li>Sometimes at a kernel/syscall level
+<ul class="org-ul">
+<li>File IO, &#x2026;
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.8</span> Block somewhere else</h3>
+<p>
+Can't block the reactor thread \(\rarrow\) block a different one!
+</p>
+
+<ul class="org-ul">
+<li class="fragment roll-in">&#x2026; in the same process: <code>deferToThread</code>
+<ul class="org-ul">
+<li>often used by wrappers: <code>adbapi</code>, <code>txscrypt</code>&#x2026;
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">&#x2026; in a child process: <code>spawnProcess</code> and friends
+</li>
+<li class="fragment roll-in">&#x2026; in a remote process: Ampoule, PB, Foolscap, RPC methods&#x2026;
+</li>
+</ul>
+</section>
+<section>
+
+<h3><span class="section-number-3">3.9</span> deferToThread</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Probably the easiest way to make things magically not block
+</li>
+<li class="fragment roll-in">Easy for the caller: everything <code>Deferred</code>!
+</li>
+<li class="fragment roll-in">State is <b>verboten</b>
+<ul class="org-ul">
+<li class="fragment roll-in">Passing in a <code>{}</code>: crude, awful hack
+<ul class="org-ul">
+<li>but Python guarantees <code>dict</code> operations are atomic&#x2026;
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Got shared mutable state?
+<ul class="org-ul">
+<li>Django is full of it
+</li>
+<li>Python modules are shared mutable state, too
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Consequence of threads, not <code>deferToThread</code>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section>
+
+<h2><span class="section-number-2">4</span> Twisted in blocking code</h2>
+</section>
+<section>
+
+<h3><span class="section-number-3">4.1</span> New hotness!</h3>
+<p>
+<code>itamarst/crochet</code>
+</p>
+
+<ul class="org-ul">
+<li>Runs the Twisted reactor in a thread
+</li>
+<li>Makes <code>logging</code> magically work
+</li>
+<li>Blocking interface to <code>Deferred</code>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section>
+
+<h2><span class="section-number-2">5</span> Twisted in Gevent</h2>
+</section>
+<section>
+
+<h3><span class="section-number-3">5.1</span> Water and fire, but it works&#x2026;</h3>
+<p>
+<code>jyio/geventreactor</code>
+</p>
+</section>
+</section>
+<section>
+<section>
+
+<h2><span class="section-number-2">6</span> Recap</h2>
+</section>
+<section>
+
+<h3><span class="section-number-3">6.1</span> Twisted plays well with others</h3>
+<ul class="org-ul">
+<li>If you want to use Twisted, you probably can
+</li>
+<li>That doesn't mean it's a good idea
+<ul class="org-ul">
+<li>although it probably is ;-)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section>
+
+<h2><span class="section-number-2">7</span> Questions?</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/lib/js/head.min.js"></script>
+<script src="./reveal.js/js/reveal.min.js"></script>
+<script>
+
+        		// Full list of configuration options available here:
+        		// https://github.com/hakimel/reveal.js#configuration
+        		Reveal.initialize({
+        			controls: true,
+        			progress: true,
+        			history: true,
+        			center: true,
+
+        			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        			transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        			// Optional libraries used to extend on reveal.js
+        			dependencies: [
+        				{ src: './reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        				{ src: './reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        				{ src: './reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        				{ src: './reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        				{ src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        				{ src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        				// { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+        				// { src: './reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        			]
+        		});
+</script>
+</body>
+</html>
