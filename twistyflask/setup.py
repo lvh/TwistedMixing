@@ -34,6 +34,7 @@ setup(name='twistyflask',
       version=versionString,
       description='A demo combining Twisted and Flask',
       long_description='A silly demo of a chat app that uses Flask, served by Twisted, with real-time chat features provided by txsockjs.',
+      url="https://chiselapp.com/user/lvh/repository/TwistedMixing/home",
 
       author='Laurens Van Houtven',
       author_email='_@lvh.io',
