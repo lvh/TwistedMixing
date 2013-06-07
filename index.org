@@ -10,7 +10,7 @@
 ** About me
    Hi, I'm =lvh=.
 
-   I hack on Twisted.
+   I hack on and with Twisted.
 
 ** About this talk
 
@@ -18,35 +18,122 @@
    * Twisted code ↔ other code
    * Show that you probably *can* use Twisted
       * (Not so much that you *should* use Twisted)
-   * [insert overview here]
+   * Overview
 
 ** Why should you care?
 
    #+ATTR_REVEAL: :frag roll-in
-   * Twisted has some cool stuff in it/around it
+   * Twisted has some cool stuff in and around it
      #+ATTR_REVEAL: :frag roll-in
      * IRC, SMTP, DNS, SSH, WebSockets...
-     * timed events, sane process and thread management
-     * running multiple things in one process
+     * Running multiple things in one process
+     * Timed events, sane process and thread management
+     * Protocol and transport abstractions
      * ...
    * Twisted vs other stuff: good at different things
      #+ATTR_REVEAL: :frag roll-in
-     * many incoming connections e.g. a chat server
-     * many outgoing connections e.g. a scraper
-     * cooperate with existing event loops, such as GUIs or gevent
+     * Many connections, particularly if relatively silent
+        * Incoming, e.g. a chat server
+        * Outgoing, e.g. a scraper
+     #+ATTR_REVEAL: :frag roll-in
+     * Cooperate with existing event loops
+       * GUIs
+       * gevent
 
 ** Prerequisites
 
    #+ATTR_REVEAL: :frag roll-in
    * Ideally, just Python
    * Having played with Twisted probably helps
-       * ... but I will explain important concepts briefly
+   * I will explain important concepts briefly
+      * Please feel free to interrupt if I forget to
 
 * Introducing Twisted
 
+** Reactor
+
+   #+ATTR_REVEAL: :frag roll-in
+   * Object
+     * Allows registration of new events
+     * Waits for those events
+     * Dispatches them when they occur
+   * Internally an event loop
+     * Except for test reactors e.g. =Clock=
+     * Backed by some event mechanism
+
+** Reactor interfaces
+
+   Usually you call higher-level APIs!
+
+   #+ATTR_REVEAL: :frag roll-in
+   * =IReactorBase=: =run=, =stop=...
+   * =IReactorTime=: =callLater=...
+   * =IReactorProcess=: =spawnProcess=
+   * =IReactorThreads=: =callInThread=, =callFromThread=, ...
+   * =IReactor(TCP|UDP|SSL|UNIX|UNIXDatagram|Multicast|Socket)=...
+   * =IReactorFDSet=: =(add|remove)(Reader|Writer)=, ...
+
+** Deferred
+
+   #+ATTR_REVEAL: :frag roll-in
+   * An object you get *now*
+   * Gets you a result (or failure!) later
+   * Very flexible
+     * Can emulate coroutines or generators
+     * Other way around doesn't work
+
+** Why deferreds?
+
+   #+ATTR_REVEAL: :frag roll-in
+   * Many operations take time: *can't* get a result right now
+   * Blocking API
+     * Evaluate or raise some point in the future
+     * Thread can't do anything else in the mean while
+   * Deferred API
+     * Get an object representing the future result *now*
+
+** Deferred vs blocking API
+
+   Blocking read:
+   #+BEGIN_SRC python
+   try:
+       result = blocking_read()
+       on_result(result)
+   except SomeError as e:
+       on_failure(e)
+   #+END_SRC
+
+   Deferred read:
+   #+BEGIN_SRC python
+   d = async_read()
+   d.addCallbacks(on_result, on_failure)
+   #+END_SRC
+
+** Inline callbacks vs blocking API
+
+   Blocking read:
+   #+BEGIN_SRC python
+   try:
+       result = blocking_read()
+       on_result(result)
+   except SomeError as e:
+       on_failure(e)
+   #+END_SRC
+
+   =inlineCallbacks=: Deferreds + sugar
+   #+BEGIN_SRC python
+   try:
+       result = yield async_read()
+       on_result(result)
+   except SomeError as e:
+       on_failure(e)
+   #+END_SRC
+
+* Twisted and your app
+
 ** Is there even a problem?
 
-   Maybe it's trivial to get started
+   Maybe it's trivial to get started!
 
 ** SOA
 
@@ -54,14 +141,14 @@
    * Service Oriented Architecture
      * "Loosely coupled things that talk to each other"
 
-   * Written in Gevent? Twisted? Fortran? Who cares!?
+   * Written in Gevent? Twisted? COBOL? Who cares!?
    * Work with Twisted, without touching existing code
 
 ** WSGI
 
    #+ATTR_REVEAL: :frag roll-in
    * How many of you have a WSGI application?
-   * Twisted can serve WSGI!
+   * Twisted is a WSGI server:
      #+BEGIN_SRC sh
      twistd web --wsgi=location.of.wsgi.app
      #+END_SRC
@@ -82,6 +169,7 @@
 
    * Not trivial, not hard either
    * Example: =praekelt/vumi=
+   * TODO: more examples
 
 ** Demo time!
 
@@ -92,7 +180,7 @@
 
    * =Klein=: Flask-like basic API, except Twisted by default
    * Having data come from two sources is kind of dumb
-     * ... but I have to have Flask do something, right? ;)
+     * ... but I had to have Flask do something :)
    * Quality!
      * No authentication, users are who they say they are
        * Duplicate usernames allowed
@@ -135,7 +223,7 @@
    Prize: five million points!
 
    #+ATTR_REVEAL: :frag roll-in
-   Yes, but only if you're using old versions of Jython.
+   Yes, but only if you're using (old versions of?) Jython.
 
    #+ATTR_REVEAL: :frag roll-in
    * Is =list.append= atomic?
@@ -179,9 +267,12 @@
        send_somewhere(x)
    #+END_SRC
 
-** Can't block in the reactor thread, so...
+** Can't block the reactor thread!
+
+   Therefore, you have two options:
+
    1. Don't block
-   2. Block somewhere else
+   2. Block another thread
 
 ** Don't block
 
@@ -212,7 +303,9 @@
    coiterate(_compute(n))
    #+END_SRC
 
-** Avoiding blocking isn't always possible
+** Don't block?
+
+   Avoiding blocking isn't always possible
 
    #+ATTR_REVEAL: :frag roll-in
    * Blocking API
@@ -229,13 +322,13 @@
    * ... in the same process: =deferToThread=
      * often used by wrappers: =adbapi=, =txscrypt=...
    * ... in a child process: =spawnProcess= and friends
-   * ... in a remote process: Ampoule, PB, Foolscap, RPC methods...
+   * ... in a remote process: Ampoule, PB, Foolscap, RPC...
 
 ** deferToThread
 
    #+ATTR_REVEAL: :frag roll-in
-   * Probably the easiest way to make things magically not block
-   * Easy for the caller: everything =Deferred=!
+   * Easiest way to make things magically not block
+   * Deferred, like everything else
    * Shared mutable state is crazy annoying to get right
      #+ATTR_REVEAL: :frag roll-in
      * Passing in a ={}=: crude, awful hack
@@ -251,9 +344,49 @@
 
    =itamarst/crochet=
 
-   * Runs the Twisted reactor in a thread
+** Setting it up
+
+   =from crochet import setup; setup()=
+
+   #+ATTR_REVEAL: :frag roll-in
+   * Spawns a thread, runs the reactor in it
+     #+ATTR_REVEAL: :frag roll-in
+     * *Bonus*! It doesn't install signal handlers. Why not?
    * Makes =logging= magically work
-   * Blocking interface to =Deferred=
+   * Idempotent
+
+** Using it
+
+   #+ATTR_REVEAL: :frag roll-in
+   * =@run_in_reactor=
+     * Function runs in reactor thread, not calling thread
+     * Results in an =EventualResult=
+   * =EventualResult=?
+     * Synchronous analog of =Deferred=
+     * =wait(timeout=None)=
+     * =cancel()=, =stash()=
+
+** Example
+
+    #+BEGIN_SRC python
+    from twisted.web.client import getPage
+    from crochet import setup, run_in_reactor
+    setup()
+
+    @run_in_reactor
+    def download_page(url):
+        return getPage(url)
+
+    result = download_page("http://www.google.com")
+    print result.wait()
+    #+END_SRC
+
+** Longer example: exchange rates
+
+   Demo time!
+
+   * Flask app serving current exchange rate
+   * Twisted regularly downloads new value in the background
 
 * Twisted in Gevent
 
@@ -264,20 +397,66 @@
    #+ATTR_REVEAL: :frag roll-in
    * Just another reactor backend for Twisted
      #+ATTR_REVEAL: :frag roll-in
-     * unlike its predecessor, just a crazy hack, not a terrible hack
-   * You can use "blocking" code in a lot of places
+     * Not a huge gross hack ☺
+   * You can use "blocking code" in a lot of places
      #+ATTR_REVEAL: :frag roll-in
-     * "blocking" means "=gevent= can make it non-blocking"
-     * blocking the reactor greenlet: still not okay
-     * ... but our earlier =requests.get= example: probably okay
+     * That means "code =gevent= can make non-blocking"
+     * Blocking the reactor greenlet: still not okay
+     * Earlier =requests.get= example: probably okay
+
+** Components
+
+   #+ATTR_REVEAL: :frag roll-in
+   * =GeventReactor=
+     * =import geventreactor; geventreactor.install()=
+   * =GeventThreadPool=
+     * Like Twisted's thread pools
+     * Except greenlets, not actually threads
+   * =GeventResolver=
+
+** Bi-directional bridge
+
+   #+ATTR_REVEAL: :frag roll-in
+   * =waitForDeferred=: "blocks" until Deferred fires
+     #+BEGIN_SRC python
+     result = waitForDeferred(getPage(url))
+     #+END_SRC
+   * =waitForGreenlet=: greenlet → Deferred
+     #+BEGIN_SRC python
+     return waitForGreenlet(Greenlet.spawn(f, *a, **kw))
+     #+END_SRC
+
+** Demo time
 
 * Recap
 
 ** Twisted plays well with others
 
    #+ATTR_REVEAL: :frag roll-in
+   * It supports many protocols
+     * JSON-RPC, XML-RPC, HTTP/REST, AMP, whatever
+     * It will serve your WSGI apps
+   * It will work side by side with existing blocking code
+   * It can have blocking code added to it later
+   * It will cooperate with most existing event loops
+     #+ATTR_REVEAL: :frag roll-in
+     * Gevent, =libev(ent)=, CoreFoundation...
+     * GUIs, like GTK, Qt...
+     * ZeroMQ (but please don't use ZeroMQ)
+     * ...
+   * Many analogs for things you already know are available
+     #+ATTR_REVEAL: :frag roll-in
+     * =treq= is like =requests=
+     * =klein= is like Flask
+     * =cyclone= is Tornado on top of Twisted's reactor
+     * ...
+
+** Conclusion
+
+   #+ATTR_REVEAL: :frag roll-in
    * If you want to use Twisted, you probably can
    * That doesn't mean it's a good idea
-      * although it probably is ;-)
+     #+ATTR_REVEAL: :frag roll-in
+     * ... although it probably is ;-)
 
 * Questions?
