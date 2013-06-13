@@ -163,20 +163,13 @@ Usually you call higher-level APIs!
 <section>
 
 <h3><span class="section-number-3">2.3</span> Deferred</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">An object you get <b>now</b>
-</li>
-<li class="fragment roll-in">Gets you a result (or failure!) later
-</li>
-<li class="fragment roll-in">Very flexible
-<ul class="org-ul">
-<li>Can emulate coroutines or generators
-</li>
-<li>Other way around doesn't work
-</li>
-</ul>
-</li>
-</ul>
+<p>
+An object you get <b>now</b>,
+</p>
+
+<p>
+gets you result or failure <b>later</b>
+</p>
 </section>
 <section>
 
@@ -195,6 +188,10 @@ Usually you call higher-level APIs!
 <li class="fragment roll-in">Deferred API
 <ul class="org-ul">
 <li>Get an object representing the future result <b>now</b>
+</li>
+<li>Actually give result (or failure) when it's available
+</li>
+<li>Thread is free to do something else
 </li>
 </ul>
 </li>

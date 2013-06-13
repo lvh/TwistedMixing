@@ -76,12 +76,9 @@
 
 ** Deferred
 
-   #+ATTR_REVEAL: :frag roll-in
-   * An object you get *now*
-   * Gets you a result (or failure!) later
-   * Very flexible
-     * Can emulate coroutines or generators
-     * Other way around doesn't work
+   An object you get *now*,
+
+   gets you result or failure *later*
 
 ** Why deferreds?
 
@@ -92,6 +89,8 @@
      * Thread can't do anything else in the mean while
    * Deferred API
      * Get an object representing the future result *now*
+     * Actually give result (or failure) when it's available
+     * Thread is free to do something else
 
 ** Deferred vs blocking API
 
