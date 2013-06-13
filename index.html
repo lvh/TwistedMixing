@@ -152,7 +152,9 @@ Usually you call higher-level APIs!
 </li>
 <li class="fragment roll-in"><code>IReactorThreads</code>: <code>callInThread</code>, <code>callFromThread</code>, &#x2026;
 </li>
-<li class="fragment roll-in"><code>IReactor(TCP|UDP|SSL|UNIX|UNIXDatagram|Multicast|Socket)</code>&#x2026;
+<li class="fragment roll-in"><code>IReactor(TCP|UDP|SSL|Multicast)</code>
+</li>
+<li class="fragment roll-in"><code>IReactor(UNIX|UNIXDatagram|Socket)</code>&#x2026;
 </li>
 <li class="fragment roll-in"><code>IReactorFDSet</code>: <code>(add|remove)(Reader|Writer)</code>, &#x2026;
 </li>
@@ -779,13 +781,21 @@ Demo time!
 
 <h3><span class="section-number-3">6.2</span> Components</h3>
 <ul class="org-ul">
-<li><code>GeventThreadPool</code>
+<li class="fragment roll-in"><code>GeventReactor</code>
+<ul class="org-ul">
+<li><code>import geventreactor; geventreactor.install()</code>
+</li>
+</ul>
+</li>
+<li class="fragment roll-in"><code>GeventThreadPool</code>
 <ul class="org-ul">
 <li>Like Twisted's thread pools
 </li>
 <li>Except greenlets, not actually threads
 </li>
 </ul>
+</li>
+<li class="fragment roll-in"><code>GeventResolver</code>
 </li>
 </ul>
 </section>
