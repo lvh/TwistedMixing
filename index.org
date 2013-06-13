@@ -334,6 +334,7 @@
 
    Demo time!
 
+   * Adapted version of a =crochet= demo
    * Flask app serving current exchange rate
    * Twisted regularly downloads new value in the background
 
