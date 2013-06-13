@@ -189,57 +189,6 @@
        * Duplicate usernames allowed
      * Protocol does dispatching + behavior
 
-** Bonus question round
-
-   #+BEGIN_SRC python
-   from twisted.internet import reactor, threads
-   from twisted.python import threadable
-
-   def getLogEntries():
-       if threadable.ioThread is None or threadable.isInIOThread():
-           return _getLogEntries()
-       else:
-           return threads.blockingCallFromThread(reactor, _getLogEntries)
-
-   def _getLogEntries():
-       q = conn.execute("""SELECT ...""") # ...
-   #+END_SRC
-
-** Is this thread safe?
-   Prize: five thousand points!
-
-   #+ATTR_REVEAL: :frag roll-in
-   *Sort-of!*
-
-** Why is it (sort of) thread safe?
-   Prize: ten thousand points!
-
-   #+ATTR_REVEAL: :frag roll-in
-   * Reactor running
-     * Called from main thread, works
-     * Called from other thread, works
-   * Reactor not running
-     * Called from main thread, works
-     * Called from other thread, *kaboom*
-
-** Is that implementation-dependent?
-   Prize: five million points!
-
-   #+ATTR_REVEAL: :frag roll-in
-   Yes, but only if you're using (old versions of?) Jython.
-
-   #+ATTR_REVEAL: :frag roll-in
-   * Is =list.append= atomic?
-   * Is that an implementation detail?
-   * Are you sure?
-
-** Why do we have to do this?
-   Prize: tears of sadness
-
-   #+ATTR_REVEAL: :frag roll-in
-   * SQLite supports multithreaded access
-   * =pysqlite2= aka =sqlite3= doesn't
-
 * Blocking code in Twisted
 
 ** You can't block the reactor thread
@@ -353,8 +302,6 @@
 
    #+ATTR_REVEAL: :frag roll-in
    * Spawns a thread, runs the reactor in it
-     #+ATTR_REVEAL: :frag roll-in
-     * *Bonus*! It doesn't install signal handlers. Why not?
    * Makes =logging= magically work
    * Idempotent
 

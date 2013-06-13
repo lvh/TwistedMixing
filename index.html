@@ -378,96 +378,6 @@ Maybe it's trivial to get started!
 </li>
 </ul>
 </section>
-<section>
-
-<h3><span class="section-number-3">3.8</span> Bonus question round</h3>
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #7f007f;">from</span> twisted.internet <span style="color: #7f007f;">import</span> reactor, threads
-<span style="color: #7f007f;">from</span> twisted.python <span style="color: #7f007f;">import</span> threadable
-
-<span style="color: #7f007f;">def</span> <span style="color: #0000ff;">getLogEntries</span>():
-    <span style="color: #7f007f;">if</span> threadable.ioThread <span style="color: #7f007f;">is</span> <span style="color: #008b8b;">None</span> <span style="color: #7f007f;">or</span> threadable.isInIOThread():
-        <span style="color: #7f007f;">return</span> _getLogEntries()
-    <span style="color: #7f007f;">else</span>:
-        <span style="color: #7f007f;">return</span> threads.blockingCallFromThread(reactor, _getLogEntries)
-
-<span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_getLogEntries</span>():
-    <span style="color: #a0522d;">q</span> = conn.execute(<span style="color: #8b2252;">"""SELECT ..."""</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">...</span>
-</pre>
-</div>
-</section>
-<section>
-
-<h3><span class="section-number-3">3.9</span> Is this thread safe?</h3>
-<p>
-Prize: five thousand points!
-</p>
-
-<p class="fragment roll-in">
-<b>Sort-of!</b>
-</p>
-</section>
-<section>
-
-<h3><span class="section-number-3">3.10</span> Why is it (sort of) thread safe?</h3>
-<p>
-Prize: ten thousand points!
-</p>
-
-<ul class="org-ul">
-<li class="fragment roll-in">Reactor running
-<ul class="org-ul">
-<li>Called from main thread, works
-</li>
-<li>Called from other thread, works
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Reactor not running
-<ul class="org-ul">
-<li>Called from main thread, works
-</li>
-<li>Called from other thread, <b>kaboom</b>
-</li>
-</ul>
-</li>
-</ul>
-</section>
-<section>
-
-<h3><span class="section-number-3">3.11</span> Is that implementation-dependent?</h3>
-<p>
-Prize: five million points!
-</p>
-
-<p class="fragment roll-in">
-Yes, but only if you're using (old versions of?) Jython.
-</p>
-
-<ul class="org-ul">
-<li class="fragment roll-in">Is <code>list.append</code> atomic?
-</li>
-<li class="fragment roll-in">Is that an implementation detail?
-</li>
-<li class="fragment roll-in">Are you sure?
-</li>
-</ul>
-</section>
-<section>
-
-<h3><span class="section-number-3">3.12</span> Why do we have to do this?</h3>
-<p>
-Prize: tears of sadness
-</p>
-
-<ul class="org-ul">
-<li class="fragment roll-in">SQLite supports multithreaded access
-</li>
-<li class="fragment roll-in"><code>pysqlite2</code> aka <code>sqlite3</code> doesn't
-</li>
-</ul>
-</section>
 </section>
 <section>
 <section>
@@ -682,10 +592,6 @@ Can't block the reactor thread → block a different one!
 
 <ul class="org-ul">
 <li class="fragment roll-in">Spawns a thread, runs the reactor in it
-<ul class="org-ul">
-<li class="fragment roll-in"><b>Bonus</b>! It doesn't install signal handlers. Why not?
-</li>
-</ul>
 </li>
 <li class="fragment roll-in">Makes <code>logging</code> magically work
 </li>
