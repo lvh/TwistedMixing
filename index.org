@@ -332,11 +332,46 @@
 
 ** Longer example: exchange rates
 
-   Demo time!
+   * Twisted queries exchange rate every 30s
+     * Runs in a separate thread using =crochet=
+   * Flask app serves the latest exchange rate
 
-   * Adapted version of a =crochet= demo
-   * Flask app serving current exchange rate
-   * Twisted regularly downloads new value in the background
+   file:media/twistycrochet-demo.mp4
+
+** How does it work? Twisted part
+
+   #+BEGIN_SRC python
+   class ExchangeRate(object):
+       # ...
+
+       @run_in_reactor
+       def start(self): # called in reactor thread because of decorator
+           self._lc = LoopingCall(self._download)
+           self._lc.start(30, now=True)
+
+       def _download(self): # gets called by LoopingCall, so in reactor thread
+           d = getPage("http://download.finance.yahoo.com/...")
+           # parse data, set current exchange rate
+   #+END_SRC
+
+   Twisted code looks like regular Twisted code!
+
+   (But remember the =@run_in_reactor=)
+
+** How does it work? Flask part
+
+   #+BEGIN_SRC python
+   @app.route('/')
+   def index(): # runs in whatever thread app.run() runs it from
+       rate = EURUSD.latest_value()
+       if rate is None:
+           rate = "unavailable, please refresh the page"
+       return "Current EUR/USD exchange rate is %s." % (rate,)
+
+   app.run()
+   #+END_SRC
+
+   Flask code looks like regular Flask code!
 
 * Twisted in Gevent
 
