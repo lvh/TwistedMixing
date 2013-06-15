@@ -173,10 +173,10 @@
 
 ** Demo time!
 
-   * Flask app, served by Twisted
-   * SockJS chat, also served by Twisted
+   Flask app (served by =t.w.wsgi=) + SockJS chat (=txsockjs=)
 
-   file:media/twistyflask-tox-run.mp4
+   * file:media/twistyflask-tox-run.mp4
+   * file:media/twistyflask-demo.mp4
 
 ** Demo notes
 
