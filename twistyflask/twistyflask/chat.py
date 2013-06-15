@@ -58,6 +58,7 @@ class ChatProtocol(protocol.Protocol):
         log.LogEntry(store=self.store, message=message, sender=self.name)
 
 
+
 class ChatFactory(protocol.ServerFactory):
     """
     A chat factory with a single shared channel.
