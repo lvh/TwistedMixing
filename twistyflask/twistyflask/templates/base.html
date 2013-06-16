@@ -9,7 +9,7 @@
 <body>
 <h1>twistyflask!!!</h1>
 
-<img src="http://yellow5.com/pokey/archive/pokey.gif">
+<img src="{{ url_for('static', filename='pokey.gif') }}">
 <p>POKEY THE PENGUIN IS COPYRIGHT © 1998-2013 THE AUTHORS</p>
 
 {% block content %}{% endblock %}
