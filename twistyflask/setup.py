@@ -3,11 +3,11 @@ from setuptools import setup
 from setuptools.command import egg_info
 from setuptools.command.test import test as TestCommand
 
-def _topLevel(name):
+def _top_level(name):
     return name.split('.', 1)[0]
 
 def _hacked_write_toplevel_names(cmd, basename, filename):
-    names = map(_topLevel, cmd.distribution.iter_distribution_names())
+    names = map(_top_level, cmd.distribution.iter_distribution_names())
     pkgs = dict.fromkeys(set(names) - set(["twisted"]))
     cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
 
