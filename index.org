@@ -181,8 +181,8 @@
 
    Flask app (served by =t.w.wsgi=) + SockJS chat (=txsockjs=)
 
-   * file:media/twistyflask-tox-run.mp4
-   * file:media/twistyflask-demo.mp4
+   * [[file:media/twistyflask-tox-run.mp4][Test run]]
+   * [[file:media/twistyflask-demo.mp4][Demo]]
 
 ** Demo notes
 
@@ -342,7 +342,7 @@
      * Runs in a separate thread using =crochet=
    * Flask app serves the latest exchange rate
 
-   file:media/twistycrochet-demo.mp4
+   [[file:media/twistycrochet-demo.mp4][Demo]]
 
 ** How does it work? Twisted part
 
