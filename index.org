@@ -385,39 +385,31 @@
 
    =jyio/geventreactor=
 
+** Setting it up
+
+   =import geventreactor=
+
+   =geventreactor.install()=
+
+** "Blocking" code
+
+   * Gevent-style "blocking", i.e.  automagic suspending
    #+ATTR_REVEAL: :frag roll-in
-   * Just another reactor backend for Twisted
+   * Supported in most places
      #+ATTR_REVEAL: :frag roll-in
-     * Not a huge gross hack ☺
-   * You can use "blocking code" in a lot of places
-     #+ATTR_REVEAL: :frag roll-in
-     * That means "code =gevent= can make non-blocking"
-     * Blocking the reactor greenlet: still not okay
+     * Suspending the reactor greenlet: bad
+     * Actually blocking anything: bad
      * Earlier =requests.get= example: probably okay
 
-** Components
+** Deferreds ↔ greenlets
 
-   #+ATTR_REVEAL: :frag roll-in
-   * =GeventReactor=
-     * =import geventreactor; geventreactor.install()=
-   * =GeventThreadPool=
-     * Like Twisted's thread pools
-     * Except greenlets, not actually threads
-   * =GeventResolver=
+  =r = waitForDeferred(d)=
 
-** Bi-directional bridge
+  =d = waitForGreenlet(g)=
 
-   #+ATTR_REVEAL: :frag roll-in
-   * =waitForDeferred=: "blocks" until Deferred fires
-     #+BEGIN_SRC python
-     result = waitForDeferred(getPage(url))
-     #+END_SRC
-   * =waitForGreenlet=: greenlet → Deferred
-     #+BEGIN_SRC python
-     return waitForGreenlet(Greenlet.spawn(f, *a, **kw))
-     #+END_SRC
+** Demonstration
 
-** Demo time
+   TODO
 
 * Recap
 

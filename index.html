@@ -359,7 +359,7 @@ Flask app (served by <code>t.w.wsgi</code>) + SockJS chat (<code>txsockjs</code>
 <ul class="org-ul">
 <li><a href="media/twistyflask-tox-run.mp4">Test run</a>
 </li>
-<li><a href="media/twistyflask-demo.mp4">media/twistyflask-demo.mp4</a>
+<li><a href="media/twistyflask-demo.mp4">Demo</a>
 </li>
 </ul>
 </section>
@@ -667,7 +667,7 @@ setup()
 </ul>
 
 <p>
-<a href="media/twistycrochet-demo.mp4">media/twistycrochet-demo.mp4</a>
+<a href="media/twistycrochet-demo.mp4">Demo</a>
 </p>
 </section>
 <section id="sec-5-6" >
@@ -729,19 +729,31 @@ Flask code looks like regular Flask code!
 <p>
 <code>jyio/geventreactor</code>
 </p>
+</section>
+<section id="sec-6-2" >
 
+<h3><span class="section-number-3">6.2</span> Setting it up</h3>
+<p>
+<code>import geventreactor</code>
+</p>
+
+<p>
+<code>geventreactor.install()</code>
+</p>
+</section>
+<section id="sec-6-3" >
+
+<h3><span class="section-number-3">6.3</span> "Blocking" code</h3>
 <ul class="org-ul">
-<li class="fragment roll-in">Just another reactor backend for Twisted
-<ul class="org-ul">
-<li class="fragment roll-in">Not a huge gross hack ☺
+<li>Gevent-style "blocking", i.e.  automagic suspending
 </li>
 </ul>
-</li>
-<li class="fragment roll-in">You can use "blocking code" in a lot of places
 <ul class="org-ul">
-<li class="fragment roll-in">That means "code <code>gevent</code> can make non-blocking"
+<li class="fragment roll-in">Supported in most places
+<ul class="org-ul">
+<li class="fragment roll-in">Suspending the reactor greenlet: bad
 </li>
-<li class="fragment roll-in">Blocking the reactor greenlet: still not okay
+<li class="fragment roll-in">Actually blocking anything: bad
 </li>
 <li class="fragment roll-in">Earlier <code>requests.get</code> example: probably okay
 </li>
@@ -749,51 +761,23 @@ Flask code looks like regular Flask code!
 </li>
 </ul>
 </section>
-<section id="sec-6-2" >
-
-<h3><span class="section-number-3">6.2</span> Components</h3>
-<ul class="org-ul">
-<li class="fragment roll-in"><code>GeventReactor</code>
-<ul class="org-ul">
-<li><code>import geventreactor; geventreactor.install()</code>
-</li>
-</ul>
-</li>
-<li class="fragment roll-in"><code>GeventThreadPool</code>
-<ul class="org-ul">
-<li>Like Twisted's thread pools
-</li>
-<li>Except greenlets, not actually threads
-</li>
-</ul>
-</li>
-<li class="fragment roll-in"><code>GeventResolver</code>
-</li>
-</ul>
-</section>
-<section id="sec-6-3" >
-
-<h3><span class="section-number-3">6.3</span> Bi-directional bridge</h3>
-<ul class="org-ul">
-<li class="fragment roll-in"><code>waitForDeferred</code>: "blocks" until Deferred fires
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #a0522d;">result</span> = waitForDeferred(getPage(url))
-</pre>
-</div>
-</li>
-<li class="fragment roll-in"><code>waitForGreenlet</code>: greenlet → Deferred
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #7f007f;">return</span> waitForGreenlet(Greenlet.spawn(f, *a, **kw))
-</pre>
-</div>
-</li>
-</ul>
-</section>
 <section id="sec-6-4" >
 
-<h3><span class="section-number-3">6.4</span> Demo time</h3>
+<h3><span class="section-number-3">6.4</span> Deferreds ↔ greenlets</h3>
+<p>
+<code>r = waitForDeferred(d)</code>
+</p>
+
+<p>
+<code>d = waitForGreenlet(g)</code>
+</p>
+</section>
+<section id="sec-6-5" >
+
+<h3><span class="section-number-3">6.5</span> Demonstration</h3>
+<p>
+TODO
+</p>
 </section>
 </section>
 <section>
