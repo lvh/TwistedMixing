@@ -4,7 +4,7 @@
 
 #+OPTIONS: toc:nil
 #+REVEAL_TRANS: linear
-#+REVEAL_THEME: beige
+#+REVEAL_THEME: lvh
 
 * Introduction
 ** About me
