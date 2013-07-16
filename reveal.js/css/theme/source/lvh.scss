@@ -30,7 +30,7 @@ $linkColor: #f00;
 $linkColorHover: darken($linkColor, 10%);
 $selectionBackgroundColor: rgba(0, 0, 0, 0.99);
 
-.reveal code {
+.reveal code, .reveal .src {
   font-family: Menlo, monospace;
 }
 
