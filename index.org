@@ -12,6 +12,11 @@
 
    I hack on and with Twisted.
 
+** Rackspace
+
+   #+ATTR_HTML: :style border:none
+   [[./media/rackspace.svg]]
+
 ** About this talk
 
    #+ATTR_REVEAL: :frag roll-in

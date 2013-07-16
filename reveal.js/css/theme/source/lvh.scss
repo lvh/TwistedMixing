@@ -34,6 +34,14 @@ $selectionBackgroundColor: rgba(0, 0, 0, 0.99);
   font-family: Menlo, monospace;
 }
 
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(255,255,255,0.12);
+
+  border: none !important;
+  box-shadow: none !important;
+}
+
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------

@@ -10,6 +10,12 @@
 .reveal code {
   font-family: Menlo, monospace; }
 
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(255, 255, 255, 0.12);
+  border: none !important;
+  box-shadow: none !important; }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
