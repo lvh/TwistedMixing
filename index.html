@@ -5,7 +5,9 @@
 <meta charset="utf-8"><title>(Twisted Mixing)</title>
 <meta name="author" content="(Laurens Van Houtven)"/>
 <link rel="stylesheet" href="./reveal.js/css/reveal.min.css">
-    <link rel="stylesheet" href="./reveal.js/css/theme/lvh.css" id="theme">
+<link rel="stylesheet" href="./reveal.js/css/theme/lvh.css" id="theme">
+
+<link rel="stylesheet" href="./reveal.js/css/print/pdf.css" type="text/css" media="print">
 </head>
 <body>
 <div class="reveal">
@@ -17,11 +19,11 @@
 <h2></h2></section>
 
 <section>
-<section>
+<section id="sec-1" >
 
 <h2><span class="section-number-2">1</span> Introduction</h2>
 </section>
-<section>
+<section id="sec-1-1" >
 
 <h3><span class="section-number-3">1.1</span> About me</h3>
 <p>
@@ -32,7 +34,7 @@ Hi, I'm <code>lvh</code>.
 I hack on and with Twisted.
 </p>
 </section>
-<section>
+<section id="sec-1-2" >
 
 <h3><span class="section-number-3">1.2</span> About this talk</h3>
 <ul class="org-ul">
@@ -48,7 +50,7 @@ I hack on and with Twisted.
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-1-3" >
 
 <h3><span class="section-number-3">1.3</span> Why should you care?</h3>
 <ul class="org-ul">
@@ -90,7 +92,7 @@ I hack on and with Twisted.
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-1-4" >
 
 <h3><span class="section-number-3">1.4</span> Prerequisites</h3>
 <ul class="org-ul">
@@ -108,11 +110,11 @@ I hack on and with Twisted.
 </section>
 </section>
 <section>
-<section>
+<section id="sec-2" >
 
 <h2><span class="section-number-2">2</span> Introducing Twisted</h2>
 </section>
-<section>
+<section id="sec-2-1" >
 
 <h3><span class="section-number-3">2.1</span> Reactor</h3>
 <ul class="org-ul">
@@ -136,7 +138,7 @@ I hack on and with Twisted.
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-2-2" >
 
 <h3><span class="section-number-3">2.2</span> Reactor interfaces</h3>
 <p>
@@ -160,7 +162,7 @@ Usually you call higher-level APIs!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-2-3" >
 
 <h3><span class="section-number-3">2.3</span> Deferred</h3>
 <p>
@@ -171,7 +173,7 @@ An object you get <b>now</b>,
 gets you result or failure <b>later</b>
 </p>
 </section>
-<section>
+<section id="sec-2-4" >
 
 <h3><span class="section-number-3">2.4</span> Why deferreds?</h3>
 <ul class="org-ul">
@@ -197,7 +199,7 @@ gets you result or failure <b>later</b>
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-2-5" >
 
 <h3><span class="section-number-3">2.5</span> Deferred vs blocking API</h3>
 <p>
@@ -223,7 +225,7 @@ d.addCallbacks(on_result, on_failure)
 </pre>
 </div>
 </section>
-<section>
+<section id="sec-2-6" >
 
 <h3><span class="section-number-3">2.6</span> Inline callbacks vs blocking API</h3>
 <p>
@@ -254,18 +256,18 @@ Blocking read:
 </section>
 </section>
 <section>
-<section>
+<section id="sec-3" >
 
 <h2><span class="section-number-2">3</span> Twisted and your app</h2>
 </section>
-<section>
+<section id="sec-3-1" >
 
 <h3><span class="section-number-3">3.1</span> Is there even a problem?</h3>
 <p>
 Maybe it's trivial to get started!
 </p>
 </section>
-<section>
+<section id="sec-3-2" >
 
 <h3><span class="section-number-3">3.2</span> SOA</h3>
 <ul class="org-ul">
@@ -282,7 +284,7 @@ Maybe it's trivial to get started!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-3-3" >
 
 <h3><span class="section-number-3">3.3</span> WSGI</h3>
 <ul class="org-ul">
@@ -305,7 +307,7 @@ Maybe it's trivial to get started!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-3-4" >
 
 <h3><span class="section-number-3">3.4</span> Porting your app to Twisted</h3>
 <ul class="org-ul">
@@ -327,7 +329,7 @@ Maybe it's trivial to get started!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-3-5" >
 
 <h3><span class="section-number-3">3.5</span> Writing code that works on both</h3>
 <ul class="org-ul">
@@ -339,7 +341,7 @@ Maybe it's trivial to get started!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-3-6" >
 
 <h3><span class="section-number-3">3.6</span> Demo time!</h3>
 <p>
@@ -353,7 +355,7 @@ Flask app (served by <code>t.w.wsgi</code>) + SockJS chat (<code>txsockjs</code>
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-3-7" >
 
 <h3><span class="section-number-3">3.7</span> Demo notes</h3>
 <ul class="org-ul">
@@ -381,11 +383,11 @@ Flask app (served by <code>t.w.wsgi</code>) + SockJS chat (<code>txsockjs</code>
 </section>
 </section>
 <section>
-<section>
+<section id="sec-4" >
 
 <h2><span class="section-number-2">4</span> Blocking code in Twisted</h2>
 </section>
-<section>
+<section id="sec-4-1" >
 
 <h3><span class="section-number-3">4.1</span> You can't block the reactor thread</h3>
 <ul class="org-ul">
@@ -409,7 +411,7 @@ Flask app (served by <code>t.w.wsgi</code>) + SockJS chat (<code>txsockjs</code>
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-4-2" >
 
 <h3><span class="section-number-3">4.2</span> Blocking in a callback is bad!</h3>
 <p>
@@ -435,7 +437,7 @@ Blocking computation
 </pre>
 </div>
 </section>
-<section>
+<section id="sec-4-3" >
 
 <h3><span class="section-number-3">4.3</span> Can't block the reactor thread!</h3>
 <p>
@@ -449,7 +451,7 @@ Therefore, you have two options:
 </li>
 </ol>
 </section>
-<section>
+<section id="sec-4-4" >
 
 <h3><span class="section-number-3">4.4</span> Don't block</h3>
 <p>
@@ -460,7 +462,7 @@ IO bound? Be asynchronous!
 CPU bound? Cooperate with the event loop!
 </p>
 </section>
-<section>
+<section id="sec-4-5" >
 
 <h3><span class="section-number-3">4.5</span> Asynchronous I/O version</h3>
 <p>
@@ -473,7 +475,7 @@ CPU bound? Cooperate with the event loop!
 </pre>
 </div>
 </section>
-<section>
+<section id="sec-4-6" >
 
 <h3><span class="section-number-3">4.6</span> Cooperative version</h3>
 <p>
@@ -493,7 +495,7 @@ coiterate(_compute(n))
 </pre>
 </div>
 </section>
-<section>
+<section id="sec-4-7" >
 
 <h3><span class="section-number-3">4.7</span> Don't block?</h3>
 <p>
@@ -521,7 +523,7 @@ Avoiding blocking isn't always possible
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-4-8" >
 
 <h3><span class="section-number-3">4.8</span> Block somewhere else</h3>
 <p>
@@ -541,7 +543,7 @@ Can't block the reactor thread → block a different one!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-4-9" >
 
 <h3><span class="section-number-3">4.9</span> deferToThread</h3>
 <ul class="org-ul">
@@ -573,18 +575,18 @@ Can't block the reactor thread → block a different one!
 </section>
 </section>
 <section>
-<section>
+<section id="sec-5" >
 
 <h2><span class="section-number-2">5</span> Twisted in blocking code</h2>
 </section>
-<section>
+<section id="sec-5-1" >
 
 <h3><span class="section-number-3">5.1</span> New hotness!</h3>
 <p>
 <code>itamarst/crochet</code>
 </p>
 </section>
-<section>
+<section id="sec-5-2" >
 
 <h3><span class="section-number-3">5.2</span> Setting it up</h3>
 <p>
@@ -600,7 +602,7 @@ Can't block the reactor thread → block a different one!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-5-3" >
 
 <h3><span class="section-number-3">5.3</span> Using it</h3>
 <ul class="org-ul">
@@ -624,7 +626,7 @@ Can't block the reactor thread → block a different one!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-5-4" >
 
 <h3><span class="section-number-3">5.4</span> Example</h3>
 <div class="org-src-container">
@@ -642,7 +644,7 @@ setup()
 </pre>
 </div>
 </section>
-<section>
+<section id="sec-5-5" >
 
 <h3><span class="section-number-3">5.5</span> Longer example: exchange rates</h3>
 <ul class="org-ul">
@@ -660,7 +662,7 @@ setup()
 <a href="media/twistycrochet-demo.mp4">media/twistycrochet-demo.mp4</a>
 </p>
 </section>
-<section>
+<section id="sec-5-6" >
 
 <h3><span class="section-number-3">5.6</span> How does it work? Twisted part</h3>
 <div class="org-src-container">
@@ -687,7 +689,7 @@ Twisted code looks like regular Twisted code!
 (But remember the <code>@run_in_reactor</code>)
 </p>
 </section>
-<section>
+<section id="sec-5-7" >
 
 <h3><span class="section-number-3">5.7</span> How does it work? Flask part</h3>
 <div class="org-src-container">
@@ -709,11 +711,11 @@ Flask code looks like regular Flask code!
 </section>
 </section>
 <section>
-<section>
+<section id="sec-6" >
 
 <h2><span class="section-number-2">6</span> Twisted in Gevent</h2>
 </section>
-<section>
+<section id="sec-6-1" >
 
 <h3><span class="section-number-3">6.1</span> Water and fire, but it works</h3>
 <p>
@@ -739,7 +741,7 @@ Flask code looks like regular Flask code!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-6-2" >
 
 <h3><span class="section-number-3">6.2</span> Components</h3>
 <ul class="org-ul">
@@ -761,7 +763,7 @@ Flask code looks like regular Flask code!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-6-3" >
 
 <h3><span class="section-number-3">6.3</span> Bi-directional bridge</h3>
 <ul class="org-ul">
@@ -781,17 +783,17 @@ Flask code looks like regular Flask code!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-6-4" >
 
 <h3><span class="section-number-3">6.4</span> Demo time</h3>
 </section>
 </section>
 <section>
-<section>
+<section id="sec-7" >
 
 <h2><span class="section-number-2">7</span> Recap</h2>
 </section>
-<section>
+<section id="sec-7-1" >
 
 <h3><span class="section-number-3">7.1</span> Twisted plays well with others</h3>
 <ul class="org-ul">
@@ -833,7 +835,7 @@ Flask code looks like regular Flask code!
 </li>
 </ul>
 </section>
-<section>
+<section id="sec-7-2" >
 
 <h3><span class="section-number-3">7.2</span> Conclusion</h3>
 <ul class="org-ul">
@@ -849,7 +851,7 @@ Flask code looks like regular Flask code!
 </section>
 </section>
 <section>
-<section>
+<section id="sec-8" >
 
 <h2><span class="section-number-2">8</span> Questions?</h2>
 </section>
@@ -867,9 +869,19 @@ Flask code looks like regular Flask code!
         			progress: true,
         			history: true,
         			center: true,
+        			rollingLinks: false,
+        			keyboard: true,
+        			overview: true,
+        			 // slide width
+        			 // slide height
+        			 // slide margin
+        			 // slide minimum scaling factor
+        			 // slide maximum scaling factor
+
 
         			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
         			transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+        			transitionSpeed: 'default',
 
         			// Optional libraries used to extend on reveal.js
         			dependencies: [
