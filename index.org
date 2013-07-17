@@ -179,10 +179,10 @@
 
 ** Demo
 
-   Flask app (served by =t.w.wsgi=) + SockJS chat (=txsockjs=)
+   * Flask app, served by =t.w.wsgi=
+   * Real-time chat, with =txsockjs=
 
-   * [[file:media/twistyflask-tox-run.mp4][Test run]]
-   * [[file:media/twistyflask-demo.mp4][Demo]]
+   [[file:media/twistyflask-tox-run.mp4][Test run]], [[file:media/twistyflask-demo.mp4][demo]]
 
 ** Demo notes
 
