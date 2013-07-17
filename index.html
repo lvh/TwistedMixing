@@ -351,7 +351,7 @@ Maybe it's trivial to get started!
 </section>
 <section id="sec-3-6" >
 
-<h3><span class="section-number-3">3.6</span> Demo time!</h3>
+<h3><span class="section-number-3">3.6</span> Demo</h3>
 <p>
 Flask app (served by <code>t.w.wsgi</code>) + SockJS chat (<code>txsockjs</code>)
 </p>
@@ -604,9 +604,9 @@ Can't block the reactor thread → block a different one!
 <ul class="org-ul">
 <li class="fragment roll-in">Spawns a thread, runs the reactor in it
 </li>
-<li class="fragment roll-in">Makes <code>logging</code> magically work
-</li>
 <li class="fragment roll-in">Idempotent
+</li>
+<li class="fragment roll-in">Makes <code>logging</code> magically work
 </li>
 </ul>
 </section>
@@ -679,13 +679,15 @@ setup()
     <span style="color: #b22222;"># </span><span style="color: #b22222;">...</span>
 
     <span style="color: #228b22;">@run_in_reactor</span>
-    <span style="color: #7f007f;">def</span> <span style="color: #0000ff;">start</span>(<span style="color: #7f007f;">self</span>): <span style="color: #b22222;"># </span><span style="color: #b22222;">called in reactor thread because of decorator</span>
+    <span style="color: #7f007f;">def</span> <span style="color: #0000ff;">start</span>(<span style="color: #7f007f;">self</span>):
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">in reactor thread because of decorator</span>
         <span style="color: #7f007f;">self</span>._lc = LoopingCall(<span style="color: #7f007f;">self</span>._download)
         <span style="color: #7f007f;">self</span>._lc.start(30, now=<span style="color: #008b8b;">True</span>)
 
-    <span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_download</span>(<span style="color: #7f007f;">self</span>): <span style="color: #b22222;"># </span><span style="color: #b22222;">gets called by LoopingCall, so in reactor thread</span>
-        <span style="color: #a0522d;">d</span> = getPage(<span style="color: #8b2252;">"http://download.finance.yahoo.com/..."</span>)
-        <span style="color: #b22222;"># </span><span style="color: #b22222;">parse data, set current exchange rate</span>
+    <span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_download</span>(<span style="color: #7f007f;">self</span>):
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">in reactor thread because of LoopingCall</span>
+        <span style="color: #a0522d;">d</span> = getPage(url)
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">...</span>
 </pre>
 </div>
 
@@ -703,11 +705,12 @@ Twisted code looks like regular Twisted code!
 <div class="org-src-container">
 
 <pre class="src src-python"><span style="color: #228b22;">@app.route</span>(<span style="color: #8b2252;">'/'</span>)
-<span style="color: #7f007f;">def</span> <span style="color: #0000ff;">index</span>(): <span style="color: #b22222;"># </span><span style="color: #b22222;">runs in whatever thread app.run() runs it from</span>
+<span style="color: #7f007f;">def</span> <span style="color: #0000ff;">index</span>():
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">runs in whatever thread app.run() runs it in</span>
     <span style="color: #a0522d;">rate</span> = EURUSD.latest_value()
     <span style="color: #7f007f;">if</span> rate <span style="color: #7f007f;">is</span> <span style="color: #008b8b;">None</span>:
-        <span style="color: #a0522d;">rate</span> = <span style="color: #8b2252;">"unavailable, please refresh the page"</span>
-    <span style="color: #7f007f;">return</span> <span style="color: #8b2252;">"Current EUR/USD exchange rate is %s."</span> % (rate,)
+        <span style="color: #a0522d;">rate</span> = <span style="color: #8b2252;">"unavailable"</span>
+    <span style="color: #7f007f;">return</span> <span style="color: #8b2252;">"EUR/USD rate: {0}."</span>.<span style="color: #483d8b;">format</span>(rate)
 
 app.run()
 </pre>
@@ -774,7 +777,7 @@ Flask code looks like regular Flask code!
 </section>
 <section id="sec-6-5" >
 
-<h3><span class="section-number-3">6.5</span> Demonstration</h3>
+<h3><span class="section-number-3">6.5</span> Demo</h3>
 <p>
 TODO
 </p>
