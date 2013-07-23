@@ -439,7 +439,7 @@ Blocking computation
 
 <pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_compute</span>(n):
     <span style="color: #a0522d;">x</span> = 2
-    <span style="color: #7f007f;">for</span> _ <span style="color: #7f007f;">in</span> <span style="color: #483d8b;">xrange</span>(n): <span style="color: #b22222;"># </span><span style="color: #b22222;">BLOCKS! (for sufficiently large n)</span>
+    <span style="color: #7f007f;">for</span> _ <span style="color: #7f007f;">in</span> <span style="color: #483d8b;">xrange</span>(n): <span style="color: #b22222;"># </span><span style="color: #b22222;">BLOCKS! (for large n)</span>
         <span style="color: #a0522d;">x</span> *= x
     send_somewhere(x)
 </pre>
@@ -479,7 +479,9 @@ CPU bound? Cooperate with the event loop!
 <div class="org-src-container">
 
 <pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_getDataAtURL</span>(url):
-    <span style="color: #7f007f;">return</span> treq.get(url).addCallback(treq.json_content) <span style="color: #b22222;"># </span><span style="color: #b22222;">async :)</span>
+    <span style="color: #a0522d;">d</span> = treq.get(url)
+    d.addCallback(treq.json_content)
+    <span style="color: #7f007f;">return</span> d
 </pre>
 </div>
 </section>

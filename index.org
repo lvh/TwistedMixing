@@ -219,7 +219,7 @@
    #+BEGIN_SRC python
    def _compute(n):
        x = 2
-       for _ in xrange(n): # BLOCKS! (for sufficiently large n)
+       for _ in xrange(n): # BLOCKS! (for large n)
            x *= x
        send_somewhere(x)
    #+END_SRC
@@ -242,7 +242,9 @@
    =treq=: =requests=-like, but asynchronous
    #+BEGIN_SRC python
    def _getDataAtURL(url):
-       return treq.get(url).addCallback(treq.json_content) # async :)
+       d = treq.get(url)
+       d.addCallback(treq.json_content)
+       return d
    #+END_SRC
 
 ** Cooperative version
