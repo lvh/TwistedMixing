@@ -2,7 +2,7 @@
 #+Author: Laurens Van Houtven
 #+Email: @lvh
 
-#+OPTIONS: toc:nil reveal_rolling_links:nil
+#+OPTIONS: toc:nil reveal_rolling_links:nil num:nil
 #+REVEAL_TRANS: linear
 #+REVEAL_THEME: lvh
 

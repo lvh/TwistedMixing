@@ -21,11 +21,11 @@
 <section>
 <section id="sec-1" >
 
-<h2><span class="section-number-2">1</span> Introduction</h2>
+<h2>Introduction</h2>
 </section>
 <section id="sec-1-1" >
 
-<h3><span class="section-number-3">1.1</span> About me</h3>
+<h3>About me</h3>
 <p>
 Hi, I'm <code>lvh</code>.
 </p>
@@ -36,7 +36,7 @@ I hack on and with Twisted.
 </section>
 <section id="sec-1-2" >
 
-<h3><span class="section-number-3">1.2</span> Rackspace</h3>
+<h3>Rackspace</h3>
 
 <div class="figure">
 <p><img src="./media/rackspace.svg" style="border:none" alt="rackspace.svg"/></p>
@@ -44,7 +44,7 @@ I hack on and with Twisted.
 </section>
 <section id="sec-1-3" >
 
-<h3><span class="section-number-3">1.3</span> About this talk</h3>
+<h3>About this talk</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Twisted code ↔ other code
 </li>
@@ -60,7 +60,7 @@ I hack on and with Twisted.
 </section>
 <section id="sec-1-4" >
 
-<h3><span class="section-number-3">1.4</span> Why should you care?</h3>
+<h3>Why should you care?</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Twisted has some cool stuff in and around it
 <ul class="org-ul">
@@ -102,7 +102,7 @@ I hack on and with Twisted.
 </section>
 <section id="sec-1-5" >
 
-<h3><span class="section-number-3">1.5</span> Prerequisites</h3>
+<h3>Prerequisites</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Ideally, just Python
 </li>
@@ -120,11 +120,11 @@ I hack on and with Twisted.
 <section>
 <section id="sec-2" >
 
-<h2><span class="section-number-2">2</span> Introducing Twisted</h2>
+<h2>Introducing Twisted</h2>
 </section>
 <section id="sec-2-1" >
 
-<h3><span class="section-number-3">2.1</span> Reactor</h3>
+<h3>Reactor</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Object
 <ul class="org-ul">
@@ -148,7 +148,7 @@ I hack on and with Twisted.
 </section>
 <section id="sec-2-2" >
 
-<h3><span class="section-number-3">2.2</span> Reactor interfaces</h3>
+<h3>Reactor interfaces</h3>
 <p>
 Usually you call higher-level APIs!
 </p>
@@ -172,7 +172,7 @@ Usually you call higher-level APIs!
 </section>
 <section id="sec-2-3" >
 
-<h3><span class="section-number-3">2.3</span> Deferred</h3>
+<h3>Deferred</h3>
 <p>
 An object you get <b>now</b>,
 </p>
@@ -183,7 +183,7 @@ gets you result or failure <b>later</b>
 </section>
 <section id="sec-2-4" >
 
-<h3><span class="section-number-3">2.4</span> Why deferreds?</h3>
+<h3>Why deferreds?</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Many operations take time: <b>can't</b> get a result right now
 </li>
@@ -209,7 +209,7 @@ gets you result or failure <b>later</b>
 </section>
 <section id="sec-2-5" >
 
-<h3><span class="section-number-3">2.5</span> Deferred vs blocking API</h3>
+<h3>Deferred vs blocking API</h3>
 <p>
 Blocking read:
 </p>
@@ -235,7 +235,7 @@ d.addCallbacks(on_result, on_failure)
 </section>
 <section id="sec-2-6" >
 
-<h3><span class="section-number-3">2.6</span> Inline callbacks vs blocking API</h3>
+<h3>Inline callbacks vs blocking API</h3>
 <p>
 Blocking read:
 </p>
@@ -266,18 +266,18 @@ Blocking read:
 <section>
 <section id="sec-3" >
 
-<h2><span class="section-number-2">3</span> Twisted and your app</h2>
+<h2>Twisted and your app</h2>
 </section>
 <section id="sec-3-1" >
 
-<h3><span class="section-number-3">3.1</span> Is there even a problem?</h3>
+<h3>Is there even a problem?</h3>
 <p>
 Maybe it's trivial to get started!
 </p>
 </section>
 <section id="sec-3-2" >
 
-<h3><span class="section-number-3">3.2</span> SOA</h3>
+<h3>SOA</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Service Oriented Architecture
 <ul class="org-ul">
@@ -294,7 +294,7 @@ Maybe it's trivial to get started!
 </section>
 <section id="sec-3-3" >
 
-<h3><span class="section-number-3">3.3</span> WSGI</h3>
+<h3>WSGI</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">How many of you have a WSGI application?
 </li>
@@ -317,7 +317,7 @@ Maybe it's trivial to get started!
 </section>
 <section id="sec-3-4" >
 
-<h3><span class="section-number-3">3.4</span> Porting your app to Twisted</h3>
+<h3>Porting your app to Twisted</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">No, it's not trivial
 <ul class="org-ul">
@@ -339,7 +339,7 @@ Maybe it's trivial to get started!
 </section>
 <section id="sec-3-5" >
 
-<h3><span class="section-number-3">3.5</span> Writing code that works on both</h3>
+<h3>Writing code that works on both</h3>
 <ul class="org-ul">
 <li>Not trivial, not hard either
 </li>
@@ -351,7 +351,7 @@ Maybe it's trivial to get started!
 </section>
 <section id="sec-3-6" >
 
-<h3><span class="section-number-3">3.6</span> Demo</h3>
+<h3>Demo</h3>
 <ul class="org-ul">
 <li>Flask app, served by <code>t.w.wsgi</code>
 </li>
@@ -365,7 +365,7 @@ Maybe it's trivial to get started!
 </section>
 <section id="sec-3-7" >
 
-<h3><span class="section-number-3">3.7</span> Demo notes</h3>
+<h3>Demo notes</h3>
 <ul class="org-ul">
 <li><code>Klein</code>: Flask-like basic API, except Twisted by default
 </li>
@@ -393,11 +393,11 @@ Maybe it's trivial to get started!
 <section>
 <section id="sec-4" >
 
-<h2><span class="section-number-2">4</span> Blocking code in Twisted</h2>
+<h2>Blocking code in Twisted</h2>
 </section>
 <section id="sec-4-1" >
 
-<h3><span class="section-number-3">4.1</span> You can't block the reactor thread</h3>
+<h3>You can't block the reactor thread</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Twisted is event-driven
 <ul class="org-ul">
@@ -421,7 +421,7 @@ Maybe it's trivial to get started!
 </section>
 <section id="sec-4-2" >
 
-<h3><span class="section-number-3">4.2</span> Blocking in a callback is bad!</h3>
+<h3>Blocking in a callback is bad!</h3>
 <p>
 Blocking IO
 </p>
@@ -447,7 +447,7 @@ Blocking computation
 </section>
 <section id="sec-4-3" >
 
-<h3><span class="section-number-3">4.3</span> Can't block the reactor thread!</h3>
+<h3>Can't block the reactor thread!</h3>
 <p>
 Therefore, you have two options:
 </p>
@@ -461,7 +461,7 @@ Therefore, you have two options:
 </section>
 <section id="sec-4-4" >
 
-<h3><span class="section-number-3">4.4</span> Don't block</h3>
+<h3>Don't block</h3>
 <p>
 IO bound? Be asynchronous!
 </p>
@@ -472,7 +472,7 @@ CPU bound? Cooperate with the event loop!
 </section>
 <section id="sec-4-5" >
 
-<h3><span class="section-number-3">4.5</span> Asynchronous I/O version</h3>
+<h3>Asynchronous I/O version</h3>
 <p>
 <code>treq</code>: <code>requests</code>-like, but asynchronous
 </p>
@@ -487,7 +487,7 @@ CPU bound? Cooperate with the event loop!
 </section>
 <section id="sec-4-6" >
 
-<h3><span class="section-number-3">4.6</span> Cooperative version</h3>
+<h3>Cooperative version</h3>
 <p>
 <code>twisted.internet.task.coiterate</code> and friends
 </p>
@@ -507,7 +507,7 @@ coiterate(_compute(n))
 </section>
 <section id="sec-4-7" >
 
-<h3><span class="section-number-3">4.7</span> Don't block?</h3>
+<h3>Don't block?</h3>
 <p>
 Avoiding blocking isn't always possible
 </p>
@@ -535,7 +535,7 @@ Avoiding blocking isn't always possible
 </section>
 <section id="sec-4-8" >
 
-<h3><span class="section-number-3">4.8</span> Block somewhere else</h3>
+<h3>Block somewhere else</h3>
 <p>
 Can't block the reactor thread → block a different one!
 </p>
@@ -555,7 +555,7 @@ Can't block the reactor thread → block a different one!
 </section>
 <section id="sec-4-9" >
 
-<h3><span class="section-number-3">4.9</span> deferToThread</h3>
+<h3>deferToThread</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Easy automagic deferreds!
 </li>
@@ -575,18 +575,18 @@ Can't block the reactor thread → block a different one!
 <section>
 <section id="sec-5" >
 
-<h2><span class="section-number-2">5</span> Twisted in blocking code</h2>
+<h2>Twisted in blocking code</h2>
 </section>
 <section id="sec-5-1" >
 
-<h3><span class="section-number-3">5.1</span> New hotness!</h3>
+<h3>New hotness!</h3>
 <p>
 <code>itamarst/crochet</code>
 </p>
 </section>
 <section id="sec-5-2" >
 
-<h3><span class="section-number-3">5.2</span> Setting it up</h3>
+<h3>Setting it up</h3>
 <p>
 <code>from crochet import setup; setup()</code>
 </p>
@@ -602,7 +602,7 @@ Can't block the reactor thread → block a different one!
 </section>
 <section id="sec-5-3" >
 
-<h3><span class="section-number-3">5.3</span> Using it</h3>
+<h3>Using it</h3>
 <ul class="org-ul">
 <li class="fragment roll-in"><code>@run_in_reactor</code>
 <ul class="org-ul">
@@ -626,7 +626,7 @@ Can't block the reactor thread → block a different one!
 </section>
 <section id="sec-5-4" >
 
-<h3><span class="section-number-3">5.4</span> Example</h3>
+<h3>Example</h3>
 <div class="org-src-container">
 
 <pre class="src src-python"><span style="color: #7f007f;">from</span> twisted.web.client <span style="color: #7f007f;">import</span> getPage
@@ -644,7 +644,7 @@ setup()
 </section>
 <section id="sec-5-5" >
 
-<h3><span class="section-number-3">5.5</span> Longer example: exchange rates</h3>
+<h3>Longer example: exchange rates</h3>
 <ul class="org-ul">
 <li>Twisted queries exchange rate every 30s
 <ul class="org-ul">
@@ -662,7 +662,7 @@ setup()
 </section>
 <section id="sec-5-6" >
 
-<h3><span class="section-number-3">5.6</span> How does it work? Twisted part</h3>
+<h3>How does it work? Twisted part</h3>
 <div class="org-src-container">
 
 <pre class="src src-python"><span style="color: #7f007f;">class</span> <span style="color: #228b22;">ExchangeRate</span>(<span style="color: #483d8b;">object</span>):
@@ -691,7 +691,7 @@ Twisted code looks like regular Twisted code!
 </section>
 <section id="sec-5-7" >
 
-<h3><span class="section-number-3">5.7</span> How does it work? Flask part</h3>
+<h3>How does it work? Flask part</h3>
 <div class="org-src-container">
 
 <pre class="src src-python"><span style="color: #228b22;">@app.route</span>(<span style="color: #8b2252;">'/'</span>)
@@ -714,18 +714,18 @@ Flask code looks like regular Flask code!
 <section>
 <section id="sec-6" >
 
-<h2><span class="section-number-2">6</span> Twisted in Gevent</h2>
+<h2>Twisted in Gevent</h2>
 </section>
 <section id="sec-6-1" >
 
-<h3><span class="section-number-3">6.1</span> Water and fire, but it works</h3>
+<h3>Water and fire, but it works</h3>
 <p>
 <code>jyio/geventreactor</code>
 </p>
 </section>
 <section id="sec-6-2" >
 
-<h3><span class="section-number-3">6.2</span> Setting it up</h3>
+<h3>Setting it up</h3>
 <p>
 <code>import geventreactor</code>
 </p>
@@ -736,7 +736,7 @@ Flask code looks like regular Flask code!
 </section>
 <section id="sec-6-3" >
 
-<h3><span class="section-number-3">6.3</span> "Blocking" code</h3>
+<h3>"Blocking" code</h3>
 <ul class="org-ul">
 <li>Gevent-style "blocking", i.e.  automagic suspending
 </li>
@@ -756,7 +756,7 @@ Flask code looks like regular Flask code!
 </section>
 <section id="sec-6-4" >
 
-<h3><span class="section-number-3">6.4</span> Deferreds ↔ greenlets</h3>
+<h3>Deferreds ↔ greenlets</h3>
 <p>
 <code>r = waitForDeferred(d)</code>
 </p>
@@ -767,7 +767,7 @@ Flask code looks like regular Flask code!
 </section>
 <section id="sec-6-5" >
 
-<h3><span class="section-number-3">6.5</span> Demo</h3>
+<h3>Demo</h3>
 <p>
 TODO
 </p>
@@ -776,11 +776,11 @@ TODO
 <section>
 <section id="sec-7" >
 
-<h2><span class="section-number-2">7</span> Recap</h2>
+<h2>Recap</h2>
 </section>
 <section id="sec-7-1" >
 
-<h3><span class="section-number-3">7.1</span> Twisted plays well with others</h3>
+<h3>Twisted plays well with others</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">It supports many protocols
 <ul class="org-ul">
@@ -822,7 +822,7 @@ TODO
 </section>
 <section id="sec-7-2" >
 
-<h3><span class="section-number-3">7.2</span> Conclusion</h3>
+<h3>Conclusion</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">If you want to use Twisted, you probably can
 </li>
@@ -838,7 +838,7 @@ TODO
 <section>
 <section id="sec-8" >
 
-<h2><span class="section-number-2">8</span> Questions?</h2>
+<h2>Questions?</h2>
 </section>
 </section>
 </div>
