@@ -557,31 +557,19 @@ Can't block the reactor thread → block a different one!
 
 <h3><span class="section-number-3">4.9</span> deferToThread</h3>
 <ul class="org-ul">
-<li class="fragment roll-in">Easiest way to make things magically not block
+<li class="fragment roll-in">Easy automagic deferreds!
 </li>
-<li class="fragment roll-in">Deferred, like everything else
-</li>
-<li class="fragment roll-in">Shared mutable state is crazy annoying to get right
-<ul class="org-ul">
-<li class="fragment roll-in">Passing in a <code>{}</code>: crude, awful hack
-<ul class="org-ul">
-<li>but Python guarantees <code>dict</code> operations are atomic&#x2026;
+<li class="fragment roll-in">Shared mutable state ☹
 </li>
 </ul>
-</li>
-<li class="fragment roll-in">Got shared mutable state?
-<ul class="org-ul">
-<li>Django is full of it
-</li>
-<li>Python modules are shared mutable state, too
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Consequence of threads, not <code>deferToThread</code>
-</li>
-</ul>
-</li>
-</ul>
+
+<aside class="notes">
+     * Passing in a ={}=: crude, awful hack, but Python guarantees
+       =dict= operations are atomic...
+     * Many projects full of shared mutable state; Python module
+       system!
+     * Consequence of threads, not =deferToThread=
+</aside>
 </section>
 </section>
 <section>

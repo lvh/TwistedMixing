@@ -286,16 +286,16 @@
 ** deferToThread
 
    #+ATTR_REVEAL: :frag roll-in
-   * Easiest way to make things magically not block
-   * Deferred, like everything else
-   * Shared mutable state is crazy annoying to get right
-     #+ATTR_REVEAL: :frag roll-in
-     * Passing in a ={}=: crude, awful hack
-       * but Python guarantees =dict= operations are atomic...
-     * Got shared mutable state?
-       * Django is full of it
-       * Python modules are shared mutable state, too
+   * Easy automagic deferreds!
+   * Shared mutable state ☹
+
+   #+BEGIN_NOTES
+     * Passing in a ={}=: crude, awful hack, but Python guarantees
+       =dict= operations are atomic...
+     * Many projects full of shared mutable state; Python module
+       system!
      * Consequence of threads, not =deferToThread=
+   #+END_NOTES
 
 * Twisted in blocking code
 
