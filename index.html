@@ -540,17 +540,18 @@ Can't block the reactor thread → block a different one!
 
 <h3>Setting it up</h3>
 <p>
-<code>from crochet import setup; setup()</code>
+<code>from crochet import setup</code>
 </p>
 
-<ul class="org-ul">
-<li class="fragment roll-in">Spawns a thread, runs the reactor in it
-</li>
-<li class="fragment roll-in">Idempotent
-</li>
-<li class="fragment roll-in">Makes <code>logging</code> magically work
-</li>
-</ul>
+<p>
+<code>setup()</code>
+</p>
+
+<aside class="notes">
+   * Spawns a thread, runs the reactor in it
+   * Idempotent
+   * Makes =logging= magically work
+</aside>
 </section>
 <section id="sec-5-3" >
 

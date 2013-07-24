@@ -295,12 +295,15 @@
 
 ** Setting it up
 
-   =from crochet import setup; setup()=
+   =from crochet import setup=
 
-   #+ATTR_REVEAL: :frag roll-in
+   =setup()=
+
+   #+BEGIN_NOTES
    * Spawns a thread, runs the reactor in it
    * Idempotent
    * Makes =logging= magically work
+   #+END_NOTES
 
 ** Using it
 
