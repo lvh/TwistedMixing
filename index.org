@@ -182,16 +182,6 @@
 
    [[file:media/twistyflask-tox-run.mp4][Test run]], [[file:media/twistyflask-demo.mp4][demo]]
 
-** Demo notes
-
-   * =Klein=: Flask-like basic API, except Twisted by default
-   * Having data come from two sources is kind of dumb
-     * ... but I had to have Flask do something :)
-   * Quality!
-     * No authentication, users are who they say they are
-       * Duplicate usernames allowed
-     * Protocol does dispatching + behavior
-
 * Blocking code in Twisted
 
 ** You can't block the reactor thread
