@@ -57,14 +57,12 @@
 
 ** Reactor
 
-   #+ATTR_REVEAL: :frag roll-in
-   * Object
-     * Allows registration of new events
-     * Waits for those events
-     * Dispatches them when they occur
-   * Internally an event loop
-     * Except for test reactors e.g. =Clock=
-     * Backed by some event mechanism
+   An object that reacts to events
+
+   #+BEGIN_NOTES
+   You register events, it waits for them, and dispatches when they happen
+   Internally: event loop, except for test reactors e.g. =Clock=
+   #+END_NOTES
 
 ** Reactor interfaces
 
@@ -74,7 +72,7 @@
    * =IReactorBase=: =run=, =stop=...
    * =IReactorTime=: =callLater=...
    * =IReactorProcess=: =spawnProcess=
-   * =IReactorThreads=: =callInThread=, =callFromThread=, ...
+   * =IReactorThreads=: =call(In|From)Thread=, ...
    * =IReactor(TCP|UDP|SSL|Multicast)=
    * =IReactor(UNIX|UNIXDatagram|Socket)=
    * =IReactorFDSet=: =(add|remove)(Reader|Writer)=, ...

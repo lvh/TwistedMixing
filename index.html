@@ -125,26 +125,14 @@ I hack on and with Twisted.
 <section id="sec-2-1" >
 
 <h3>Reactor</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">Object
-<ul class="org-ul">
-<li>Allows registration of new events
-</li>
-<li>Waits for those events
-</li>
-<li>Dispatches them when they occur
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Internally an event loop
-<ul class="org-ul">
-<li>Except for test reactors e.g. <code>Clock</code>
-</li>
-<li>Backed by some event mechanism
-</li>
-</ul>
-</li>
-</ul>
+<p>
+An object that reacts to events
+</p>
+
+<aside class="notes">
+   You register events, it waits for them, and dispatches when they happen
+   Internally: event loop, except for test reactors e.g. =Clock=
+</aside>
 </section>
 <section id="sec-2-2" >
 
@@ -160,7 +148,7 @@ Usually you call higher-level APIs!
 </li>
 <li class="fragment roll-in"><code>IReactorProcess</code>: <code>spawnProcess</code>
 </li>
-<li class="fragment roll-in"><code>IReactorThreads</code>: <code>callInThread</code>, <code>callFromThread</code>, &#x2026;
+<li class="fragment roll-in"><code>IReactorThreads</code>: <code>call(In|From)Thread</code>, &#x2026;
 </li>
 <li class="fragment roll-in"><code>IReactor(TCP|UDP|SSL|Multicast)</code>
 </li>
