@@ -405,6 +405,12 @@
 
   =d = waitForGreenlet(g)=
 
+  #+BEGIN_NOTES
+  * Bidirectional bridge
+  * waitForDeferred = "wait" (suspend greenlet) for deferred
+  * waitForGreenlet = produce deferred from greenlet
+  #+END_NOTES
+
 ** Demo
 
    TODO
