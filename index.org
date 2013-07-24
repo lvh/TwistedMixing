@@ -140,24 +140,26 @@
 
 ** SOA
 
-   #+ATTR_REVEAL: :frag roll-in
-   * Service Oriented Architecture
-     * "Loosely coupled things that talk to each other"
+   Service Oriented Architecture
 
+   #+BEGIN_NOTES
+   * "Loosely coupled things that talk to each other"
    * Written in Gevent? Twisted? COBOL? Who cares!?
    * Work with Twisted, without touching existing code
+   #+END_NOTES
 
 ** WSGI
 
+   Web Server Gateway Interface
+
    #+ATTR_REVEAL: :frag roll-in
-   * How many of you have a WSGI application?
-   * Twisted is a WSGI server:
-     #+BEGIN_SRC sh
-     twistd web --wsgi=location.of.wsgi.app
-     #+END_SRC
-   * Not a toy web server, can be used in production
-     * =twistedmatrix.com=: Trac, Buildbot...
-   * Twisted does CGI too, but I hope *you* don't
+   =twistd web --wsgi=location.of.wsgi.app=
+
+   #+BEGIN_NOTES
+   Show of hands: how many of you:
+   * have a WSGI application?
+   * knew Twisted has a production quality WSGI server?
+   #+END_NOTES
 
 ** Porting your app to Twisted
 

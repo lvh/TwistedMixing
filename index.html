@@ -266,42 +266,32 @@ Maybe it's trivial to get started!
 <section id="sec-3-2" >
 
 <h3>SOA</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">Service Oriented Architecture
-<ul class="org-ul">
-<li>"Loosely coupled things that talk to each other"
-</li>
-</ul>
-</li>
+<p>
+Service Oriented Architecture
+</p>
 
-<li class="fragment roll-in">Written in Gevent? Twisted? COBOL? Who cares!?
-</li>
-<li class="fragment roll-in">Work with Twisted, without touching existing code
-</li>
-</ul>
+<aside class="notes">
+   * "Loosely coupled things that talk to each other"
+   * Written in Gevent? Twisted? COBOL? Who cares!?
+   * Work with Twisted, without touching existing code
+</aside>
 </section>
 <section id="sec-3-3" >
 
 <h3>WSGI</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">How many of you have a WSGI application?
-</li>
-<li class="fragment roll-in">Twisted is a WSGI server:
-<div class="org-src-container">
+<p>
+Web Server Gateway Interface
+</p>
 
-<pre class="src src-sh">twistd web --wsgi=location.of.wsgi.app
-</pre>
-</div>
-</li>
-<li class="fragment roll-in">Not a toy web server, can be used in production
-<ul class="org-ul">
-<li><code>twistedmatrix.com</code>: Trac, Buildbot&#x2026;
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Twisted does CGI too, but I hope <b>you</b> don't
-</li>
-</ul>
+<p class="fragment roll-in">
+<code>twistd web --wsgi=location.of.wsgi.app</code>
+</p>
+
+<aside class="notes">
+   Show of hands: how many of you:
+   * have a WSGI application?
+   * knew Twisted has a production quality WSGI server?
+</aside>
 </section>
 <section id="sec-3-4" >
 
