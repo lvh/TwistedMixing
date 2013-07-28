@@ -131,7 +131,7 @@ An object that reacts to events
 
 <aside class="notes">
    You register events, it waits for them, and dispatches when they happen
-   Internally: event loop, except for test reactors e.g. =Clock=
+   Internally: event loop, except for test reactors e.g. <code>Clock</code>
 </aside>
 </section>
 <section id="sec-2-2" >
@@ -516,11 +516,11 @@ Can't block the reactor thread → block a different one!
 </ul>
 
 <aside class="notes">
-     * Passing in a ={}=: crude, awful hack, but Python guarantees
-       =dict= operations are atomic...
+     * Passing in a <code>{}</code>: crude, awful hack, but Python guarantees
+       <code>dict</code> operations are atomic&#x2026;
      * Many projects full of shared mutable state; Python module
        system!
-     * Consequence of threads, not =deferToThread=
+     * Consequence of threads, not <code>deferToThread</code>
 </aside>
 </section>
 </section>
@@ -550,7 +550,7 @@ Can't block the reactor thread → block a different one!
 <aside class="notes">
    * Spawns a thread, runs the reactor in it
    * Idempotent
-   * Makes =logging= magically work
+   * Makes <code>logging</code> magically work
 </aside>
 </section>
 <section id="sec-5-3" >
