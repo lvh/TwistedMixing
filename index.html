@@ -130,8 +130,10 @@ An object that reacts to events
 </p>
 
 <aside class="notes">
-   You register events, it waits for them, and dispatches when they happen
-   Internally: event loop, except for test reactors e.g. <code>Clock</code>
+<p>
+You register events, it waits for them, and dispatches when they happen
+Internally: event loop, except for test reactors e.g. <code>Clock</code>
+</p>
 </aside>
 </section>
 <section id="sec-2-2" >
@@ -271,9 +273,14 @@ Service Oriented Architecture
 </p>
 
 <aside class="notes">
-   * "Loosely coupled things that talk to each other"
-   * Written in Gevent? Twisted? COBOL? Who cares!?
-   * Work with Twisted, without touching existing code
+<ul class="org-ul">
+<li>"Loosely coupled things that talk to each other"
+</li>
+<li>Written in Gevent? Twisted? COBOL? Who cares!?
+</li>
+<li>Work with Twisted, without touching existing code
+</li>
+</ul>
 </aside>
 </section>
 <section id="sec-3-3" >
@@ -288,9 +295,15 @@ Web Server Gateway Interface
 </p>
 
 <aside class="notes">
-   Show of hands: how many of you:
-   * have a WSGI application?
-   * knew Twisted has a production quality WSGI server?
+<p>
+Show of hands: how many of you:
+</p>
+<ul class="org-ul">
+<li>have a WSGI application?
+</li>
+<li>knew Twisted has a production quality WSGI server?
+</li>
+</ul>
 </aside>
 </section>
 <section id="sec-3-4" >
@@ -516,11 +529,16 @@ Can't block the reactor thread → block a different one!
 </ul>
 
 <aside class="notes">
-     * Passing in a <code>{}</code>: crude, awful hack, but Python guarantees
+<ul class="org-ul">
+<li>Passing in a <code>{}</code>: crude, awful hack, but Python guarantees
        <code>dict</code> operations are atomic&#x2026;
-     * Many projects full of shared mutable state; Python module
-       system!
-     * Consequence of threads, not <code>deferToThread</code>
+</li>
+<li>Many projects full of shared mutable state; Python module
+system!
+</li>
+<li>Consequence of threads, not <code>deferToThread</code>
+</li>
+</ul>
 </aside>
 </section>
 </section>
@@ -548,9 +566,14 @@ Can't block the reactor thread → block a different one!
 </p>
 
 <aside class="notes">
-   * Spawns a thread, runs the reactor in it
-   * Idempotent
-   * Makes <code>logging</code> magically work
+<ul class="org-ul">
+<li>Spawns a thread, runs the reactor in it
+</li>
+<li>Idempotent
+</li>
+<li>Makes <code>logging</code> magically work
+</li>
+</ul>
 </aside>
 </section>
 <section id="sec-5-3" >
@@ -719,9 +742,14 @@ Flask code looks like regular Flask code!
 </p>
 
 <aside class="notes">
-  * Bidirectional bridge
-  * waitForDeferred = "wait" (suspend greenlet) for deferred
-  * waitForGreenlet = produce deferred from greenlet
+<ul class="org-ul">
+<li>Bidirectional bridge
+</li>
+<li>waitForDeferred = "wait" (suspend greenlet) for deferred
+</li>
+<li>waitForGreenlet = produce deferred from greenlet
+</li>
+</ul>
 </aside>
 </section>
 <section id="sec-6-5" >
