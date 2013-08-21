@@ -101,9 +101,10 @@
    #+BEGIN_SRC python
    try:
        result = blocking_read()
-       on_result(result)
    except SomeError as e:
        on_failure(e)
+   else:
+       on_result(result)
    #+END_SRC
 
    Deferred read:
@@ -118,18 +119,20 @@
    #+BEGIN_SRC python
    try:
        result = blocking_read()
-       on_result(result)
    except SomeError as e:
        on_failure(e)
+   else:
+       on_result(result)
    #+END_SRC
 
    =inlineCallbacks=: Deferreds + sugar
    #+BEGIN_SRC python
    try:
        result = yield async_read()
-       on_result(result)
    except SomeError as e:
        on_failure(e)
+   else:
+       on_result(result)
    #+END_SRC
 
 * Twisted and your app

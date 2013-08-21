@@ -27,7 +27,7 @@
 
 <h3>About me</h3>
 <p>
-Hi, I'm <code>lvh</code>.
+Hi, I&rsquo;m <code>lvh</code>.
 </p>
 
 <p>
@@ -175,13 +175,13 @@ gets you result or failure <b>later</b>
 
 <h3>Why deferreds?</h3>
 <ul class="org-ul">
-<li class="fragment roll-in">Many operations take time: <b>can't</b> get a result right now
+<li class="fragment roll-in">Many operations take time: <b>can&rsquo;t</b> get a result right now
 </li>
 <li class="fragment roll-in">Blocking API
 <ul class="org-ul">
 <li>Evaluate or raise some point in the future
 </li>
-<li>Thread can't do anything else in the mean while
+<li>Thread can&rsquo;t do anything else in the mean while
 </li>
 </ul>
 </li>
@@ -189,7 +189,7 @@ gets you result or failure <b>later</b>
 <ul class="org-ul">
 <li>Get an object representing the future result <b>now</b>
 </li>
-<li>Actually give result (or failure) when it's available
+<li>Actually give result (or failure) when it&rsquo;s available
 </li>
 <li>Thread is free to do something else
 </li>
@@ -207,9 +207,10 @@ Blocking read:
 
 <pre class="src src-python"><span style="color: #7f007f;">try</span>:
     <span style="color: #a0522d;">result</span> = blocking_read()
-    on_result(result)
 <span style="color: #7f007f;">except</span> SomeError <span style="color: #7f007f;">as</span> e:
     on_failure(e)
+<span style="color: #7f007f;">else</span>:
+    on_result(result)
 </pre>
 </div>
 
@@ -233,9 +234,10 @@ Blocking read:
 
 <pre class="src src-python"><span style="color: #7f007f;">try</span>:
     <span style="color: #a0522d;">result</span> = blocking_read()
-    on_result(result)
 <span style="color: #7f007f;">except</span> SomeError <span style="color: #7f007f;">as</span> e:
     on_failure(e)
+<span style="color: #7f007f;">else</span>:
+    on_result(result)
 </pre>
 </div>
 
@@ -246,9 +248,10 @@ Blocking read:
 
 <pre class="src src-python"><span style="color: #7f007f;">try</span>:
     <span style="color: #a0522d;">result</span> = <span style="color: #7f007f;">yield</span> async_read()
-    on_result(result)
 <span style="color: #7f007f;">except</span> SomeError <span style="color: #7f007f;">as</span> e:
     on_failure(e)
+<span style="color: #7f007f;">else</span>:
+    on_result(result)
 </pre>
 </div>
 </section>
@@ -262,7 +265,7 @@ Blocking read:
 
 <h3>Is there even a problem?</h3>
 <p>
-Maybe it's trivial to get started!
+Maybe it&rsquo;s trivial to get started!
 </p>
 </section>
 <section id="sec-3-2" >
@@ -274,7 +277,7 @@ Service Oriented Architecture
 
 <aside class="notes">
 <ul class="org-ul">
-<li>"Loosely coupled things that talk to each other"
+<li>&ldquo;Loosely coupled things that talk to each other&rdquo;
 </li>
 <li>Written in Gevent? Twisted? COBOL? Who cares!?
 </li>
@@ -310,7 +313,7 @@ Show of hands: how many of you:
 
 <h3>Porting your app to Twisted</h3>
 <ul class="org-ul">
-<li class="fragment roll-in">No, it's not trivial
+<li class="fragment roll-in">No, it&rsquo;s not trivial
 <ul class="org-ul">
 <li>&#x2026; but cost is almost always overestimated
 </li>
@@ -324,7 +327,7 @@ Show of hands: how many of you:
 </li>
 </ul>
 </li>
-<li class="fragment roll-in">If it's near impossible, it's probably a code smell
+<li class="fragment roll-in">If it&rsquo;s near impossible, it&rsquo;s probably a code smell
 </li>
 </ul>
 </section>
@@ -362,7 +365,7 @@ Show of hands: how many of you:
 </section>
 <section id="sec-4-1" >
 
-<h3>You can't block the reactor thread</h3>
+<h3>You can&rsquo;t block the reactor thread</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Twisted is event-driven
 <ul class="org-ul">
@@ -412,13 +415,13 @@ Blocking computation
 </section>
 <section id="sec-4-3" >
 
-<h3>Can't block the reactor thread!</h3>
+<h3>Can&rsquo;t block the reactor thread!</h3>
 <p>
 Therefore, you have two options:
 </p>
 
 <ol class="org-ol">
-<li>Don't block
+<li>Don&rsquo;t block
 </li>
 <li>Block another thread
 </li>
@@ -426,7 +429,7 @@ Therefore, you have two options:
 </section>
 <section id="sec-4-4" >
 
-<h3>Don't block</h3>
+<h3>Don&rsquo;t block</h3>
 <p>
 IO bound? Be asynchronous!
 </p>
@@ -472,9 +475,9 @@ coiterate(_compute(n))
 </section>
 <section id="sec-4-7" >
 
-<h3>Don't block?</h3>
+<h3>Don&rsquo;t block?</h3>
 <p>
-Avoiding blocking isn't always possible
+Avoiding blocking isn&rsquo;t always possible
 </p>
 
 <ul class="org-ul">
@@ -484,7 +487,7 @@ Avoiding blocking isn't always possible
 </li>
 </ul>
 </li>
-<li class="fragment roll-in">Sometimes in C code you can't or don't want to mess with
+<li class="fragment roll-in">Sometimes in C code you can&rsquo;t or don&rsquo;t want to mess with
 <ul class="org-ul">
 <li><code>scrypt</code>, &#x2026;
 </li>
@@ -502,7 +505,7 @@ Avoiding blocking isn't always possible
 
 <h3>Block somewhere else</h3>
 <p>
-Can't block the reactor thread → block a different one!
+Can&rsquo;t block the reactor thread → block a different one!
 </p>
 
 <ul class="org-ul">
@@ -712,9 +715,9 @@ Flask code looks like regular Flask code!
 </section>
 <section id="sec-6-3" >
 
-<h3>"Blocking" code</h3>
+<h3>&ldquo;Blocking&rdquo; code</h3>
 <ul class="org-ul">
-<li>Gevent-style "blocking", i.e.  automagic suspending
+<li>Gevent-style &ldquo;blocking&rdquo;, i.e.  automagic suspending
 </li>
 </ul>
 <ul class="org-ul">
@@ -745,7 +748,7 @@ Flask code looks like regular Flask code!
 <ul class="org-ul">
 <li>Bidirectional bridge
 </li>
-<li>waitForDeferred = "wait" (suspend greenlet) for deferred
+<li>waitForDeferred = &ldquo;wait&rdquo; (suspend greenlet) for deferred
 </li>
 <li>waitForGreenlet = produce deferred from greenlet
 </li>
@@ -787,7 +790,7 @@ TODO
 </li>
 <li class="fragment roll-in">GUIs, like GTK, Qt&#x2026;
 </li>
-<li class="fragment roll-in">ZeroMQ (but please don't use ZeroMQ)
+<li class="fragment roll-in">ZeroMQ (but please don&rsquo;t use ZeroMQ)
 </li>
 <li class="fragment roll-in">&#x2026;
 </li>
@@ -799,7 +802,7 @@ TODO
 </li>
 <li class="fragment roll-in"><code>klein</code> is like Flask
 </li>
-<li class="fragment roll-in"><code>cyclone</code> is Tornado on top of Twisted's reactor
+<li class="fragment roll-in"><code>cyclone</code> is Tornado on top of Twisted&rsquo;s reactor
 </li>
 <li class="fragment roll-in">&#x2026;
 </li>
@@ -813,7 +816,7 @@ TODO
 <ul class="org-ul">
 <li class="fragment roll-in">If you want to use Twisted, you probably can
 </li>
-<li class="fragment roll-in">That doesn't mean it's a good idea
+<li class="fragment roll-in">That doesn&rsquo;t mean it&rsquo;s a good idea
 <ul class="org-ul">
 <li class="fragment roll-in">&#x2026; although it probably is ;-)
 </li>
