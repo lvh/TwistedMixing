@@ -200,7 +200,7 @@
    #+BEGIN_SRC python
    def _compute(n):
        x = 2
-       for _ in xrange(n): # BLOCKS! (for large n)
+       for _ in xrange(n): # BLOCKS!
            x *= x
        send_somewhere(x)
    #+END_SRC
