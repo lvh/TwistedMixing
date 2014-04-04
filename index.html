@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><title>(Twisted Mixing)</title>
-<meta name="author" content="(Laurens Van Houtven)"/>
-<link rel="stylesheet" href="./reveal.js/css/reveal.min.css">
-<link rel="stylesheet" href="./reveal.js/css/theme/lvh.css" id="theme">
+<meta charset="utf-8"/>
+<title>Twisted Mixing</title>
+<meta name="author" content="(lvh)"/>
+<link rel="stylesheet" href="./reveal.js/css/reveal.min.css"/>
+<link rel="stylesheet" href="./reveal.js/css/theme/lvh.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/css/print/pdf.css" type="text/css" media="print">
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
 <section>
 <h1>Twisted Mixing</h1>
-<h2>Laurens Van Houtven</h2>
-<h2><a href="mailto:@lvh">@lvh</a></h2>
+<h2>lvh</h2>
+<h2><a href="mailto:_@lvh.io">_@lvh.io</a></h2>
 <h2></h2></section>
 
 <section>
@@ -25,96 +35,80 @@
 </section>
 <section id="sec-1-1" >
 
-<h3>About me</h3>
-<p>
-Hi, I&rsquo;m <code>lvh</code>.
-</p>
-
-<p>
-I hack on and with Twisted.
-</p>
+<h3>Rackspace</h3>
+<img src="./media/rackspace.svg" alt="rackspace.svg" style="border:none" />
 </section>
 <section id="sec-1-2" >
 
-<h3>Rackspace</h3>
-
-<div class="figure">
-<p><img src="./media/rackspace.svg" style="border:none" alt="rackspace.svg"/></p>
-</div>
+<h3>Crypto 101</h3>
+<img src="./media/crypto101.png" alt="crypto101.png" width="600" height="600" style="border:none" class="pixelated" />
 </section>
 <section id="sec-1-3" >
 
+<h3>Twisted</h3>
+<img src="./media/twisted.svg" alt="twisted.svg" style="border:none" />
+</section>
+<section id="sec-1-4" >
+
 <h3>About this talk</h3>
+<p>
+Twisted code ↔ other code
+</p>
+
+<aside class="notes">
 <ul class="org-ul">
-<li class="fragment roll-in">Twisted code ↔ other code
+<li>&ldquo;Twisted infects your entire codebase&rdquo;
 </li>
-<li class="fragment roll-in">Show that you probably <b>can</b> use Twisted
+<li>Show that you probably <b>can</b> use Twisted
 <ul class="org-ul">
 <li>(Not so much that you <b>should</b> use Twisted)
 </li>
 </ul>
 </li>
-<li class="fragment roll-in">Overview
+<li>Overview
 </li>
 </ul>
-</section>
-<section id="sec-1-4" >
-
-<h3>Why should you care?</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">Twisted has some cool stuff in and around it
-<ul class="org-ul">
-<li class="fragment roll-in">IRC, SMTP, DNS, SSH, WebSockets&#x2026;
-</li>
-<li class="fragment roll-in">Running multiple things in one process
-</li>
-<li class="fragment roll-in">Timed events, sane process and thread management
-</li>
-<li class="fragment roll-in">Protocol and transport abstractions
-</li>
-<li class="fragment roll-in">&#x2026;
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Twisted vs other stuff: good at different things
-<ul class="org-ul">
-<li class="fragment roll-in">Many connections, particularly if relatively silent
-<ul class="org-ul">
-<li>Incoming, e.g. a chat server
-</li>
-<li>Outgoing, e.g. a scraper
-</li>
-</ul>
-</li>
-</ul>
-<ul class="org-ul">
-<li class="fragment roll-in">Cooperate with existing event loops
-<ul class="org-ul">
-<li>GUIs
-</li>
-<li>gevent
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+</aside>
 </section>
 <section id="sec-1-5" >
 
+<h3>Why Twisted?</h3>
+<aside class="notes">
+<p>
+&ldquo;The only reason anyone cares about Twisted is X&rdquo;
+</p>
+
+<ul class="org-ul">
+<li>IRC, SMTP, DNS, SSH, WebSockets&#x2026;
+</li>
+<li>Running multiple things in one process
+</li>
+<li>Lots of simultaneous connections
+</li>
+<li>Protocol and transport abstractions
+</li>
+<li>Cooperation with existing event
+</li>
+<li>Existing event loops: GUIs, gevent
+</li>
+</ul>
+</aside>
+</section>
+<section id="sec-1-6" >
+
 <h3>Prerequisites</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">Ideally, just Python
-</li>
-<li class="fragment roll-in">Having played with Twisted probably helps
-</li>
-<li class="fragment roll-in">I will explain important concepts briefly
-<ul class="org-ul">
-<li>Please feel free to interrupt if I forget to
-</li>
-</ul>
-</li>
-</ul>
+<p>
+Python, some Twisted probably helps
+</p>
+
+<aside class="notes">
+<p>
+For this talk I&rsquo;m going to assume I don&rsquo;t need to explain Python
+Some Twisted experience will undoubtedly help, but I will explain basics
+Show of hands: &ldquo;how many people know how a reactor works?&rdquo;
+It&rsquo;s really easy: unicorns, except for cfreactor which is faerie dust, except for IOCP which is made of Russian-grade sadness
+</p>
+</aside>
 </section>
 </section>
 <section>
@@ -139,10 +133,6 @@ Internally: event loop, except for test reactors e.g. <code>Clock</code>
 <section id="sec-2-2" >
 
 <h3>Reactor interfaces</h3>
-<p>
-Usually you call higher-level APIs!
-</p>
-
 <ul class="org-ul">
 <li class="fragment roll-in"><code>IReactorBase</code>: <code>run</code>, <code>stop</code>&#x2026;
 </li>
@@ -159,6 +149,13 @@ Usually you call higher-level APIs!
 <li class="fragment roll-in"><code>IReactorFDSet</code>: <code>(add|remove)(Reader|Writer)</code>, &#x2026;
 </li>
 </ul>
+
+<aside class="notes">
+<p>
+Examples of reactor interfaces to give you an idea what a reactor does
+Usually you call higher-level APIs!
+</p>
+</aside>
 </section>
 <section id="sec-2-3" >
 
@@ -170,87 +167,73 @@ An object you get <b>now</b>,
 <p>
 gets you result or failure <b>later</b>
 </p>
+
+<aside class="notes">
+<p>
+Why?
+</p>
+<ul class="org-ul">
+<li>Many operations take time
+</li>
+<li><b>Can&rsquo;t</b> get a result right now
+</li>
+</ul>
+</aside>
 </section>
 <section id="sec-2-4" >
 
-<h3>Why deferreds?</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">Many operations take time: <b>can&rsquo;t</b> get a result right now
-</li>
-<li class="fragment roll-in">Blocking API
+<h3>Blocking API</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python><span style="color: #5180b3;">try</span>:
+    <span style="color: #baba36;">result</span> = blocking_read()
+<span style="color: #5180b3;">except</span> SomeError <span style="color: #5180b3;">as</span> e:
+    on_failure(e)
+<span style="color: #5180b3;">else</span>:
+    on_result(result)
+</pre>
+</div>
+
+<aside class="notes">
 <ul class="org-ul">
 <li>Evaluate or raise some point in the future
 </li>
-<li>Thread can&rsquo;t do anything else in the mean while
+<li>Thread can&rsquo;t do anything else until then
 </li>
 </ul>
-</li>
-<li class="fragment roll-in">Deferred API
+</aside>
+</section>
+<section id="sec-2-5" >
+
+<h3>Deferred API</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python><span style="color: #baba36;">d</span> = async_read()
+d.addCallbacks(on_result, on_failure)
+</pre>
+</div>
+
+<aside class="notes">
 <ul class="org-ul">
 <li>Get an object representing the future result <b>now</b>
 </li>
-<li>Actually give result (or failure) when it&rsquo;s available
+<li>Get result (or failure) when it&rsquo;s available
 </li>
 <li>Thread is free to do something else
 </li>
 </ul>
-</li>
-</ul>
-</section>
-<section id="sec-2-5" >
-
-<h3>Deferred vs blocking API</h3>
-<p>
-Blocking read:
-</p>
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #7f007f;">try</span>:
-    <span style="color: #a0522d;">result</span> = blocking_read()
-<span style="color: #7f007f;">except</span> SomeError <span style="color: #7f007f;">as</span> e:
-    on_failure(e)
-<span style="color: #7f007f;">else</span>:
-    on_result(result)
-</pre>
-</div>
-
-<p>
-Deferred read:
-</p>
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #a0522d;">d</span> = async_read()
-d.addCallbacks(on_result, on_failure)
-</pre>
-</div>
+</aside>
 </section>
 <section id="sec-2-6" >
 
-<h3>Inline callbacks vs blocking API</h3>
-<p>
-Blocking read:
-</p>
+<h3>Inline callbacks</h3>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #7f007f;">try</span>:
-    <span style="color: #a0522d;">result</span> = blocking_read()
-<span style="color: #7f007f;">except</span> SomeError <span style="color: #7f007f;">as</span> e:
+<pre  class="src src-python><span style="color: #5180b3;">try</span>:
+    <span style="color: #baba36;">result</span> = <span style="color: #5180b3;">yield</span> async_read()
+<span style="color: #5180b3;">except</span> SomeError <span style="color: #5180b3;">as</span> e:
     on_failure(e)
-<span style="color: #7f007f;">else</span>:
-    on_result(result)
-</pre>
-</div>
-
-<p>
-<code>inlineCallbacks</code>: Deferreds + sugar
-</p>
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #7f007f;">try</span>:
-    <span style="color: #a0522d;">result</span> = <span style="color: #7f007f;">yield</span> async_read()
-<span style="color: #7f007f;">except</span> SomeError <span style="color: #7f007f;">as</span> e:
-    on_failure(e)
-<span style="color: #7f007f;">else</span>:
+<span style="color: #5180b3;">else</span>:
     on_result(result)
 </pre>
 </div>
@@ -263,13 +246,6 @@ Blocking read:
 </section>
 <section id="sec-3-1" >
 
-<h3>Is there even a problem?</h3>
-<p>
-Maybe it&rsquo;s trivial to get started!
-</p>
-</section>
-<section id="sec-3-2" >
-
 <h3>SOA</h3>
 <p>
 Service Oriented Architecture
@@ -277,7 +253,11 @@ Service Oriented Architecture
 
 <aside class="notes">
 <ul class="org-ul">
-<li>&ldquo;Loosely coupled things that talk to each other&rdquo;
+<li>Perhaps your workplace has been infected with SOA!
+</li>
+<li>If someone is giggling around you: fun fact: &ldquo;SOA&rdquo; means &ldquo;STD&rdquo; in Dutch
+</li>
+<li>In programming: &ldquo;Loosely coupled things that talk to each other&rdquo;
 </li>
 <li>Written in Gevent? Twisted? COBOL? Who cares!?
 </li>
@@ -286,7 +266,7 @@ Service Oriented Architecture
 </ul>
 </aside>
 </section>
-<section id="sec-3-3" >
+<section id="sec-3-2" >
 
 <h3>WSGI</h3>
 <p>
@@ -294,7 +274,7 @@ Web Server Gateway Interface
 </p>
 
 <p class="fragment roll-in">
-<code>twistd web --wsgi=location.of.wsgi.app</code>
+<code>twistd web --wsgi=wsgi.app</code>
 </p>
 
 <aside class="notes">
@@ -304,46 +284,12 @@ Show of hands: how many of you:
 <ul class="org-ul">
 <li>have a WSGI application?
 </li>
-<li>knew Twisted has a production quality WSGI server?
+<li>knew Twisted has a production quality WSGI server? (reveal point)
 </li>
 </ul>
 </aside>
 </section>
-<section id="sec-3-4" >
-
-<h3>Porting your app to Twisted</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">No, it&rsquo;s not trivial
-<ul class="org-ul">
-<li>&#x2026; but cost is almost always overestimated
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Clean, tested code helps
-<ul class="org-ul">
-<li>Keep verifying behavior
-</li>
-<li>Tested code tends to be decoupled
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">If it&rsquo;s near impossible, it&rsquo;s probably a code smell
-</li>
-</ul>
-</section>
-<section id="sec-3-5" >
-
-<h3>Writing code that works on both</h3>
-<ul class="org-ul">
-<li>Not trivial, not hard either
-</li>
-<li>Example: <code>praekelt/vumi</code>
-</li>
-<li>TODO: more examples
-</li>
-</ul>
-</section>
-<section id="sec-3-6" >
+<section id="sec-3-3" >
 
 <h3>Demo</h3>
 <ul class="org-ul">
@@ -362,83 +308,79 @@ Show of hands: how many of you:
 <section id="sec-4" >
 
 <h2>Blocking code in Twisted</h2>
+<aside class="notes">
+<p>
+Almost everything I&rsquo;m about to say applies to pretty much any event-driven single-threaded thing
+</p>
+</aside>
+
 </section>
 <section id="sec-4-1" >
 
-<h3>You can&rsquo;t block the reactor thread</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">Twisted is event-driven
-<ul class="org-ul">
-<li>Production reactors are just event loops
-</li>
-<li><code>select</code>, <code>epoll</code>, <code>kqueue</code>, IOCP, <code>libev(ent)</code>&#x2026;
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Reactor runs in a thread, calls everything else
-<ul class="org-ul">
-<li>One thing at a time, all in the same thread
-</li>
-<li>Concurrency through asynchronous IO
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Blocking the reactor thread means nothing else happens
-</li>
-</ul>
+<h3>Can&rsquo;t block reactor thread</h3>
+<p>
+Twisted is single-threaded by default
+</p>
+
+<aside class="notes">
+<p>
+Until we get STM&#x2026;
+Production reactors are just event loops
+One thing at a time, all in the same thread
+Concurrency through asynchronous IO
+Blocking the reactor thread means nothing else happens
+</p>
+</aside>
 </section>
 <section id="sec-4-2" >
 
-<h3>Blocking in a callback is bad!</h3>
-<p>
-Blocking IO
-</p>
+<h3>Blocking IO: bad!</h3>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_getDataAtURL</span>(url):
-    <span style="color: #7f007f;">return</span> requests.get(url).json() <span style="color: #b22222;"># </span><span style="color: #b22222;">BLOCKS!</span>
-</pre>
-</div>
-
-<p>
-Blocking computation
-</p>
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_compute</span>(n):
-    <span style="color: #a0522d;">x</span> = 2
-    <span style="color: #7f007f;">for</span> _ <span style="color: #7f007f;">in</span> <span style="color: #483d8b;">xrange</span>(n): <span style="color: #b22222;"># </span><span style="color: #b22222;">BLOCKS! (for large n)</span>
-        <span style="color: #a0522d;">x</span> *= x
-    send_somewhere(x)
+<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_getDataAtURL</span>(url):
+    <span style="color: #5180b3;">return</span> requests.get(url) <span style="color: #757575;"># </span><span style="color: #757575;">BLOCKS!</span>
 </pre>
 </div>
 </section>
 <section id="sec-4-3" >
 
-<h3>Can&rsquo;t block the reactor thread!</h3>
-<p>
-Therefore, you have two options:
-</p>
+<h3>Blocking computation: bad!</h3>
+<div class="org-src-container">
 
-<ol class="org-ol">
-<li>Don&rsquo;t block
-</li>
-<li>Block another thread
-</li>
-</ol>
+<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_compute</span>(n):
+    <span style="color: #baba36;">x</span> = 2
+    <span style="color: #5180b3;">for</span> _ <span style="color: #5180b3;">in</span> <span style="color: #528fd1;">xrange</span>(n): <span style="color: #757575;"># </span><span style="color: #757575;">BLOCKS! (for large n)</span>
+        <span style="color: #baba36;">x</span> *= x
+    send_somewhere(x)
+</pre>
+</div>
 </section>
 <section id="sec-4-4" >
 
+<h3>Can&rsquo;t block reactor thread</h3>
+<p>
+Alternatives:
+</p>
+
+<ol class="org-ol">
+<li class="fragment roll-in">Don&rsquo;t block
+</li>
+<li class="fragment roll-in">Block another thread
+</li>
+</ol>
+</section>
+<section id="sec-4-5" >
+
 <h3>Don&rsquo;t block</h3>
 <p>
-IO bound? Be asynchronous!
+IO bound? Asynchronous IO!
 </p>
 
 <p>
-CPU bound? Cooperate with the event loop!
+CPU bound? Cooperate!
 </p>
 </section>
-<section id="sec-4-5" >
+<section id="sec-4-6" >
 
 <h3>Asynchronous I/O version</h3>
 <p>
@@ -446,14 +388,12 @@ CPU bound? Cooperate with the event loop!
 </p>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_getDataAtURL</span>(url):
-    <span style="color: #a0522d;">d</span> = treq.get(url)
-    d.addCallback(treq.json_content)
-    <span style="color: #7f007f;">return</span> d
+<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_getDataAtURL</span>(url):
+    <span style="color: #5180b3;">return</span> treq.get(url)
 </pre>
 </div>
 </section>
-<section id="sec-4-6" >
+<section id="sec-4-7" >
 
 <h3>Cooperative version</h3>
 <p>
@@ -462,18 +402,18 @@ CPU bound? Cooperate with the event loop!
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_compute</span>(n):
-    <span style="color: #a0522d;">x</span> = 2
-    <span style="color: #7f007f;">for</span> _ <span style="color: #7f007f;">in</span> <span style="color: #483d8b;">xrange</span>(n):
-        <span style="color: #a0522d;">x</span> *= x
-        <span style="color: #7f007f;">yield</span> <span style="color: #b22222;"># </span><span style="color: #b22222;">Yields to the reactor :)</span>
+<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_compute</span>(n):
+    <span style="color: #baba36;">x</span> = 2
+    <span style="color: #5180b3;">for</span> _ <span style="color: #5180b3;">in</span> <span style="color: #528fd1;">xrange</span>(n):
+        <span style="color: #baba36;">x</span> *= x
+        <span style="color: #5180b3;">yield</span> <span style="color: #757575;"># </span><span style="color: #757575;">Yields to the reactor :)</span>
     send_somewhere(x)
 
 coiterate(_compute(n))
 </pre>
 </div>
 </section>
-<section id="sec-4-7" >
+<section id="sec-4-8" >
 
 <h3>Don&rsquo;t block?</h3>
 <p>
@@ -481,61 +421,58 @@ Avoiding blocking isn&rsquo;t always possible
 </p>
 
 <ul class="org-ul">
-<li class="fragment roll-in">Blocking API
-<ul class="org-ul">
-<li><code>DBAPI2</code>, &#x2026;
+<li class="fragment roll-in">Blocking API: <code>DBAPI2</code>, <code>WSGI</code>&#x2026;
+</li>
+<li class="fragment roll-in">Opaque code: <code>scrypt</code>, <code>Pillow</code>&#x2026;
+</li>
+<li class="fragment roll-in">Kernel/syscall level: file IO, &#x2026;
 </li>
 </ul>
-</li>
-<li class="fragment roll-in">Sometimes in C code you can&rsquo;t or don&rsquo;t want to mess with
-<ul class="org-ul">
-<li><code>scrypt</code>, &#x2026;
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Sometimes at a kernel/syscall level
-<ul class="org-ul">
-<li>File IO, &#x2026;
-</li>
-</ul>
-</li>
-</ul>
+
+<aside class="notes">
+<p>
+Sometimes all of the above!
+</p>
+</aside>
 </section>
-<section id="sec-4-8" >
+<section id="sec-4-9" >
 
 <h3>Block somewhere else</h3>
 <p>
-Can&rsquo;t block the reactor thread → block a different one!
+Can&rsquo;t block reactor thread
+</p>
+
+<p>
+→ block a different one!
 </p>
 
 <ul class="org-ul">
 <li class="fragment roll-in">&#x2026; in the same process: <code>deferToThread</code>
-<ul class="org-ul">
-<li>often used by wrappers: <code>adbapi</code>, <code>txscrypt</code>&#x2026;
+</li>
+<li class="fragment roll-in">&#x2026; in a child process: <code>spawnProcess</code>&#x2026;
+</li>
+<li class="fragment roll-in">&#x2026; in a remote process: Ampoule, RPC&#x2026;
 </li>
 </ul>
-</li>
-<li class="fragment roll-in">&#x2026; in a child process: <code>spawnProcess</code> and friends
-</li>
-<li class="fragment roll-in">&#x2026; in a remote process: Ampoule, PB, Foolscap, RPC&#x2026;
-</li>
-</ul>
+
+<aside class="notes">
+<p>
+deferToThread is used by a lot of wrappers: adbapi, txscrypt
+</p>
+</aside>
 </section>
-<section id="sec-4-9" >
+<section id="sec-4-10" >
 
 <h3>deferToThread</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Easy automagic deferreds!
 </li>
-<li class="fragment roll-in">Shared mutable state ☹
+<li class="fragment roll-in">Shared mutable state :-(
 </li>
 </ul>
 
 <aside class="notes">
 <ul class="org-ul">
-<li>Passing in a <code>{}</code>: crude, awful hack, but Python guarantees
-       <code>dict</code> operations are atomic&#x2026;
-</li>
 <li>Many projects full of shared mutable state; Python module
 system!
 </li>
@@ -552,84 +489,63 @@ system!
 </section>
 <section id="sec-5-1" >
 
-<h3>New hotness!</h3>
-<p>
-<code>itamarst/crochet</code>
-</p>
+<h3><code>itamarst/crochet</code></h3>
 </section>
 <section id="sec-5-2" >
 
-<h3>Setting it up</h3>
-<p>
-<code>from crochet import setup</code>
-</p>
-
-<p>
-<code>setup()</code>
-</p>
-
+<h3><code>setup()</code></h3>
 <aside class="notes">
 <ul class="org-ul">
 <li>Spawns a thread, runs the reactor in it
 </li>
 <li>Idempotent
 </li>
-<li>Makes <code>logging</code> magically work
-</li>
 </ul>
 </aside>
 </section>
 <section id="sec-5-3" >
 
-<h3>Using it</h3>
+<h3><code>@run_in_reactor</code></h3>
 <ul class="org-ul">
-<li class="fragment roll-in"><code>@run_in_reactor</code>
-<ul class="org-ul">
-<li>Function runs in reactor thread, not calling thread
+<li class="fragment roll-in">Run in reactor thread (not the calling thread)
 </li>
-<li>Results in an <code>EventualResult</code>
-</li>
-</ul>
-</li>
-<li class="fragment roll-in"><code>EventualResult</code>?
-<ul class="org-ul">
-<li>Synchronous analog of <code>Deferred</code>
-</li>
-<li><code>wait(timeout=None)</code>
-</li>
-<li><code>cancel()</code>, <code>stash()</code>
-</li>
-</ul>
+<li class="fragment roll-in">Return <code>EventualResult</code>
 </li>
 </ul>
 </section>
 <section id="sec-5-4" >
 
-<h3>Example</h3>
-<div class="org-src-container">
-
-<pre class="src src-python"><span style="color: #7f007f;">from</span> twisted.web.client <span style="color: #7f007f;">import</span> getPage
-<span style="color: #7f007f;">from</span> crochet <span style="color: #7f007f;">import</span> setup, run_in_reactor
-setup()
-
-<span style="color: #228b22;">@run_in_reactor</span>
-<span style="color: #7f007f;">def</span> <span style="color: #0000ff;">download_page</span>(url):
-    <span style="color: #7f007f;">return</span> getPage(url)
-
-<span style="color: #a0522d;">result</span> = download_page(<span style="color: #8b2252;">"http://www.google.com"</span>)
-<span style="color: #7f007f;">print</span> result.wait()
-</pre>
-</div>
+<h3><code>EventualResult</code>?</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Synchronous analog of <code>Deferred</code>
+</li>
+<li class="fragment roll-in"><code>wait(timeout=None)</code>
+</li>
+</ul>
 </section>
 <section id="sec-5-5" >
 
-<h3>Longer example: exchange rates</h3>
+<h3>Example</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python><span style="color: #5180b3;">from</span> twisted.web.client <span style="color: #5180b3;">import</span> getPage
+<span style="color: #5180b3;">from</span> crochet <span style="color: #5180b3;">import</span> setup, run_in_reactor
+setup()
+
+<span style="color: #cd5542;">@run_in_reactor</span>
+<span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">download_page</span>(url):
+    <span style="color: #5180b3;">return</span> getPage(url)
+
+<span style="color: #baba36;">result</span> = download_page(<span style="color: #bdbc61;">"http://www.google.com"</span>)
+<span style="color: #5180b3;">print</span> result.wait()
+</pre>
+</div>
+</section>
+<section id="sec-5-6" >
+
+<h3>Example 2: exchange rates</h3>
 <ul class="org-ul">
 <li>Twisted queries exchange rate every 30s
-<ul class="org-ul">
-<li>Runs in a separate thread using <code>crochet</code>
-</li>
-</ul>
 </li>
 <li>Flask app serves the latest exchange rate
 </li>
@@ -639,68 +555,67 @@ setup()
 <a href="media/twistycrochet-demo.mp4">Demo</a>
 </p>
 </section>
-<section id="sec-5-6" >
+<section id="sec-5-7" >
 
-<h3>How does it work? Twisted part</h3>
+<h3>Twisted part</h3>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #7f007f;">class</span> <span style="color: #228b22;">ExchangeRate</span>(<span style="color: #483d8b;">object</span>):
-    <span style="color: #b22222;"># </span><span style="color: #b22222;">...</span>
+<pre  class="src src-python><span style="color: #5180b3;">class</span> <span style="color: #cd5542;">ExchangeRate</span>(<span style="color: #528fd1;">object</span>):
+    <span style="color: #757575;"># </span><span style="color: #757575;">...</span>
 
-    <span style="color: #228b22;">@run_in_reactor</span>
-    <span style="color: #7f007f;">def</span> <span style="color: #0000ff;">start</span>(<span style="color: #7f007f;">self</span>):
-        <span style="color: #b22222;"># </span><span style="color: #b22222;">in reactor thread because of decorator</span>
-        <span style="color: #7f007f;">self</span>._lc = LoopingCall(<span style="color: #7f007f;">self</span>._download)
-        <span style="color: #7f007f;">self</span>._lc.start(30, now=<span style="color: #008b8b;">True</span>)
+    <span style="color: #cd5542;">@run_in_reactor</span>
+    <span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">start</span>(<span style="color: #5180b3;">self</span>):
+        <span style="color: #757575;"># </span><span style="color: #757575;">in reactor thread because of decorator</span>
+        <span style="color: #5180b3;">self</span>._lc = LoopingCall(<span style="color: #5180b3;">self</span>._download)
+        <span style="color: #5180b3;">self</span>._lc.start(30, now=<span style="color: #9b55c3;">True</span>)
 
-    <span style="color: #7f007f;">def</span> <span style="color: #0000ff;">_download</span>(<span style="color: #7f007f;">self</span>):
-        <span style="color: #b22222;"># </span><span style="color: #b22222;">in reactor thread because of LoopingCall</span>
-        <span style="color: #a0522d;">d</span> = getPage(url)
-        <span style="color: #b22222;"># </span><span style="color: #b22222;">...</span>
+    <span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_download</span>(<span style="color: #5180b3;">self</span>):
+        <span style="color: #757575;"># </span><span style="color: #757575;">in reactor thread because of LoopingCall</span>
+        <span style="color: #baba36;">d</span> = getPage(url)
+        <span style="color: #757575;"># </span><span style="color: #757575;">...</span>
 </pre>
 </div>
 
+<aside class="notes">
 <p>
 Twisted code looks like regular Twisted code!
-</p>
-
-<p>
 (But remember the <code>@run_in_reactor</code>)
 </p>
+</aside>
 </section>
-<section id="sec-5-7" >
+<section id="sec-5-8" >
 
-<h3>How does it work? Flask part</h3>
+<h3>Flask part</h3>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #228b22;">@app.route</span>(<span style="color: #8b2252;">'/'</span>)
-<span style="color: #7f007f;">def</span> <span style="color: #0000ff;">index</span>():
-    <span style="color: #b22222;"># </span><span style="color: #b22222;">runs in whatever thread app.run() runs it in</span>
-    <span style="color: #a0522d;">rate</span> = EURUSD.latest_value()
-    <span style="color: #7f007f;">if</span> rate <span style="color: #7f007f;">is</span> <span style="color: #008b8b;">None</span>:
-        <span style="color: #a0522d;">rate</span> = <span style="color: #8b2252;">"unavailable"</span>
-    <span style="color: #7f007f;">return</span> <span style="color: #8b2252;">"EUR/USD rate: {0}."</span>.<span style="color: #483d8b;">format</span>(rate)
+<pre  class="src src-python><span style="color: #cd5542;">@app.route</span>(<span style="color: #bdbc61;">'/'</span>)
+<span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">index</span>():
+    <span style="color: #757575;"># </span><span style="color: #757575;">runs in whatever thread app.run() runs it in</span>
+    <span style="color: #baba36;">rate</span> = EURUSD.latest_value()
+    <span style="color: #5180b3;">if</span> rate <span style="color: #5180b3;">is</span> <span style="color: #9b55c3;">None</span>:
+        <span style="color: #baba36;">rate</span> = <span style="color: #bdbc61;">"unavailable"</span>
+    <span style="color: #5180b3;">return</span> <span style="color: #bdbc61;">"EUR/USD rate: {0}."</span>.<span style="color: #528fd1;">format</span>(rate)
 
 app.run()
 </pre>
 </div>
 
+<aside class="notes">
 <p>
 Flask code looks like regular Flask code!
 </p>
+</aside>
 </section>
 </section>
 <section>
 <section id="sec-6" >
 
-<h2>Twisted in Gevent</h2>
+<h2>Twisted in gevent</h2>
 </section>
 <section id="sec-6-1" >
 
-<h3>Water and fire, but it works</h3>
-<p>
-<code>jyio/geventreactor</code>
-</p>
+<h3><code>jyio/geventreactor</code></h3>
+
 </section>
 <section id="sec-6-2" >
 
@@ -716,20 +631,16 @@ Flask code looks like regular Flask code!
 <section id="sec-6-3" >
 
 <h3>&ldquo;Blocking&rdquo; code</h3>
+<p>
+gevent-style &ldquo;blocking&rdquo;, i.e.  automagic suspending
+</p>
+
 <ul class="org-ul">
-<li>Gevent-style &ldquo;blocking&rdquo;, i.e.  automagic suspending
+<li>Suspending the reactor greenlet: bad
 </li>
-</ul>
-<ul class="org-ul">
-<li class="fragment roll-in">Supported in most places
-<ul class="org-ul">
-<li class="fragment roll-in">Suspending the reactor greenlet: bad
+<li>Actually blocking anything: bad
 </li>
-<li class="fragment roll-in">Actually blocking anything: bad
-</li>
-<li class="fragment roll-in">Earlier <code>requests.get</code> example: probably okay
-</li>
-</ul>
+<li>Earlier <code>requests.get</code> example: probably okay
 </li>
 </ul>
 </section>
@@ -748,7 +659,7 @@ Flask code looks like regular Flask code!
 <ul class="org-ul">
 <li>Bidirectional bridge
 </li>
-<li>waitForDeferred = &ldquo;wait&rdquo; (suspend greenlet) for deferred
+<li>waitForDeferred = &ldquo;wait&rdquo; for deferred (suspend greenlet)
 </li>
 <li>waitForGreenlet = produce deferred from greenlet
 </li>
@@ -772,57 +683,28 @@ TODO
 
 <h3>Twisted plays well with others</h3>
 <ul class="org-ul">
-<li class="fragment roll-in">It supports many protocols
-<ul class="org-ul">
-<li>JSON-RPC, XML-RPC, HTTP/REST, AMP, whatever
+<li class="fragment roll-in">Many supported protocols
 </li>
-<li>It will serve your WSGI apps
+<li class="fragment roll-in">Cooperates with blocking code
 </li>
-</ul>
-</li>
-<li class="fragment roll-in">It will work side by side with existing blocking code
-</li>
-<li class="fragment roll-in">It can have blocking code added to it later
-</li>
-<li class="fragment roll-in">It will cooperate with most existing event loops
-<ul class="org-ul">
-<li class="fragment roll-in">Gevent, <code>libev(ent)</code>, CoreFoundation&#x2026;
-</li>
-<li class="fragment roll-in">GUIs, like GTK, Qt&#x2026;
-</li>
-<li class="fragment roll-in">ZeroMQ (but please don&rsquo;t use ZeroMQ)
-</li>
-<li class="fragment roll-in">&#x2026;
-</li>
-</ul>
-</li>
-<li class="fragment roll-in">Many analogs for things you already know are available
-<ul class="org-ul">
-<li class="fragment roll-in"><code>treq</code> is like <code>requests</code>
-</li>
-<li class="fragment roll-in"><code>klein</code> is like Flask
-</li>
-<li class="fragment roll-in"><code>cyclone</code> is Tornado on top of Twisted&rsquo;s reactor
-</li>
-<li class="fragment roll-in">&#x2026;
-</li>
-</ul>
+<li class="fragment roll-in">Cooperates with most event loops
 </li>
 </ul>
 </section>
 <section id="sec-7-2" >
 
 <h3>Conclusion</h3>
-<ul class="org-ul">
-<li class="fragment roll-in">If you want to use Twisted, you probably can
-</li>
-<li class="fragment roll-in">That doesn&rsquo;t mean it&rsquo;s a good idea
-<ul class="org-ul">
-<li class="fragment roll-in">&#x2026; although it probably is ;-)
-</li>
-</ul>
-</li>
-</ul>
+<p class="fragment roll-in">
+If you want to use Twisted, you probably can.
+</p>
+
+<p class="fragment roll-in">
+That doesn&rsquo;t <i>necessarily</i> mean it&rsquo;s a good idea.
+</p>
+
+<p class="fragment roll-in">
+Although it obviously is ;-)
+</p>
 </section>
 </section>
 <section>
@@ -842,8 +724,9 @@ TODO
         		Reveal.initialize({
         			controls: true,
         			progress: true,
-        			history: true,
+        			history: false,
         			center: true,
+                                slideNumber: true,
         			rollingLinks: false,
         			keyboard: true,
         			overview: true,
@@ -860,14 +743,15 @@ TODO
 
         			// Optional libraries used to extend on reveal.js
         			dependencies: [
-        				{ src: './reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-        				{ src: './reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-        				{ src: './reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-        				{ src: './reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-        				{ src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-        				{ src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        				{ src: './reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } }
+        				,{ src: './reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+        				,{ src: './reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+        				,{ src: './reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        				,{ src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+        				,{ src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
         				// { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
         				// { src: './reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+
         			]
         		});
 </script>
