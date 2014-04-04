@@ -219,7 +219,7 @@
 
    CPU bound? Cooperate!
 
-** Asynchronous I/O version
+** Asynchronous I/O!
 
    =treq=: =requests=-like, but asynchronous
    #+BEGIN_SRC python
@@ -227,9 +227,9 @@
        return treq.get(url)
    #+END_SRC
 
-** Cooperative version
+** Cooperation!
 
-   =twisted.internet.task.coiterate= and friends
+   =t.internet.task.coiterate= & friends
 
    #+BEGIN_SRC python
    def _compute(n):
