@@ -185,14 +185,14 @@
    Blocking the reactor thread means nothing else happens
    #+END_NOTES
 
-** Blocking IO: bad!
+** Blocking IO
 
    #+BEGIN_SRC python
    def _getDataAtURL(url):
        return requests.get(url) # BLOCKS!
    #+END_SRC
 
-** Blocking computation: bad!
+** Blocking computation
 
    #+BEGIN_SRC python
    def _compute(n):
