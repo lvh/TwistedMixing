@@ -132,21 +132,19 @@ Internally: event loop, except for test reactors e.g. <code>Clock</code>
 </section>
 <section id="sec-2-2" >
 
-<h3>Reactor interfaces</h3>
+<h3><code>IReactor{}</code></h3>
 <ul class="org-ul">
-<li class="fragment roll-in"><code>IReactorBase</code>: <code>run</code>, <code>stop</code>&#x2026;
+<li class="fragment roll-in"><code>Time</code>: <code>callLater</code>&#x2026;
 </li>
-<li class="fragment roll-in"><code>IReactorTime</code>: <code>callLater</code>&#x2026;
+<li class="fragment roll-in"><code>Process</code>: <code>spawnProcess</code>
 </li>
-<li class="fragment roll-in"><code>IReactorProcess</code>: <code>spawnProcess</code>
+<li class="fragment roll-in"><code>Threads</code>: <code>call(In|From)Thread</code>, &#x2026;
 </li>
-<li class="fragment roll-in"><code>IReactorThreads</code>: <code>call(In|From)Thread</code>, &#x2026;
+<li class="fragment roll-in"><code>(TCP|UDP|SSL|Multicast)</code>
 </li>
-<li class="fragment roll-in"><code>IReactor(TCP|UDP|SSL|Multicast)</code>
+<li class="fragment roll-in"><code>(UNIX|UNIXDatagram|Socket)</code>
 </li>
-<li class="fragment roll-in"><code>IReactor(UNIX|UNIXDatagram|Socket)</code>
-</li>
-<li class="fragment roll-in"><code>IReactorFDSet</code>: <code>(add|remove)(Reader|Writer)</code>, &#x2026;
+<li class="fragment roll-in"><code>FDSet</code>: <code>(add|remove)(Reader|Writer)</code>, &#x2026;
 </li>
 </ul>
 
@@ -303,6 +301,7 @@ Show of hands: how many of you:
 <a href="media/twistyflask-tox-run.mp4">Test run</a>, <a href="media/twistyflask-demo.mp4">demo</a>
 </p>
 </section>
+
 </section>
 <section>
 <section id="sec-4" >
@@ -317,15 +316,11 @@ Almost everything I&rsquo;m about to say applies to pretty much any event-driven
 </section>
 <section id="sec-4-1" >
 
-<h3>Can&rsquo;t block reactor thread</h3>
-<p>
-Twisted is single-threaded by default
-</p>
-
+<h3>Can&rsquo;t block reactor</h3>
 <aside class="notes">
 <p>
-Until we get STM&#x2026;
 Production reactors are just event loops
+Twisted is single-threaded by default
 One thing at a time, all in the same thread
 Concurrency through asynchronous IO
 Blocking the reactor thread means nothing else happens
@@ -349,7 +344,7 @@ Blocking the reactor thread means nothing else happens
 
 <pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_compute</span>(n):
     <span style="color: #baba36;">x</span> = 2
-    <span style="color: #5180b3;">for</span> _ <span style="color: #5180b3;">in</span> <span style="color: #528fd1;">xrange</span>(n): <span style="color: #757575;"># </span><span style="color: #757575;">BLOCKS! (for large n)</span>
+    <span style="color: #5180b3;">for</span> _ <span style="color: #5180b3;">in</span> <span style="color: #528fd1;">xrange</span>(n): <span style="color: #757575;"># </span><span style="color: #757575;">BLOCKS!</span>
         <span style="color: #baba36;">x</span> *= x
     send_somewhere(x)
 </pre>
@@ -357,7 +352,7 @@ Blocking the reactor thread means nothing else happens
 </section>
 <section id="sec-4-4" >
 
-<h3>Can&rsquo;t block reactor thread</h3>
+<h3>Can&rsquo;t block reactor</h3>
 <p>
 Alternatives:
 </p>
@@ -681,7 +676,7 @@ TODO
 </section>
 <section id="sec-7-1" >
 
-<h3>Twisted &lt;3 other code</h3>
+<h3>Twisted plays well with others</h3>
 <ul class="org-ul">
 <li class="fragment roll-in">Many supported protocols
 </li>
