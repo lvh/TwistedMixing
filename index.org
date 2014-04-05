@@ -68,16 +68,15 @@
    Internally: event loop, except for test reactors e.g. =Clock=
    #+END_NOTES
 
-** Reactor interfaces
+** =IReactor{}=
 
    #+ATTR_REVEAL: :frag roll-in
-   * =IReactorBase=: =run=, =stop=...
-   * =IReactorTime=: =callLater=...
-   * =IReactorProcess=: =spawnProcess=
-   * =IReactorThreads=: =call(In|From)Thread=, ...
-   * =IReactor(TCP|UDP|SSL|Multicast)=
-   * =IReactor(UNIX|UNIXDatagram|Socket)=
-   * =IReactorFDSet=: =(add|remove)(Reader|Writer)=, ...
+   * =Time=: =callLater=...
+   * =Process=: =spawnProcess=
+   * =Threads=: =call(In|From)Thread=, ...
+   * =(TCP|UDP|SSL|Multicast)=
+   * =(UNIX|UNIXDatagram|Socket)=
+   * =FDSet=: =(add|remove)(Reader|Writer)=, ...
 
    #+BEGIN_NOTES
    Examples of reactor interfaces to give you an idea what a reactor does
