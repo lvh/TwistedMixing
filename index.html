@@ -183,7 +183,7 @@ Why?
 <h3>Blocking API</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">try</span>:
+<pre  class="src src-python"><span style="color: #5180b3;">try</span>:
     <span style="color: #baba36;">result</span> = blocking_read()
 <span style="color: #5180b3;">except</span> SomeError <span style="color: #5180b3;">as</span> e:
     on_failure(e)
@@ -206,7 +206,7 @@ Why?
 <h3>Deferred API</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #baba36;">d</span> = async_read()
+<pre  class="src src-python"><span style="color: #baba36;">d</span> = async_read()
 d.addCallbacks(on_result, on_failure)
 </pre>
 </div>
@@ -227,7 +227,7 @@ d.addCallbacks(on_result, on_failure)
 <h3>Inline callbacks</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">try</span>:
+<pre  class="src src-python"><span style="color: #5180b3;">try</span>:
     <span style="color: #baba36;">result</span> = <span style="color: #5180b3;">yield</span> async_read()
 <span style="color: #5180b3;">except</span> SomeError <span style="color: #5180b3;">as</span> e:
     on_failure(e)
@@ -301,7 +301,6 @@ Show of hands: how many of you:
 <a href="media/twistyflask-tox-run.mp4">Test run</a>, <a href="media/twistyflask-demo.mp4">demo</a>
 </p>
 </section>
-
 </section>
 <section>
 <section id="sec-4" >
@@ -332,7 +331,7 @@ Blocking the reactor thread means nothing else happens
 <h3>Blocking IO: bad!</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_getDataAtURL</span>(url):
+<pre  class="src src-python"><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_getDataAtURL</span>(url):
     <span style="color: #5180b3;">return</span> requests.get(url) <span style="color: #757575;"># </span><span style="color: #757575;">BLOCKS!</span>
 </pre>
 </div>
@@ -342,7 +341,7 @@ Blocking the reactor thread means nothing else happens
 <h3>Blocking computation: bad!</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_compute</span>(n):
+<pre  class="src src-python"><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_compute</span>(n):
     <span style="color: #baba36;">x</span> = 2
     <span style="color: #5180b3;">for</span> _ <span style="color: #5180b3;">in</span> <span style="color: #528fd1;">xrange</span>(n): <span style="color: #757575;"># </span><span style="color: #757575;">BLOCKS!</span>
         <span style="color: #baba36;">x</span> *= x
@@ -383,7 +382,7 @@ CPU bound? Cooperate!
 </p>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_getDataAtURL</span>(url):
+<pre  class="src src-python"><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_getDataAtURL</span>(url):
     <span style="color: #5180b3;">return</span> treq.get(url)
 </pre>
 </div>
@@ -397,7 +396,7 @@ CPU bound? Cooperate!
 
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_compute</span>(n):
+<pre  class="src src-python"><span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_compute</span>(n):
     <span style="color: #baba36;">x</span> = 2
     <span style="color: #5180b3;">for</span> _ <span style="color: #5180b3;">in</span> <span style="color: #528fd1;">xrange</span>(n):
         <span style="color: #baba36;">x</span> *= x
@@ -523,7 +522,7 @@ system!
 <h3>Example #1</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">from</span> twisted.web.client <span style="color: #5180b3;">import</span> getPage
+<pre  class="src src-python"><span style="color: #5180b3;">from</span> twisted.web.client <span style="color: #5180b3;">import</span> getPage
 <span style="color: #5180b3;">from</span> crochet <span style="color: #5180b3;">import</span> setup, run_in_reactor
 setup()
 
@@ -545,7 +544,7 @@ setup()
 <h3>Twisted part</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #5180b3;">class</span> <span style="color: #cd5542;">ExchangeRate</span>(<span style="color: #528fd1;">object</span>):
+<pre  class="src src-python"><span style="color: #5180b3;">class</span> <span style="color: #cd5542;">ExchangeRate</span>(<span style="color: #528fd1;">object</span>):
     <span style="color: #757575;"># </span><span style="color: #757575;">...</span>
 
     <span style="color: #cd5542;">@run_in_reactor</span>
@@ -573,7 +572,7 @@ Twisted code looks like regular Twisted code!
 <h3>Flask part</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python><span style="color: #cd5542;">@app.route</span>(<span style="color: #bdbc61;">'/'</span>)
+<pre  class="src src-python"><span style="color: #cd5542;">@app.route</span>(<span style="color: #bdbc61;">'/'</span>)
 <span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">index</span>():
     <span style="color: #757575;"># </span><span style="color: #757575;">runs in whatever thread app.run() runs it in</span>
     <span style="color: #baba36;">rate</span> = EURUSD.latest_value()

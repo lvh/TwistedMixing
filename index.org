@@ -169,7 +169,6 @@
 
    [[file:media/twistyflask-tox-run.mp4][Test run]], [[file:media/twistyflask-demo.mp4][demo]]
 
-
 * Blocking code in Twisted
 
   #+BEGIN_NOTES
