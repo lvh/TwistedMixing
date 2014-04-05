@@ -176,13 +176,11 @@
   Almost everything I'm about to say applies to pretty much any event-driven single-threaded thing
   #+END_NOTES
 
-** Can't block reactor thread
-
-   Twisted is single-threaded by default
+** Can't block reactor
 
    #+BEGIN_NOTES
-   Until we get STM...
    Production reactors are just event loops
+   Twisted is single-threaded by default
    One thing at a time, all in the same thread
    Concurrency through asynchronous IO
    Blocking the reactor thread means nothing else happens
@@ -205,7 +203,7 @@
        send_somewhere(x)
    #+END_SRC
 
-** Can't block reactor thread
+** Can't block reactor
 
    Alternatives:
 
