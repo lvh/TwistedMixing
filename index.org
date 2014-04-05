@@ -301,7 +301,7 @@
    * Synchronous analog of =Deferred=
    * =wait(timeout=None)=
 
-** Example
+** Example #1
 
     #+BEGIN_SRC python
     from twisted.web.client import getPage
@@ -316,13 +316,7 @@
     print result.wait()
     #+END_SRC
 
-** Example 2: exchange rates
-
-   * Twisted queries exchange rate every 30s
-   * Flask app serves the latest exchange rate
-
-   [[file:media/twistycrochet-demo.mp4][Demo]]
-
+** Example #2
 ** Twisted part
 
    #+BEGIN_SRC python
@@ -368,12 +362,7 @@
 
 ** =jyio/geventreactor=
 
-** Setting it up
-
-   =import geventreactor=
-
-   =geventreactor.install()=
-
+** =install()=
 ** "Blocking" code
 
    gevent-style "blocking", i.e.  automagic suspending
