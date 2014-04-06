@@ -311,7 +311,8 @@
     def download_page(url):
         return getPage(url)
 
-    result = download_page("http://www.google.com")
+    url = "http://tm.tl/5000"
+    result = download_page(url)
     print result.wait()
     #+END_SRC
 
