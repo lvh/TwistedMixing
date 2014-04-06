@@ -333,17 +333,20 @@
 
        @run_in_reactor
        def start(self):
-           # in reactor thread because of decorator
            self._lc = LoopingCall(self._download)
            self._lc.start(30, now=True)
 
        def _download(self):
-           # in reactor thread because of LoopingCall
            d = getPage(url)
            # ...
    #+END_SRC
 
    #+BEGIN_NOTES
+   most twisted apis can only be called from the reactor thread
+   _start method in reactor thread because of @run_in_reactor decorator
+   _download method in reactor thread because of LoopingCall
+
+   important part here:
    Twisted code looks like regular Twisted code!
    (But remember the =@run_in_reactor=)
    #+END_NOTES
@@ -353,7 +356,6 @@
    #+BEGIN_SRC python
    @app.route('/')
    def index():
-       # runs in whatever thread app.run() runs it in
        rate = EURUSD.latest_value()
        if rate is None:
            rate = "unavailable"
@@ -364,6 +366,8 @@
 
    #+BEGIN_NOTES
    Flask code looks like regular Flask code!
+
+   index() will be called in whatever thread the wsgi server runs it
    #+END_NOTES
 
 * Twisted in gevent
