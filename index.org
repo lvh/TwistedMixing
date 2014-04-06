@@ -291,7 +291,7 @@
 ** =@run_in_reactor=
 
    #+ATTR_REVEAL: :frag roll-in
-   * Run in reactor thread (not the calling thread)
+   * Run in reactor thread
    * Return =EventualResult=
 
 ** =EventualResult=?
