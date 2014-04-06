@@ -372,11 +372,13 @@
 ** =install()=
 ** "Blocking" code
 
-   gevent-style "blocking", i.e.  automagic suspending
+   gevent-style automagic suspending
 
-     * Suspending the reactor greenlet: bad
-     * Actually blocking anything: bad
-     * Earlier =requests.get= example: probably okay
+   #+BEGIN_NOTES
+   * Suspending the reactor greenlet: bad
+   * Actually blocking anything: bad
+   * Earlier =requests.get= example: probably okay
+   #+END_NOTES
 
 ** Deferreds ↔ greenlets
 
