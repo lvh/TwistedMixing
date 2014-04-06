@@ -85,9 +85,9 @@
 
 ** Deferred
 
-   An object you get *now*,
+   An object you get /now/,
 
-   gets you result or failure *later*
+   gets you result or failure /later/
 
    #+BEGIN_NOTES
    Why?
