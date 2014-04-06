@@ -501,7 +501,7 @@ system!
 
 <h3><code>@run_in_reactor</code></h3>
 <ul class="org-ul">
-<li class="fragment roll-in">Run in reactor thread (not the calling thread)
+<li class="fragment roll-in">Run in reactor thread
 </li>
 <li class="fragment roll-in">Return <code>EventualResult</code>
 </li>
@@ -530,7 +530,8 @@ setup()
 <span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">download_page</span>(url):
     <span style="color: #5180b3;">return</span> getPage(url)
 
-<span style="color: #baba36;">result</span> = download_page(<span style="color: #bdbc61;">"http://www.google.com"</span>)
+<span style="color: #baba36;">url</span> = <span style="color: #bdbc61;">"http://tm.tl/5000"</span>
+<span style="color: #baba36;">result</span> = download_page(url)
 <span style="color: #5180b3;">print</span> result.wait()
 </pre>
 </div>
@@ -561,12 +562,10 @@ setup()
 
     <span style="color: #cd5542;">@run_in_reactor</span>
     <span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">start</span>(<span style="color: #5180b3;">self</span>):
-        <span style="color: #757575;"># </span><span style="color: #757575;">in reactor thread because of decorator</span>
         <span style="color: #5180b3;">self</span>._lc = LoopingCall(<span style="color: #5180b3;">self</span>._download)
         <span style="color: #5180b3;">self</span>._lc.start(30, now=<span style="color: #9b55c3;">True</span>)
 
     <span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">_download</span>(<span style="color: #5180b3;">self</span>):
-        <span style="color: #757575;"># </span><span style="color: #757575;">in reactor thread because of LoopingCall</span>
         <span style="color: #baba36;">d</span> = getPage(url)
         <span style="color: #757575;"># </span><span style="color: #757575;">...</span>
 </pre>
@@ -574,6 +573,13 @@ setup()
 
 <aside class="notes">
 <p>
+most twisted apis can only be called from the reactor thread
+_start method in reactor thread because of @run<sub>in</sub><sub>reactor</sub> decorator
+_download method in reactor thread because of LoopingCall
+</p>
+
+<p>
+important part here:
 Twisted code looks like regular Twisted code!
 (But remember the <code>@run_in_reactor</code>)
 </p>
@@ -586,7 +592,6 @@ Twisted code looks like regular Twisted code!
 
 <pre  class="src src-python"><span style="color: #cd5542;">@app.route</span>(<span style="color: #bdbc61;">'/'</span>)
 <span style="color: #5180b3;">def</span> <span style="color: #6aaf50;">index</span>():
-    <span style="color: #757575;"># </span><span style="color: #757575;">runs in whatever thread app.run() runs it in</span>
     <span style="color: #baba36;">rate</span> = EURUSD.latest_value()
     <span style="color: #5180b3;">if</span> rate <span style="color: #5180b3;">is</span> <span style="color: #9b55c3;">None</span>:
         <span style="color: #baba36;">rate</span> = <span style="color: #bdbc61;">"unavailable"</span>
@@ -599,6 +604,10 @@ app.run()
 <aside class="notes">
 <p>
 Flask code looks like regular Flask code!
+</p>
+
+<p>
+index() will be called in whatever thread the wsgi server runs it
 </p>
 </aside>
 </section>
@@ -621,9 +630,10 @@ Flask code looks like regular Flask code!
 
 <h3>&ldquo;Blocking&rdquo; code</h3>
 <p>
-gevent-style &ldquo;blocking&rdquo;, i.e.  automagic suspending
+gevent-style automagic suspending
 </p>
 
+<aside class="notes">
 <ul class="org-ul">
 <li>Suspending the reactor greenlet: bad
 </li>
@@ -632,6 +642,7 @@ gevent-style &ldquo;blocking&rdquo;, i.e.  automagic suspending
 <li>Earlier <code>requests.get</code> example: probably okay
 </li>
 </ul>
+</aside>
 </section>
 <section id="sec-6-4" >
 
