@@ -57,7 +57,9 @@ Twisted code ↔ other code
 
 <aside class="notes">
 <ul class="org-ul">
-<li>&ldquo;Twisted infects your entire codebase&rdquo;
+<li>combining twisted code with not-explicitly-twisted code
+</li>
+<li>&ldquo;Twisted infects your entire codebase&rdquo;: myth
 </li>
 <li>Show that you probably <b>can</b> use Twisted
 <ul class="org-ul">
@@ -102,12 +104,20 @@ Python, some Twisted probably helps
 </p>
 
 <aside class="notes">
-<p>
-For this talk I&rsquo;m going to assume I don&rsquo;t need to explain Python
-Some Twisted experience will undoubtedly help, but I will explain basics
-Show of hands: &ldquo;how many people know how a reactor works?&rdquo;
-It&rsquo;s really easy: unicorns, except for cfreactor which is faerie dust, except for IOCP which is made of Russian-grade sadness
-</p>
+<ul class="org-ul">
+<li>For this talk I&rsquo;m going to assume I don&rsquo;t need to explain Python
+</li>
+<li>Some Twisted experience will undoubtedly help, but I will explain basics
+</li>
+<li>Show of hands: &ldquo;how many people know how a reactor works?&rdquo;
+<ul class="org-ul">
+<li>It&rsquo;s really easy: unicorns all the way down
+</li>
+<li>except for IOCP which is made of Russian-grade sadness
+</li>
+</ul>
+</li>
+</ul>
 </aside>
 </section>
 </section>
@@ -124,8 +134,16 @@ An object that reacts to events
 </p>
 
 <aside class="notes">
+<ul class="org-ul">
+<li>Register some events
+</li>
+<li>Reactor waits for them to happen
+</li>
+<li>Dispatches to subscribers
+</li>
+</ul>
+
 <p>
-You register events, it waits for them, and dispatches when they happen
 Internally: event loop, except for test reactors e.g. <code>Clock</code>
 </p>
 </aside>
@@ -159,11 +177,11 @@ Usually you call higher-level APIs!
 
 <h3>Deferred</h3>
 <p>
-An object you get <b>now</b>,
+An object you get <i>now</i>,
 </p>
 
 <p>
-gets you result or failure <b>later</b>
+gets you result or failure <i>later</i>
 </p>
 
 <aside class="notes">
@@ -635,11 +653,11 @@ gevent-style automagic suspending
 
 <aside class="notes">
 <ul class="org-ul">
+<li>Actually blocking the thread: bad (like in gevent)
+</li>
 <li>Suspending the reactor greenlet: bad
 </li>
-<li>Actually blocking anything: bad
-</li>
-<li>Earlier <code>requests.get</code> example: probably okay
+<li>Earlier <code>requests</code> example: probably okay
 </li>
 </ul>
 </aside>
@@ -687,7 +705,7 @@ TODO
 </li>
 <li class="fragment roll-in">Cooperates with blocking code
 </li>
-<li class="fragment roll-in">Cooperates with most event loops
+<li class="fragment roll-in">Cooperates with other event loops
 </li>
 </ul>
 </section>
