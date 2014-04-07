@@ -27,7 +27,8 @@
    Twisted code ↔ other code
 
    #+BEGIN_NOTES
-   * "Twisted infects your entire codebase"
+   * combining twisted code with not-explicitly-twisted code
+   * "Twisted infects your entire codebase": myth
    * Show that you probably *can* use Twisted
       * (Not so much that you *should* use Twisted)
    * Overview
@@ -51,10 +52,11 @@
     Python, some Twisted probably helps
 
     #+BEGIN_NOTES
-    For this talk I'm going to assume I don't need to explain Python
-    Some Twisted experience will undoubtedly help, but I will explain basics
-    Show of hands: "how many people know how a reactor works?"
-    It's really easy: unicorns, except for cfreactor which is faerie dust, except for IOCP which is made of Russian-grade sadness
+    * For this talk I'm going to assume I don't need to explain Python
+    * Some Twisted experience will undoubtedly help, but I will explain basics
+    * Show of hands: "how many people know how a reactor works?"
+        * It's really easy: unicorns all the way down
+        * except for IOCP which is made of Russian-grade sadness
     #+END_NOTES
 
 * Introducing Twisted
@@ -64,7 +66,10 @@
    An object that reacts to events
 
    #+BEGIN_NOTES
-   You register events, it waits for them, and dispatches when they happen
+   * Register some events
+   * Reactor waits for them to happen
+   * Dispatches to subscribers
+
    Internally: event loop, except for test reactors e.g. =Clock=
    #+END_NOTES
 
@@ -380,9 +385,9 @@
    gevent-style automagic suspending
 
    #+BEGIN_NOTES
+   * Actually blocking the thread: bad (like in gevent)
    * Suspending the reactor greenlet: bad
-   * Actually blocking anything: bad
-   * Earlier =requests.get= example: probably okay
+   * Earlier =requests= example: probably okay
    #+END_NOTES
 
 ** Deferreds ↔ greenlets
@@ -408,7 +413,7 @@
    #+ATTR_REVEAL: :frag roll-in
    * Many supported protocols
    * Cooperates with blocking code
-   * Cooperates with most event loops
+   * Cooperates with other event loops
 
 ** Conclusion
 
