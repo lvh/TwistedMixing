@@ -1,5 +1,5 @@
 Twisted>=13.0.0
-Flask==0.9
+Flask==1.0
 Epsilon>=0.6.0
 pysqlite>=2.6.3
 Axiom>=0.6.0
